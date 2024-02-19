@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:qr_code_dart_scan/qr_code_dart_scan.dart';
 
-// import 'package:percent_indicator/percent_indicator.dart';
-
+// import 'package:percent_indicator/percent_indicator.dart'
 class FriendsPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _FriendsPageState();
