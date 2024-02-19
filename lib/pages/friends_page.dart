@@ -11,8 +11,8 @@ class FriendsPage extends StatefulWidget {
 class _FriendsPageState extends State<FriendsPage> {
   void scanQRCode() async {
     try {
-      String qrCodeResult = await QrCodeDartScan.scanQRCode();
-      print('Scanned QR code result: $qrCodeResult');
+      // String qrCodeResult = await QrCodeDartScan.scanQRCode();
+      // print('Scanned QR code result: $qrCodeResult');
     } catch (e) {
       print('Error scanning QR code: $e');
     }
