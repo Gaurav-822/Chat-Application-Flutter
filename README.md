@@ -1,4 +1,4 @@
-# chat_app
+# Titly
 
 A new Flutter project.
 
