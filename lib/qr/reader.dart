@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
 
-class reader extends StatefulWidget {
+class Reader extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => _reader();
+  State<StatefulWidget> createState() => _Reader();
 }
 
-class _reader extends State<reader> {
+class _Reader extends State<Reader> {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Test"),
+      ),
+      body: Center(
+        child: Text("data"),
+      ),
+    );
   }
 }

@@ -1,5 +1,6 @@
+import 'package:chat_app/qr/reader.dart';
 import 'package:flutter/material.dart';
-import 'package:qr_code_dart_scan/qr_code_dart_scan.dart';
+import 'package:go_router/go_router.dart';
 
 // import 'package:percent_indicator/percent_indicator.dart'
 class FriendsPage extends StatefulWidget {
@@ -8,15 +9,6 @@ class FriendsPage extends StatefulWidget {
 }
 
 class _FriendsPageState extends State<FriendsPage> {
-  void scanQRCode() async {
-    try {
-      // String qrCodeResult = await QrCodeDartScan.scanQRCode();
-      // print('Scanned QR code result: $qrCodeResult');
-    } catch (e) {
-      print('Error scanning QR code: $e');
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -118,7 +110,7 @@ class _FriendsPageState extends State<FriendsPage> {
                     size: 50,
                   ),
                   onTap: () {
-                    return;
+                    GoRouter.of(context).go('/friends/reader');
                   },
                 ),
               ],
