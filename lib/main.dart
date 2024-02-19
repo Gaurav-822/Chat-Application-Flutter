@@ -3,6 +3,7 @@ import 'package:chat_app/firebase_options.dart';
 import 'package:chat_app/pages/chats_page.dart';
 import 'package:chat_app/pages/friends_page.dart';
 import 'package:chat_app/pages/persona_page.dart';
+import 'package:chat_app/qr/reader.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -20,6 +21,10 @@ final GoRouter _router = GoRouter(
       builder: (context, state) => MyHomePage(
         title: "Gaurav",
       ),
+    ),
+    GoRoute(
+      path: "/friends/reader",
+      builder: (context, state) => Reader(),
     ),
     GoRoute(
         name: 'chats',
