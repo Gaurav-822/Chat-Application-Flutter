@@ -1,14 +1,39 @@
 import 'package:chat_app/qr/reader.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:go_router/go_router.dart';
 
-// import 'package:percent_indicator/percent_indicator.dart'
 class FriendsPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _FriendsPageState();
 }
 
 class _FriendsPageState extends State<FriendsPage> {
+  List<String> items = ['Gaurav', 'Gugu', 'Bacha'];
+
+  void _addItem(String newItem) {
+    setState(() {
+      items.add(newItem);
+    });
+  }
+
+  Future<void> _scanQRCode() async {
+    String scanResult;
+
+    try {
+      scanResult = await FlutterBarcodeScanner.scanBarcode(
+          "#ff6666", "Cancel", true, ScanMode.DEFAULT);
+    } catch (e) {
+      scanResult = 'Error: $e';
+    }
+
+    if (!mounted) return;
+
+    setState(() {
+      _addItem(scanResult);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -30,18 +55,6 @@ class _FriendsPageState extends State<FriendsPage> {
               ),
             ),
           ),
-          //       Text(
-          //         '80',
-          //         style: TextStyle(
-          //           fontFamily: 'Readex Pro',
-          //           fontSize: 24,
-          //           fontWeight: FontWeight.w300,
-          //           // letterSpacing: 1.5,
-          //         ),
-          //       ),
-          //     ],
-          //   ),
-          // ),
           Padding(
             padding: EdgeInsets.all(8),
             child: Row(
@@ -50,7 +63,7 @@ class _FriendsPageState extends State<FriendsPage> {
               children: [
                 Icon(
                   Icons.favorite_rounded,
-                  color: Colors.black, // Use your preferred color
+                  color: Colors.black,
                   size: 24,
                 ),
                 SizedBox(
@@ -106,17 +119,15 @@ class _FriendsPageState extends State<FriendsPage> {
                 GestureDetector(
                   child: Icon(
                     Icons.qr_code_scanner_rounded,
-                    // color: FlutterFlowTheme.of(context).secondaryText,
                     size: 50,
                   ),
                   onTap: () {
-                    GoRouter.of(context).go('/friends/reader');
+                    _scanQRCode();
                   },
                 ),
               ],
             ),
           ),
-
           Padding(
             padding: EdgeInsets.all(8),
             child: Row(
@@ -126,8 +137,6 @@ class _FriendsPageState extends State<FriendsPage> {
                   child: Padding(
                     padding: EdgeInsetsDirectional.fromSTEB(8, 0, 8, 0),
                     child: TextFormField(
-                      // controller: _model.textController,
-                      // focusNode: _model.textFieldFocusNode,
                       autofocus: false,
                       obscureText: false,
                       decoration: const InputDecoration(
@@ -147,8 +156,6 @@ class _FriendsPageState extends State<FriendsPage> {
                       style: TextStyle(
                         fontSize: 16,
                       ),
-                      // validator:
-                      // _model.textControllerValidator.asValidator(context),
                     ),
                   ),
                 ),
@@ -159,53 +166,17 @@ class _FriendsPageState extends State<FriendsPage> {
             padding: EdgeInsets.all(8),
             child: Container(
               height: 350,
-              child: ListView(
+              child: ListView.builder(
                 padding: EdgeInsets.zero,
                 shrinkWrap: true,
                 scrollDirection: Axis.vertical,
-                children: [
-                  _buildRow(context, 'Gaurav'),
-                  _buildRow(context, 'Gugu'),
-                  _buildRow(context, 'Bacha'),
-                  _buildRow(context, 'Gaurav'),
-                  _buildRow(context, 'Gaurav'),
-                  _buildRow(context, 'Gaurav'),
-                  _buildRow(context, 'Gaurav'),
-                  _buildRow(context, 'Gugu'),
-                  _buildRow(context, 'Bacha'),
-                  _buildRow(context, 'Gaurav'),
-                  _buildRow(context, 'Gaurav'),
-                  _buildRow(context, 'Gaurav'),
-                  _buildRow(context, 'Gaurav'),
-                  _buildRow(context, 'Gugu'),
-                  _buildRow(context, 'Bacha'),
-                  _buildRow(context, 'Gaurav'),
-                  _buildRow(context, 'Gaurav'),
-                  _buildRow(context, 'Gaurav'),
-                ],
+                itemCount: items.length,
+                itemBuilder: (context, index) {
+                  return _buildRow(context, items[index]);
+                },
               ),
             ),
           ),
-          // Padding(
-          //   padding: EdgeInsets.all(8),
-          //   child: LinearPercentIndicator(
-          //     percent: 0.8,
-          //     lineHeight: 50,
-          //     animation: true,
-          //     animateFromLastPercent: true,
-          //     progressColor: Color(0xFF00FF5E),
-          //     backgroundColor: Color(0xFFFF2A2A),
-          //     center: Text(
-          //       'Sentiment',
-          //       textAlign: TextAlign.center,
-          //       style: TextStyle(
-          //         fontSize: 16,
-          //       ),
-          //     ),
-          //     barRadius: Radius.circular(24),
-          //     padding: EdgeInsets.zero,
-          //   ),
-          // ),
         ],
       ),
     );
@@ -218,10 +189,7 @@ class _FriendsPageState extends State<FriendsPage> {
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
-                // backgroundColor: Colors.transparent,
-                // shadowColor: Colors.blueAccent,
                 elevation: 4,
-                // title: Text(text),
                 content: Padding(
                   padding: EdgeInsets.fromLTRB(0, 32, 0, 0),
                   child: Padding(
@@ -302,7 +270,6 @@ class _FriendsPageState extends State<FriendsPage> {
             ),
             Icon(
               Icons.send_rounded,
-              // color: Theme.of(context).secondaryHeaderColor,
               size: 24,
             ),
           ],

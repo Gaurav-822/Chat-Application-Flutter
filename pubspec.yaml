@@ -50,6 +50,7 @@ dependencies:
   percent_indicator: ^4.2.3
   pretty_qr_code: ^3.2.1
   qr_code_dart_scan: ^0.7.5
+  flutter_barcode_scanner: ^2.0.0
 
 dev_dependencies:
   flutter_test:
