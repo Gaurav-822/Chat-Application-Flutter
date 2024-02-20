@@ -1,7 +1,6 @@
-import 'package:chat_app/qr/reader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class FriendsPage extends StatefulWidget {
   @override
@@ -9,28 +8,52 @@ class FriendsPage extends StatefulWidget {
 }
 
 class _FriendsPageState extends State<FriendsPage> {
-  List<String> items = ['Gaurav', 'Gugu', 'Bacha'];
+  List<String> friends = [];
 
-  void _addItem(String newItem) {
+  @override
+  void initState() {
+    super.initState();
+
+    loadFriendsDataToList();
+  }
+
+  void addItemToList(String newItem) {
     setState(() {
-      items.add(newItem);
+      friends.add(newItem);
+      updateFriendsDataToList();
     });
   }
 
+  loadFriendsDataToList() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      friends = (prefs.getStringList('friends') ?? []);
+    });
+  }
+
+  updateFriendsDataToList() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setStringList('friends', friends);
+  }
+
   Future<void> _scanQRCode() async {
-    String scanResult;
+    String? scanResult;
 
     try {
       scanResult = await FlutterBarcodeScanner.scanBarcode(
           "#ff6666", "Cancel", true, ScanMode.DEFAULT);
     } catch (e) {
-      scanResult = 'Error: $e';
+      scanResult = null;
     }
 
-    if (!mounted) return;
+    if (scanResult == null || scanResult == '-1' || !mounted) {
+      // Return early if scanResult is null, empty, or widget is not mounted
+      // Or if scanResult is '-1' indicating that scanning operation was canceled
+      return;
+    }
 
     setState(() {
-      _addItem(scanResult);
+      addItemToList(scanResult!);
     });
   }
 
@@ -170,9 +193,9 @@ class _FriendsPageState extends State<FriendsPage> {
                 padding: EdgeInsets.zero,
                 shrinkWrap: true,
                 scrollDirection: Axis.vertical,
-                itemCount: items.length,
+                itemCount: friends.length,
                 itemBuilder: (context, index) {
-                  return _buildRow(context, items[index]);
+                  return _buildRow(context, friends[index]);
                 },
               ),
             ),
