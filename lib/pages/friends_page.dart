@@ -9,6 +9,10 @@ class FriendsPage extends StatefulWidget {
 
 class _FriendsPageState extends State<FriendsPage> {
   List<String> friends = [];
+  TextEditingController searchController = TextEditingController();
+  ScrollController _scrollController = ScrollController();
+  FocusNode _searchFocusNode = FocusNode();
+  List<String> filteredFriends = [];
 
   @override
   void initState() {
@@ -27,13 +31,22 @@ class _FriendsPageState extends State<FriendsPage> {
   loadFriendsDataToList() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      friends = (prefs.getStringList('friends') ?? []);
+      friends = prefs.getStringList('friends') ?? [];
+      filteredFriends = friends;
     });
   }
 
   updateFriendsDataToList() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setStringList('friends', friends);
+  }
+
+  void filterFriendsList(String query) {
+    setState(() {
+      filteredFriends = friends
+          .where((friend) => friend.toLowerCase().contains(query.toLowerCase()))
+          .toList();
+    });
   }
 
   Future<void> _scanQRCode() async {
@@ -60,6 +73,7 @@ class _FriendsPageState extends State<FriendsPage> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
+      controller: _scrollController,
       child: Column(
         mainAxisSize: MainAxisSize.max,
         children: [
@@ -160,6 +174,11 @@ class _FriendsPageState extends State<FriendsPage> {
                   child: Padding(
                     padding: EdgeInsetsDirectional.fromSTEB(8, 0, 8, 0),
                     child: TextFormField(
+                      focusNode: _searchFocusNode,
+                      controller: searchController,
+                      onChanged: (value) {
+                        filterFriendsList(value);
+                      },
                       autofocus: false,
                       obscureText: false,
                       decoration: const InputDecoration(
@@ -193,9 +212,10 @@ class _FriendsPageState extends State<FriendsPage> {
                 padding: EdgeInsets.zero,
                 shrinkWrap: true,
                 scrollDirection: Axis.vertical,
-                itemCount: friends.length,
+                itemCount: filteredFriends.length, // Use filteredFriends.length
                 itemBuilder: (context, index) {
-                  return _buildRow(context, friends[index]);
+                  return _buildRow(context,
+                      filteredFriends[index]); // Use filteredFriends[index]
                 },
               ),
             ),
