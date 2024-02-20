@@ -117,7 +117,13 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
             //   // minRadius: 25,
             //   // maxRadius: 25,
             // ),
-            Text("Titly"),
+            Text(
+              "Titly",
+              style: TextStyle(
+                fontFamily: "title_font",
+                letterSpacing: 1.5,
+              ),
+            ),
           ],
         ),
       ),
@@ -143,7 +149,13 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                   children: [
                     Icon(Icons.chat),
                     SizedBox(width: 8.0),
-                    Text('Chats'),
+                    Text(
+                      'Chats',
+                      style: TextStyle(
+                        fontFamily: "teko",
+                        fontSize: 24,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -153,7 +165,13 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                   children: [
                     Icon(Icons.people),
                     SizedBox(width: 8.0),
-                    Text('Friends'),
+                    Text(
+                      'Friends',
+                      style: TextStyle(
+                        fontFamily: "teko",
+                        fontSize: 24,
+                      ),
+                    ),
                   ],
                 ),
               ),

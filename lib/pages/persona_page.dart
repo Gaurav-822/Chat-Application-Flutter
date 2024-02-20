@@ -60,7 +60,7 @@ class _PersonaPageState extends State<PersonaPage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString("admin", adminName);
     setState(() {
-      profile_name = 'Hello,\n$adminName!';
+      profile_name = 'Hello, $adminName!';
     });
   }
 
@@ -94,9 +94,9 @@ class _PersonaPageState extends State<PersonaPage> {
                   child: Text(
                     profile_name,
                     style: TextStyle(
-                      fontFamily: 'Monserrat',
+                      fontFamily: 'amatic',
                       fontSize: 48,
-                      // fontWeight: FontWeight.w200,
+                      fontWeight: FontWeight.w500,
                       letterSpacing: 1.5,
                     ),
                   ),
@@ -129,6 +129,7 @@ class _PersonaPageState extends State<PersonaPage> {
                     padding: EdgeInsets.fromLTRB(8, 50, 8, 4),
                     child: TextFormField(
                       controller: _adminController,
+                      maxLength: 10,
                       autofocus: false,
                       obscureText: false,
                       decoration: const InputDecoration(
@@ -163,6 +164,8 @@ class _PersonaPageState extends State<PersonaPage> {
                     padding: EdgeInsets.fromLTRB(8, 8, 8, 4),
                     child: TextFormField(
                       controller: _qrController,
+                      maxLength: 7,
+                      keyboardType: TextInputType.number,
                       autofocus: false,
                       obscureText: false,
                       decoration: const InputDecoration(
@@ -173,7 +176,6 @@ class _PersonaPageState extends State<PersonaPage> {
                         focusedErrorBorder: InputBorder.none,
                       ),
                       // style: TextStyle(), // You can apply custom styling here if needed
-                      // validator: _model.textController2Validator.asValidator(context), // Uncomment and integrate validator as needed
                     ),
                   ),
                 ),
