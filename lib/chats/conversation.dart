@@ -34,15 +34,18 @@ class _Conversation extends State<Conversation> {
     await _loadProfileName();
 
     // Now that admin is initialized, initialize streams
-    senderReceiverStream = FirebaseFirestore.instance
-        .collection('${admin}_${widget.name}')
-        .orderBy('timestamp', descending: false)
-        .snapshots();
+    Stream<QuerySnapshot> getMessagesStream(String sender, receiver) {
+      return FirebaseFirestore.instance
+          .collection('users')
+          .doc('messages')
+          .collection('${sender}_$receiver')
+          .orderBy('timestamp', descending: true)
+          .snapshots();
+    }
 
-    receiverSenderStream = FirebaseFirestore.instance
-        .collection('${widget.name}_${admin}')
-        .orderBy('timestamp', descending: false)
-        .snapshots();
+    senderReceiverStream = getMessagesStream(admin, widget.name);
+
+    receiverSenderStream = getMessagesStream(admin, widget.name);
   }
 
   _loadProfileName() async {
@@ -53,15 +56,19 @@ class _Conversation extends State<Conversation> {
   final ScrollController _scrollController = ScrollController();
 
   void addData(String sender, receiver, message) {
-    FieldValue time = FieldValue.serverTimestamp();
-    FirebaseFirestore.instance.collection('${sender}_$receiver').add({
+    String documentId = "${sender}_${receiver}";
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc("messages")
+        .collection(documentId)
+        .add({
       'sender': sender,
       'receiver': receiver,
       'message': message,
-      'timestamp': time,
-    }).then((value) {
-      print("User added");
-    }).catchError((error) => print("Failed to add user: $error"));
+      'timestamp': FieldValue.serverTimestamp(),
+    }).then((DocumentReference docRef) {
+      print("Message added with ID: ${docRef.id}");
+    }).catchError((error) => print("Failed to add message: $error"));
   }
 
   @override
