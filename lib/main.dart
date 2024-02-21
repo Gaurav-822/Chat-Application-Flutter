@@ -7,6 +7,7 @@ import 'package:chat_app/pages/persona_page.dart';
 import 'package:chat_app/qr/reader.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:another_flutter_splash_screen/another_flutter_splash_screen.dart';
@@ -58,7 +59,13 @@ void main() async {
     prefs.setString("admin", "");
   }
 
+  await precacheLottie('assets/splash_screen.json');
+
   runApp(SplashApp());
+}
+
+Future<void> precacheLottie(String assetPath) async {
+  await rootBundle.load(assetPath);
 }
 
 class SplashApp extends StatelessWidget {
@@ -117,13 +124,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
             SizedBox(
               width: 8,
             ),
-            // Image(
-            //   image: AssetImage('assets/icon.jpg'),
-            //   width: 50,
-            //   height: 50,
-            //   // minRadius: 25,
-            //   // maxRadius: 25,
-            // ),
             Text(
               "Titly",
               style: TextStyle(
@@ -182,16 +182,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                   ],
                 ),
               ),
-              // Tab(
-              //   child: Row(
-              //     mainAxisSize: MainAxisSize.min,
-              //     children: [
-              //       Icon(Icons.face),
-              //       SizedBox(width: 8.0),
-              //       Text('Persona'),
-              //     ],
-              //   ),
-              // ),
             ],
             controller: _tabController,
             onTap: (index) => _pageController.jumpToPage(index),
@@ -201,10 +191,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
               controller: _pageController,
               dragStartBehavior: DragStartBehavior.start,
               children: [
-                Chats(),
+                const Chats(),
                 FriendsPage(),
-                // Center(child: Text('Friends Page')),
-                // PersonaPage(),
               ],
               onPageChanged: (index) {
                 _tabController.index = index;

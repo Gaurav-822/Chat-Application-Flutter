@@ -54,6 +54,8 @@ dependencies:
   image_picker: ^1.0.7
   firebase_storage: ^11.6.6
   cached_network_image: ^3.3.1
+  path_provider: ^2.1.2
+  local_auth: ^2.1.8
 
 dev_dependencies:
   flutter_test:
@@ -101,6 +103,7 @@ flutter:
     - assets/splash_screen.json
     - assets/splash.jpg
     - assets/dummy_user.jpg
+    - assets/splash_gif_file.gif
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
@@ -151,5 +154,7 @@ flutter_native_splash:
   ios: true
   web: true
 
-  image: assets/splash.jpg
-  color: "#FFCC00"
+  image: assets/splash_gif_file.gif
+  color: "#FFFFFF"  # Set background color to white
+
+  android_gravity: fill  # Adjust the gravity to fill the screen

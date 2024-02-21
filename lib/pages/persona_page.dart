@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:path_provider/path_provider.dart';
 
 class PersonaPage extends StatefulWidget {
   const PersonaPage({Key? key});
@@ -34,6 +35,13 @@ class _PersonaPageState extends State<PersonaPage> {
     _adminController = TextEditingController();
     _loadProfileName();
     _loadQrCode();
+  }
+
+  Future<void> _saveImageToLocal(File image) async {
+    final Directory appDir = await getApplicationDocumentsDirectory();
+    final String imagePath = '${appDir.path}/image.png';
+    await image.copy(imagePath);
+    print('Image saved locally: $imagePath');
   }
 
   void addProfilePic(String name, String url) {
