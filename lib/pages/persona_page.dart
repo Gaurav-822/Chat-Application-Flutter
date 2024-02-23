@@ -57,6 +57,9 @@ class _PersonaPageState extends State<PersonaPage> {
         querySnapshot.docs.forEach((doc) {
           doc.reference.update({'url': url}).then((_) {
             print("Profile pic for $name updated");
+            setState(() {
+              getProfilePicUrl(name);
+            });
           }).catchError((error) {
             print("Failed to update profile pic: $error");
           });
@@ -72,6 +75,9 @@ class _PersonaPageState extends State<PersonaPage> {
           'url': url,
         }).then((DocumentReference docRef) {
           print("Profile pic for $name added @: ${docRef.id}");
+          setState(() {
+            getProfilePicUrl(name);
+          });
         }).catchError((error) {
           print("Failed to add profile pic: $error");
         });
