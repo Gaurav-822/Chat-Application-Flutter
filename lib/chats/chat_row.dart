@@ -4,12 +4,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class ChatRow extends StatelessWidget {
-  final String name, profilePic;
+  final String name;
   final VoidCallback onTap;
   const ChatRow({
     super.key,
     required this.name,
-    required this.profilePic,
     required this.onTap,
   });
 

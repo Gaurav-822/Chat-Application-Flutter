@@ -21,8 +21,19 @@ final GoRouter _router = GoRouter(
       name: 'home',
       path: '/',
       builder: (context, state) => MyHomePage(
-        title: "Gaurav",
+        title: "Titly",
       ),
+      routes: <RouteBase>[
+        GoRoute(
+          path: 'chats/:name',
+          builder: (BuildContext context, GoRouterState state) {
+            final name = state.pathParameters['name'] ?? "";
+            return Conversation(
+              name: name,
+            );
+          },
+        ),
+      ],
     ),
     GoRoute(
       path: "/imageUpload",
@@ -34,17 +45,6 @@ final GoRouter _router = GoRouter(
       path: "/friends/reader",
       builder: (context, state) => Reader(),
     ),
-    GoRoute(
-        name: 'chats',
-        path: '/chats/:name/:profilePic',
-        builder: (context, state) {
-          final name = state.pathParameters['name'] ?? "";
-          final profilePic = state.pathParameters['profilePic'] ?? "";
-          return Conversation(
-            name: name,
-            profilePic: profilePic,
-          );
-        }),
   ],
 );
 

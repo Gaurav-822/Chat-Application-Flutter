@@ -4,10 +4,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:path_provider/path_provider.dart';
 
 class PersonaPage extends StatefulWidget {
   const PersonaPage({Key? key});
@@ -19,7 +19,7 @@ class PersonaPage extends StatefulWidget {
 }
 
 class _PersonaPageState extends State<PersonaPage> {
-  late String profile_name = "", code = ""; // Initialize with a default value
+  late String profile_name = "", code = "";
   late TextEditingController _adminController;
 
   late TextEditingController? _qrController = TextEditingController();
@@ -37,13 +37,6 @@ class _PersonaPageState extends State<PersonaPage> {
     _loadQrCode();
   }
 
-  Future<void> _saveImageToLocal(File image) async {
-    final Directory appDir = await getApplicationDocumentsDirectory();
-    final String imagePath = '${appDir.path}/image.png';
-    await image.copy(imagePath);
-    print('Image saved locally: $imagePath');
-  }
-
   void addProfilePic(String name, String url) {
     FirebaseFirestore.instance
         .collection('users')
@@ -53,6 +46,14 @@ class _PersonaPageState extends State<PersonaPage> {
         .get()
         .then((QuerySnapshot querySnapshot) {
       if (querySnapshot.docs.isNotEmpty) {
+        Fluttertoast.showToast(
+            msg: "Profile pic for $name updating. . .",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
         // If a document with the same name exists, update its URL
         querySnapshot.docs.forEach((doc) {
           doc.reference.update({'url': url}).then((_) {
@@ -62,10 +63,26 @@ class _PersonaPageState extends State<PersonaPage> {
             });
           }).catchError((error) {
             print("Failed to update profile pic: $error");
+            Fluttertoast.showToast(
+                msg: "Failed to update profile pic: $error",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.CENTER,
+                timeInSecForIosWeb: 1,
+                backgroundColor: Colors.red,
+                textColor: Colors.white,
+                fontSize: 16.0);
           });
         });
       } else {
         // If no document with the same name exists, add a new document
+        Fluttertoast.showToast(
+            msg: "Profile pic for $name adding. . .",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
         FirebaseFirestore.instance
             .collection('users')
             .doc("profile")
@@ -79,10 +96,27 @@ class _PersonaPageState extends State<PersonaPage> {
             getProfilePicUrl(name);
           });
         }).catchError((error) {
+          Fluttertoast.showToast(
+              msg: "Failed to add profile pic for $name, retry. . .",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.CENTER,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.red,
+              textColor: Colors.white,
+              fontSize: 16.0);
           print("Failed to add profile pic: $error");
         });
       }
     }).catchError((error) {
+      Fluttertoast.showToast(
+          msg:
+              "Some error occured, chek your internet connection and try again!",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
       print("Error fetching document: $error");
     });
   }
@@ -212,7 +246,12 @@ class _PersonaPageState extends State<PersonaPage> {
                 future: getProfilePicUrl(profile_name),
                 builder:
                     (BuildContext context, AsyncSnapshot<String?> snapshot) {
-                  if (snapshot.hasError) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    // Show a loading screen while the data is being fetched
+                    return CircularProgressIndicator();
+                    // );
+                  } else if (snapshot.hasError) {
+                    // Show an error message if there's an error
                     return Text('Error: ${snapshot.error}');
                   } else {
                     // Data has been successfully retrieved
@@ -230,6 +269,29 @@ class _PersonaPageState extends State<PersonaPage> {
                           ),
                           child: GestureDetector(
                             onTap: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return Dialog(
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(
+                                            16), // Adjust the radius according to your preference
+                                        child: CachedNetworkImage(
+                                          imageUrl: imageUrl ?? '',
+                                          fit: BoxFit.cover,
+                                          placeholder: (context, url) =>
+                                              CircularProgressIndicator(), // Placeholder widget while loading
+                                          errorWidget: (context, url, error) =>
+                                              Image.asset(
+                                            "assets/dummy_user.jpg",
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  });
+                            },
+                            onLongPress: () {
                               _pickAndUploadImage();
                             },
                             child: CachedNetworkImage(
@@ -302,7 +364,6 @@ class _PersonaPageState extends State<PersonaPage> {
                         errorBorder: InputBorder.none,
                         focusedErrorBorder: InputBorder.none,
                       ),
-                      // style: TextStyle(), // You can apply custom styling here if needed
                     ),
                   ),
                 ),

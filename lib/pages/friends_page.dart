@@ -55,6 +55,7 @@ class _FriendsPageState extends State<FriendsPage> {
     try {
       scanResult = await FlutterBarcodeScanner.scanBarcode(
           "#ff6666", "Cancel", true, ScanMode.DEFAULT);
+      // Add the checks for adding friends
     } catch (e) {
       scanResult = null;
     }

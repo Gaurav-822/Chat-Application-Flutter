@@ -18,23 +18,20 @@ class _Chats extends State<Chats> {
       children: [
         ChatRow(
           name: "Gaurav",
-          profilePic: "https://picsum.photos/seed/657/600",
           onTap: () {
-            GoRouter.of(context).go('/chats/Gaurav/1');
+            GoRouter.of(context).go('/chats/Gaurav');
           },
         ),
         ChatRow(
           name: "Padmaja",
-          profilePic: "https://picsum.photos/seed/657/600",
           onTap: () {
-            GoRouter.of(context).go('/chats/Padmaja/1');
+            GoRouter.of(context).go('/chats/Padmaja');
           },
         ),
         ChatRow(
           name: "Gugu",
-          profilePic: "https://picsum.photos/seed/657/600",
           onTap: () {
-            GoRouter.of(context).go('/chats/Gugu/1');
+            GoRouter.of(context).go('/chats/Gugu');
           },
         ),
       ],

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chat_app/message_bar.dart';
 import 'package:chat_app/text_bubble.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -8,8 +9,8 @@ import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Conversation extends StatefulWidget {
-  final String name, profilePic;
-  const Conversation({super.key, required this.name, required this.profilePic});
+  final String name;
+  const Conversation({super.key, required this.name});
 
   @override
   State<StatefulWidget> createState() => _Conversation();
@@ -23,11 +24,34 @@ class _Conversation extends State<Conversation> {
 
   late String admin;
 
+  late String profile_name = "";
+
   @override
   void initState() {
     super.initState();
     _loadProfileName();
     _initializeProfileAndStreams();
+  }
+
+  Future<String?> getProfilePicUrl(String name) async {
+    try {
+      final querySnapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .doc('profile')
+          .collection('admin')
+          .where('name', isEqualTo: name)
+          .get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        return querySnapshot.docs.first.data()['url'] as String?;
+      } else {
+        print('No profile pic found for $name');
+        return null;
+      }
+    } catch (error) {
+      print('Error retrieving profile pic: $error');
+      return null;
+    }
   }
 
   void _initializeProfileAndStreams() async {
@@ -95,14 +119,80 @@ class _Conversation extends State<Conversation> {
         title: Row(
           children: [
             GestureDetector(
-              onTap: () {
-                GoRouter.of(context).go('/');
-              },
-              child: const Icon(
-                Icons.chevron_left,
+              child: Container(
+                width: 30,
+                height: 30,
+                clipBehavior: Clip.antiAlias,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                ),
+                child: FutureBuilder<String?>(
+                    future: getProfilePicUrl(profile_name),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<String?> snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        // Show a loading screen while the data is being fetched
+                        return CircularProgressIndicator();
+                        // );
+                      } else if (snapshot.hasError) {
+                        // Show an error message if there's an error
+                        return Text('Error: ${snapshot.error}');
+                      } else {
+                        // Data has been successfully retrieved
+                        String? imageUrl = snapshot.data;
+                        return Align(
+                          alignment: Alignment.center,
+                          child: Container(
+                            // width: 120,
+                            // height: 120,
+                            clipBehavior: Clip.antiAlias,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                            ),
+                            child: GestureDetector(
+                              onTap: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return Dialog(
+                                        child: ClipRRect(
+                                          borderRadius: BorderRadius.circular(
+                                              16), // Adjust the radius according to your preference
+                                          child: CachedNetworkImage(
+                                            imageUrl: imageUrl ?? '',
+                                            fit: BoxFit.cover,
+                                            placeholder: (context, url) =>
+                                                CircularProgressIndicator(), // Placeholder widget while loading
+                                            errorWidget:
+                                                (context, url, error) =>
+                                                    Image.asset(
+                                              "assets/dummy_user.jpg",
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    });
+                              },
+                              child: CachedNetworkImage(
+                                imageUrl: imageUrl ?? '',
+                                fit: BoxFit.cover,
+                                placeholder: (context, url) =>
+                                    CircularProgressIndicator(), // Placeholder widget while loading
+                                errorWidget: (context, url, error) =>
+                                    Image.asset(
+                                  "assets/dummy_user.jpg",
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      }
+                    }),
               ),
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: 4),
             Text(name),
           ],
         ),
