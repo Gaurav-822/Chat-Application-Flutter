@@ -1,6 +1,6 @@
 // for now i will make the chat row as a stateless widget!
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:chat_app/Functions/profile_pic_funs.dart';
 import 'package:flutter/material.dart';
 
 class ChatRow extends StatelessWidget {
@@ -11,27 +11,6 @@ class ChatRow extends StatelessWidget {
     required this.name,
     required this.onTap,
   });
-
-  Future<String?> getProfilePicUrl(String name) async {
-    try {
-      final querySnapshot = await FirebaseFirestore.instance
-          .collection('users')
-          .doc('profile')
-          .collection('admin')
-          .where('name', isEqualTo: name)
-          .get();
-
-      if (querySnapshot.docs.isNotEmpty) {
-        return querySnapshot.docs.first.data()['url'] as String?;
-      } else {
-        print('No profile pic found for $name');
-        return null;
-      }
-    } catch (error) {
-      print('Error retrieving profile pic: $error');
-      return null;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
