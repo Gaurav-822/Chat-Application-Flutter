@@ -24,7 +24,20 @@ class _ProfilePic extends State<ProfilePic> {
       future: getProfilePicUrl(widget.name),
       builder: (BuildContext context, AsyncSnapshot<String?> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const CircularProgressIndicator();
+          return Center(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(8, 16, 8, 0),
+              child: Container(
+                width: 120,
+                height: 120,
+                clipBehavior: Clip.antiAlias,
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                ),
+                child: const CircularProgressIndicator(),
+              ),
+            ),
+          );
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         } else {

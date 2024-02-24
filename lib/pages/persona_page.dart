@@ -15,20 +15,16 @@ class PersonaPage extends StatefulWidget {
 }
 
 class _PersonaPageState extends State<PersonaPage> {
-  late String profileName = "", code = "";
+  late String profileName = "";
   late TextEditingController _adminController;
-
-  late TextEditingController? _qrController = TextEditingController();
 
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   @override
   void initState() {
     super.initState();
-    _qrController ??= TextEditingController(); // Initialize if null
     _adminController = TextEditingController();
     _loadProfileName();
-    _loadQrCode();
   }
 
   _loadProfileName() async {
@@ -46,34 +42,11 @@ class _PersonaPageState extends State<PersonaPage> {
     }
   }
 
-  _loadQrCode() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? qrCode = prefs.getString("qrCode");
-
-    if (qrCode == null || qrCode.isEmpty) {
-      setState(() {
-        code = profileName;
-      });
-    } else {
-      setState(() {
-        code = qrCode;
-      });
-    }
-  }
-
   _saveAdminName(String adminName) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString("admin", adminName);
     setState(() {
       profileName = adminName;
-    });
-  }
-
-  _setQrCode(String code) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString("qrCode", code);
-    setState(() {
-      this.code = code;
     });
   }
 
@@ -83,6 +56,14 @@ class _PersonaPageState extends State<PersonaPage> {
       child: Column(
         mainAxisSize: MainAxisSize.max,
         children: [
+          GestureDetector(
+            onLongPress: () {
+              setState(() {
+                pickAndUploadImage(profileName);
+              });
+            },
+            child: ProfilePic(name: profileName),
+          ),
           Align(
             alignment: Alignment.centerLeft,
             child: Padding(
@@ -94,103 +75,82 @@ class _PersonaPageState extends State<PersonaPage> {
                     colors: <Color>[Colors.red, Colors.blue],
                   ).createShader(bounds);
                 },
-                child: Text(
-                  "Hello, $profileName!",
-                  style: const TextStyle(
-                    fontFamily: 'amatic',
-                    fontSize: 48,
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: 1.5,
+                child: Center(
+                  child: Text(
+                    "Hello, $profileName!",
+                    style: const TextStyle(
+                      fontFamily: 'amatic',
+                      fontSize: 48,
+                      fontWeight: FontWeight.w500,
+                      letterSpacing: 1.5,
+                    ),
                   ),
                 ),
               ),
             ),
           ),
-          GestureDetector(
-            onLongPress: () {
-              setState(() {
-                pickAndUploadImage(profileName);
-              });
-            },
-            child: ProfilePic(name: profileName),
-          ),
-          Row(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(8, 50, 8, 4),
-                  child: TextFormField(
-                    controller: _adminController,
-                    autofocus: false,
-                    obscureText: false,
-                    decoration: const InputDecoration(
-                      hintText: 'Name: . . .',
-                      enabledBorder: InputBorder.none,
-                      focusedBorder: InputBorder.none,
-                      errorBorder: InputBorder.none,
-                      focusedErrorBorder: InputBorder.none,
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(8, 50, 8, 4),
-                child: IconButton(
-                  onPressed: () {
-                    _saveAdminName(_adminController.text);
-                    _adminController.clear();
-                    FocusManager.instance.primaryFocus?.unfocus();
-                  },
-                  icon: const Icon(Icons.check),
-                  iconSize: 24,
-                ),
-              ),
-            ],
-          ),
-          Row(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
-                  child: TextFormField(
-                    controller: _qrController,
-                    autofocus: false,
-                    obscureText: false,
-                    decoration: const InputDecoration(
-                      hintText: 'ID . . .',
-                      enabledBorder: InputBorder.none,
-                      focusedBorder: InputBorder.none,
-                      errorBorder: InputBorder.none,
-                      focusedErrorBorder: InputBorder.none,
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
-                child: IconButton(
-                  onPressed: () {
-                    setState(() {
-                      _setQrCode(_qrController!.text);
-                    });
-                    _qrController!.clear();
-                    FocusManager.instance.primaryFocus?.unfocus();
-                  },
-                  icon: const Icon(Icons.check),
-                  iconSize: 24,
-                ),
-              ),
-            ],
-          ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(8, 50, 8, 8),
+            padding: const EdgeInsets.fromLTRB(8, 25, 8, 8),
             child: Column(
               children: [
-                const Text("Scan to add Friend"),
+                const Center(
+                  child: Text(
+                    "Update",
+                    style: TextStyle(
+                      // letterSpacing: 1.5,
+                      fontFamily: 'Readex Pro',
+                      fontSize: 36,
+                      fontWeight: FontWeight.w200,
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                Row(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Expanded(
+                      child: TextFormField(
+                        controller: _adminController,
+                        autofocus: false,
+                        obscureText: false,
+                        decoration: const InputDecoration(
+                          hintText: 'Name:',
+                          enabledBorder: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                          errorBorder: InputBorder.none,
+                          focusedErrorBorder: InputBorder.none,
+                        ),
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        _saveAdminName(_adminController.text);
+                        _adminController.clear();
+                        FocusManager.instance.primaryFocus?.unfocus();
+                      },
+                      icon: const Icon(Icons.check),
+                      iconSize: 24,
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          Divider(
+            thickness: 1,
+            indent: 16,
+            endIndent: 16,
+            color: Colors.black.withOpacity(0.08), // Adjust opacity as needed
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8),
+            child: Column(
+              children: [
+                const Text("Scan to add as a Friend"),
                 QrImageView(
-                  data: code,
+                  data: profileName,
                   version: QrVersions.auto,
                   size: 200.0,
                 ),
