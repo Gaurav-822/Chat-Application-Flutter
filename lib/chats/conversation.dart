@@ -119,14 +119,14 @@ class _Conversation extends State<Conversation> {
           children: [
             GestureDetector(
               child: Container(
-                width: 30,
-                height: 30,
+                width: 50,
+                height: 50,
                 clipBehavior: Clip.antiAlias,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                 ),
                 child: FutureBuilder<String?>(
-                    future: getProfilePicUrl(profile_name),
+                    future: getProfilePicUrl(name),
                     builder: (BuildContext context,
                         AsyncSnapshot<String?> snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
@@ -142,8 +142,8 @@ class _Conversation extends State<Conversation> {
                         return Align(
                           alignment: Alignment.center,
                           child: Container(
-                            // width: 120,
-                            // height: 120,
+                            // width: 220,
+                            // height: 220,
                             clipBehavior: Clip.antiAlias,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,

@@ -19,54 +19,55 @@ class ChatRow extends StatelessWidget {
       child: Card(
         elevation: 0,
         child: Padding(
-          padding: EdgeInsets.all(8),
+          padding: const EdgeInsets.all(8),
           child: Row(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Padding(
-                padding: EdgeInsets.all(8),
+                padding: const EdgeInsets.all(8),
                 child: Text(
                   name,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontFamily: 'Readex Pro',
                     fontSize: 16,
                   ),
                 ),
               ),
               Container(
-                  width: 50,
-                  height: 50,
-                  clipBehavior: Clip.antiAlias,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                  ),
-                  child: FutureBuilder<String?>(
-                    future: getProfilePicUrl(name),
-                    builder: (BuildContext context,
-                        AsyncSnapshot<String?> snapshot) {
-                      if (snapshot.hasError) {
-                        return Text('Error: ${snapshot.error}');
-                      } else {
-                        // Data has been successfully retrieved
-                        String? profilePicPath = snapshot.data;
-                        return CachedNetworkImage(
-                          imageUrl: profilePicPath ??
-                              '', // Use an empty string for local assets
-                          imageBuilder: (context, imageProvider) => Image(
-                            image: imageProvider,
-                            fit: BoxFit.cover,
-                          ),
-                          placeholder: (context, url) =>
-                              CircularProgressIndicator(), // Placeholder widget while loading
-                          errorWidget: (context, url, error) => Image.asset(
-                            'assets/dummy_user.jpg',
-                            fit: BoxFit.cover,
-                          ),
-                        );
-                      }
-                    },
-                  )),
+                width: 50,
+                height: 50,
+                clipBehavior: Clip.antiAlias,
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                ),
+                child: FutureBuilder<String?>(
+                  future: getProfilePicUrl(name),
+                  builder:
+                      (BuildContext context, AsyncSnapshot<String?> snapshot) {
+                    if (snapshot.hasError) {
+                      return Text('Error: ${snapshot.error}');
+                    } else {
+                      // Data has been successfully retrieved
+                      String? profilePicPath = snapshot.data;
+                      return CachedNetworkImage(
+                        imageUrl: profilePicPath ??
+                            '', // Use an empty string for local assets
+                        imageBuilder: (context, imageProvider) => Image(
+                          image: imageProvider,
+                          fit: BoxFit.cover,
+                        ),
+                        placeholder: (context, url) =>
+                            const CircularProgressIndicator(), // Placeholder widget while loading
+                        errorWidget: (context, url, error) => Image.asset(
+                          'assets/dummy_user.jpg',
+                          fit: BoxFit.cover,
+                        ),
+                      );
+                    }
+                  },
+                ),
+              ),
             ],
           ),
         ),

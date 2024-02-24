@@ -3,6 +3,8 @@ import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class FriendsPage extends StatefulWidget {
+  const FriendsPage({super.key});
+
   @override
   State<StatefulWidget> createState() => _FriendsPageState();
 }
@@ -10,8 +12,8 @@ class FriendsPage extends StatefulWidget {
 class _FriendsPageState extends State<FriendsPage> {
   List<String> friends = [];
   TextEditingController searchController = TextEditingController();
-  ScrollController _scrollController = ScrollController();
-  FocusNode _searchFocusNode = FocusNode();
+  final ScrollController _scrollController = ScrollController();
+  final FocusNode _searchFocusNode = FocusNode();
   List<String> filteredFriends = [];
 
   @override
@@ -78,7 +80,7 @@ class _FriendsPageState extends State<FriendsPage> {
       child: Column(
         mainAxisSize: MainAxisSize.max,
         children: [
-          Padding(
+          const Padding(
             padding: EdgeInsets.all(8),
             child: Align(
               alignment: Alignment.centerLeft,
@@ -94,17 +96,17 @@ class _FriendsPageState extends State<FriendsPage> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.all(8),
+            padding: const EdgeInsets.all(8),
             child: Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Icon(
+                const Icon(
                   Icons.favorite_rounded,
                   color: Colors.black,
                   size: 24,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 100,
                   child: VerticalDivider(
                     thickness: 1,
@@ -117,7 +119,7 @@ class _FriendsPageState extends State<FriendsPage> {
                   width: 75,
                   height: 75,
                   clipBehavior: Clip.antiAlias,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     shape: BoxShape.circle,
                   ),
                   child: Image.network(
@@ -129,7 +131,7 @@ class _FriendsPageState extends State<FriendsPage> {
                   width: 75,
                   height: 75,
                   clipBehavior: Clip.antiAlias,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     shape: BoxShape.circle,
                   ),
                   child: Image.network(
@@ -141,11 +143,11 @@ class _FriendsPageState extends State<FriendsPage> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.all(8),
+            padding: const EdgeInsets.all(8),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
+                const Text(
                   'Friends',
                   style: TextStyle(
                     fontFamily: 'Readex Pro',
@@ -155,7 +157,7 @@ class _FriendsPageState extends State<FriendsPage> {
                   ),
                 ),
                 GestureDetector(
-                  child: Icon(
+                  child: const Icon(
                     Icons.qr_code_scanner_rounded,
                     size: 50,
                   ),
@@ -167,13 +169,13 @@ class _FriendsPageState extends State<FriendsPage> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.all(8),
+            padding: const EdgeInsets.all(8),
             child: Row(
               mainAxisSize: MainAxisSize.max,
               children: [
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(8, 0, 8, 0),
+                    padding: const EdgeInsetsDirectional.fromSTEB(8, 0, 8, 0),
                     child: TextFormField(
                       focusNode: _searchFocusNode,
                       controller: searchController,
@@ -196,7 +198,7 @@ class _FriendsPageState extends State<FriendsPage> {
                         focusedErrorBorder: InputBorder.none,
                         prefixIcon: Icon(Icons.search),
                       ),
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 16,
                       ),
                     ),
@@ -206,8 +208,8 @@ class _FriendsPageState extends State<FriendsPage> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.all(8),
-            child: Container(
+            padding: const EdgeInsets.all(8),
+            child: SizedBox(
               height: 350,
               child: ListView.builder(
                 padding: EdgeInsets.zero,
@@ -235,9 +237,9 @@ class _FriendsPageState extends State<FriendsPage> {
               return AlertDialog(
                 elevation: 4,
                 content: Padding(
-                  padding: EdgeInsets.fromLTRB(0, 32, 0, 0),
+                  padding: const EdgeInsets.fromLTRB(0, 32, 0, 0),
                   child: Padding(
-                    padding: EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(8),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -246,7 +248,7 @@ class _FriendsPageState extends State<FriendsPage> {
                           children: [
                             Text(
                               text,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 24,
                               ),
                             ),
@@ -254,7 +256,7 @@ class _FriendsPageState extends State<FriendsPage> {
                               width: 50,
                               height: 50,
                               clipBehavior: Clip.antiAlias,
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 shape: BoxShape.circle,
                               ),
                               child: Image.network(
@@ -264,14 +266,14 @@ class _FriendsPageState extends State<FriendsPage> {
                             ),
                           ],
                         ),
-                        SizedBox(height: 8),
-                        Align(
+                        const SizedBox(height: 8),
+                        const Align(
                           alignment: AlignmentDirectional(-1, 0),
                           child: Text(
                             'Friends: 69',
                           ),
                         ),
-                        SizedBox(height: 8),
+                        const SizedBox(height: 8),
                         ClipRRect(
                           borderRadius: BorderRadius.circular(8),
                           child: Image.asset(
@@ -290,20 +292,20 @@ class _FriendsPageState extends State<FriendsPage> {
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
-                    child: Text('Close'),
+                    child: const Text('Close'),
                   ),
                 ],
               );
             });
       },
       child: Padding(
-        padding: EdgeInsets.all(4),
+        padding: const EdgeInsets.all(4),
         child: Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Padding(
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               child: Text(
                 text,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
@@ -312,7 +314,7 @@ class _FriendsPageState extends State<FriendsPage> {
                     ),
               ),
             ),
-            Icon(
+            const Icon(
               Icons.send_rounded,
               size: 24,
             ),

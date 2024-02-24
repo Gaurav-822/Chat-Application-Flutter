@@ -9,10 +9,10 @@ class MessageBar extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _MessageBarState createState() => _MessageBarState();
+  MessageBarState createState() => MessageBarState();
 }
 
-class _MessageBarState extends State<MessageBar> {
+class MessageBarState extends State<MessageBar> {
   final TextEditingController _controller = TextEditingController();
 
   @override
