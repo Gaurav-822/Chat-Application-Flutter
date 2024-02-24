@@ -1,11 +1,10 @@
 import 'dart:async';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:chat_app/message_bar.dart';
-import 'package:chat_app/text_bubble.dart';
+import 'package:chat_app/sprites/message_bar.dart';
+import 'package:chat_app/sprites/text_bubble.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Conversation extends StatefulWidget {

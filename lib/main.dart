@@ -1,10 +1,8 @@
 import 'package:chat_app/chats/conversation.dart';
 import 'package:chat_app/firebase_options.dart';
-import 'package:chat_app/image_storage/image_upload.dart';
 import 'package:chat_app/pages/chats_page.dart';
 import 'package:chat_app/pages/friends_page.dart';
 import 'package:chat_app/pages/persona_page.dart';
-import 'package:chat_app/qr/reader.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -34,16 +32,6 @@ final GoRouter _router = GoRouter(
           },
         ),
       ],
-    ),
-    GoRoute(
-      path: "/imageUpload",
-      builder: (context, state) => ImageUpload(
-        id: '1234567',
-      ),
-    ),
-    GoRoute(
-      path: "/friends/reader",
-      builder: (context, state) => Reader(),
     ),
   ],
 );
