@@ -18,7 +18,7 @@ final GoRouter _router = GoRouter(
     GoRoute(
       name: 'home',
       path: '/',
-      builder: (context, state) => MyHomePage(
+      builder: (context, state) => const MyHomePage(
         title: "Titly",
       ),
       routes: <RouteBase>[
@@ -49,7 +49,7 @@ void main() async {
 
   await precacheLottie('assets/splash_screen.json');
 
-  runApp(SplashApp());
+  runApp(const SplashApp());
 }
 
 Future<void> precacheLottie(String assetPath) async {
@@ -57,6 +57,8 @@ Future<void> precacheLottie(String assetPath) async {
 }
 
 class SplashApp extends StatelessWidget {
+  const SplashApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -178,8 +180,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
             child: PageView(
               controller: _pageController,
               dragStartBehavior: DragStartBehavior.start,
-              children: [
-                const Chats(),
+              children: const [
+                Chats(),
                 FriendsPage(),
               ],
               onPageChanged: (index) {
