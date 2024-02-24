@@ -55,7 +55,6 @@ dependencies:
   firebase_storage: ^11.6.6
   cached_network_image: ^3.3.1
   path_provider: ^2.1.2
-  local_auth: ^2.1.8
   flutter_cache_manager: ^3.3.1
   fluttertoast: ^8.2.4
 
