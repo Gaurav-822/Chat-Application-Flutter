@@ -1,46 +1,23 @@
-import 'package:chat_app/chats/conversation.dart';
+import 'package:chat_app/Functions/firebase_message_api.dart';
 import 'package:chat_app/firebase_options.dart';
 import 'package:chat_app/pages/chats_page.dart';
 import 'package:chat_app/pages/friends_page.dart';
 import 'package:chat_app/pages/persona_page.dart';
+import 'package:chat_app/routes.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:go_router/go_router.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:another_flutter_splash_screen/another_flutter_splash_screen.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-final GoRouter _router = GoRouter(
-  initialLocation: '/',
-  routes: [
-    GoRoute(
-      name: 'home',
-      path: '/',
-      builder: (context, state) => const MyHomePage(
-        title: "Titly",
-      ),
-      routes: <RouteBase>[
-        GoRoute(
-          path: 'chats/:name',
-          builder: (BuildContext context, GoRouterState state) {
-            final name = state.pathParameters['name'] ?? "";
-            return Conversation(
-              name: name,
-            );
-          },
-        ),
-      ],
-    ),
-  ],
-);
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
   // Shared Pref
   SharedPreferences prefs = await SharedPreferences.getInstance();
   if (prefs.getString("admin") == null) {
@@ -85,7 +62,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      routerConfig: _router,
+      routerConfig: routes(),
       theme: ThemeData.light().copyWith(
         // Light theme
         tabBarTheme: const TabBarTheme(
@@ -120,7 +97,12 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+    askNoti();
     _tabController = TabController(length: 2, vsync: this);
+  }
+
+  void askNoti() async {
+    await FirebaseMessageApi().initNotification();
   }
 
   final _pageController = PageController(initialPage: 0);
