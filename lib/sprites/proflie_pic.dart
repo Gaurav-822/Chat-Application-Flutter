@@ -1,5 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:chat_app/Functions/profile_pic_funs.dart';
+import 'package:chat_app/Functions/profile_function.dart';
 import 'package:flutter/material.dart';
 
 class ProfilePic extends StatefulWidget {

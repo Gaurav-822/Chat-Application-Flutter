@@ -1,6 +1,6 @@
 // for now i will make the chat row as a stateless widget!
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:chat_app/Functions/profile_pic_funs.dart';
+import 'package:chat_app/Functions/profile_function.dart';
 import 'package:flutter/material.dart';
 
 class ChatRow extends StatelessWidget {

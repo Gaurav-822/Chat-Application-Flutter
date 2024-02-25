@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:chat_app/Functions/firebase_message_api.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +28,11 @@ Future<String?> getProfilePicUrl(String name) async {
   }
 }
 
-void addProfilePic(String name, String url) {
+void updateApiToken(String name) async {
+  FirebaseMessageApi firebaseMessageApi = FirebaseMessageApi();
+
+  String? fCMToken = await firebaseMessageApi.initNotification();
+
   FirebaseFirestore.instance
       .collection('users')
       .doc("profile")
@@ -37,7 +42,75 @@ void addProfilePic(String name, String url) {
       .then((QuerySnapshot querySnapshot) {
     if (querySnapshot.docs.isNotEmpty) {
       for (var doc in querySnapshot.docs) {
-        doc.reference.update({'url': url}).then((_) {
+        doc.reference.update({
+          'fcmToken': fCMToken // Updating FCM Token here
+        }).then((_) {
+          Fluttertoast.showToast(
+              msg: "API token for $name updated",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.CENTER,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.red,
+              textColor: Colors.white,
+              fontSize: 16.0);
+          debugPrint("API token for $name updated");
+        }).catchError((error) {
+          Fluttertoast.showToast(
+              msg: "Failed to update API token: $error",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.CENTER,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.red,
+              textColor: Colors.white,
+              fontSize: 16.0);
+          debugPrint("Failed to update API token: $error");
+          throw ("Failed to update API token: $error");
+        });
+      }
+    } else {
+      Fluttertoast.showToast(
+          msg: "No user found with the name $name",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      debugPrint("No user found with the name $name");
+    }
+  }).catchError((error) {
+    Fluttertoast.showToast(
+        msg:
+            "Some error occurred, check your internet connection and try again!",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0);
+    debugPrint("Error fetching document: $error");
+  });
+}
+
+void addUser(String name, String url) async {
+  FirebaseMessageApi firebaseMessageApi = FirebaseMessageApi();
+
+  // For Device token
+  String? fCMToken = await firebaseMessageApi.initNotification();
+
+  FirebaseFirestore.instance
+      .collection('users')
+      .doc("profile")
+      .collection("admin")
+      .where('name', isEqualTo: name)
+      .get()
+      .then((QuerySnapshot querySnapshot) {
+    if (querySnapshot.docs.isNotEmpty) {
+      for (var doc in querySnapshot.docs) {
+        doc.reference.update({
+          'url': url,
+          'fcmToken': fCMToken // Adding FCM Token here
+        }).then((_) {
           Fluttertoast.showToast(
               msg: "Profile pic for $name updated",
               toastLength: Toast.LENGTH_SHORT,
@@ -69,6 +142,7 @@ void addProfilePic(String name, String url) {
           .add({
         'name': name,
         'url': url,
+        'fcmToken': fCMToken // Adding FCM Token here
       }).then((DocumentReference docRef) {
         debugPrint("Profile pic for $name added @: ${docRef.id}");
         return getProfilePicUrl(name);
@@ -117,7 +191,7 @@ Future<void> pickAndUploadImage(profileName) async {
       await imageRef.putFile(File(pickedFile.path));
       imageUrl = await imageRef.getDownloadURL();
 
-      return addProfilePic(profileName, imageUrl);
+      return addUser(profileName, imageUrl);
     }
   } on FirebaseException catch (e) {
     debugPrint('Firebase error: $e');
