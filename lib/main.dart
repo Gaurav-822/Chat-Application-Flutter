@@ -62,14 +62,16 @@ class SplashApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      darkTheme: ThemeData.dark(),
       home: FlutterSplashScreen(
-        duration: const Duration(milliseconds: 2000),
+        duration: const Duration(milliseconds: 1800),
         nextScreen: const MyApp(),
-        backgroundColor: Colors.white,
+        backgroundColor: const Color(0xFFE0E0E0),
         splashScreenBody: Center(
           child: Lottie.asset(
             "assets/splash_screen.json",
             repeat: false,
+            frameRate: const FrameRate(144),
           ),
         ),
       ),
@@ -82,7 +84,25 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(routerConfig: _router);
+    return MaterialApp.router(
+      routerConfig: _router,
+      theme: ThemeData.light().copyWith(
+        // Light theme
+        tabBarTheme: const TabBarTheme(
+          labelColor: Colors.pink, // Your desired tab label color
+        ),
+      ),
+      darkTheme: ThemeData.dark().copyWith(
+        // iconTheme: IconThemeData(
+        //   color: Colors.white, // Your desired icon color for light theme
+        // ),
+        // Dark theme
+        tabBarTheme: TabBarTheme(
+          labelColor: Colors.pinkAccent
+              .withOpacity(0.8), // Your desired tab label color for dark theme
+        ),
+      ),
+    );
   }
 }
 
@@ -125,7 +145,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         ),
       ),
       endDrawer: const Drawer(
-        elevation: 8,
+        elevation: 24,
         child: Padding(
           padding: EdgeInsets.fromLTRB(8, 50, 0, 8),
           child: SingleChildScrollView(
@@ -136,7 +156,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       body: Column(
         children: [
           TabBar(
-            labelColor: Theme.of(context).primaryColor,
             unselectedLabelColor: Colors.grey,
             indicatorColor: Colors.transparent,
             tabs: const [

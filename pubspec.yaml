@@ -57,6 +57,7 @@ dependencies:
   path_provider: ^2.1.2
   flutter_cache_manager: ^3.3.1
   fluttertoast: ^8.2.4
+  adaptive_theme: ^3.6.0
 
 dev_dependencies:
   flutter_test:

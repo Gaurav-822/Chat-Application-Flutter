@@ -85,7 +85,7 @@ class _FriendsPageState extends State<FriendsPage> {
             child: Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                "Your's special...",
+                "Your's special",
                 style: TextStyle(
                   fontFamily: 'DancingScript',
                   fontSize: 36,
@@ -103,7 +103,6 @@ class _FriendsPageState extends State<FriendsPage> {
               children: [
                 const Icon(
                   Icons.favorite_rounded,
-                  color: Colors.black,
                   size: 24,
                 ),
                 const SizedBox(
@@ -112,7 +111,7 @@ class _FriendsPageState extends State<FriendsPage> {
                     thickness: 1,
                     indent: 16,
                     endIndent: 16,
-                    color: Colors.black, // Use your preferred color
+                    // color: Colors.black, // Use your preferred color
                   ),
                 ),
                 Container(
