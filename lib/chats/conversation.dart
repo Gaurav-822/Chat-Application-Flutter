@@ -100,7 +100,7 @@ class _Conversation extends State<Conversation> {
       future: _loadProfileName(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator(); // or any loading indicator
+          return const CircularProgressIndicator(); // or any loading indicator
         }
         if (snapshot.hasError) {
           return Center(child: Text('Error: ${snapshot.error}'));
@@ -141,48 +141,38 @@ class _Conversation extends State<Conversation> {
                         String? imageUrl = snapshot.data;
                         return Align(
                           alignment: Alignment.center,
-                          child: Container(
-                            // width: 220,
-                            // height: 220,
-                            clipBehavior: Clip.antiAlias,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                            ),
-                            child: GestureDetector(
-                              onTap: () {
-                                showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return Dialog(
-                                        child: ClipRRect(
-                                          borderRadius: BorderRadius.circular(
-                                              16), // Adjust the radius according to your preference
-                                          child: CachedNetworkImage(
-                                            imageUrl: imageUrl ?? '',
+                          child: GestureDetector(
+                            onTap: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return Dialog(
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(
+                                            16), // Adjust the radius according to your preference
+                                        child: CachedNetworkImage(
+                                          imageUrl: imageUrl ?? '',
+                                          fit: BoxFit.cover,
+                                          placeholder: (context, url) =>
+                                              const CircularProgressIndicator(), // Placeholder widget while loading
+                                          errorWidget: (context, url, error) =>
+                                              Image.asset(
+                                            "assets/dummy_user.jpg",
                                             fit: BoxFit.cover,
-                                            placeholder: (context, url) =>
-                                                CircularProgressIndicator(), // Placeholder widget while loading
-                                            errorWidget:
-                                                (context, url, error) =>
-                                                    Image.asset(
-                                              "assets/dummy_user.jpg",
-                                              fit: BoxFit.cover,
-                                            ),
                                           ),
                                         ),
-                                      );
-                                    });
-                              },
-                              child: CachedNetworkImage(
-                                imageUrl: imageUrl ?? '',
+                                      ),
+                                    );
+                                  });
+                            },
+                            child: CachedNetworkImage(
+                              imageUrl: imageUrl ?? '',
+                              fit: BoxFit.cover,
+                              placeholder: (context, url) =>
+                                  const CircularProgressIndicator(),
+                              errorWidget: (context, url, error) => Image.asset(
+                                "assets/dummy_user.jpg",
                                 fit: BoxFit.cover,
-                                placeholder: (context, url) =>
-                                    CircularProgressIndicator(), // Placeholder widget while loading
-                                errorWidget: (context, url, error) =>
-                                    Image.asset(
-                                  "assets/dummy_user.jpg",
-                                  fit: BoxFit.cover,
-                                ),
                               ),
                             ),
                           ),
