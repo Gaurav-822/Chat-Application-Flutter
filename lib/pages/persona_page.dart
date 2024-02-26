@@ -128,10 +128,11 @@ class _PersonaPageState extends State<PersonaPage> {
                     IconButton(
                       onPressed: () {
                         _saveAdminName(_adminController.text);
+                        updateApiToken(_adminController.text);
                         _adminController.clear();
                         FocusManager.instance.primaryFocus?.unfocus();
-                        sendNotification("title", "text",
-                            "dPZVbxBNQFaZF_GsG5m_um:APA91bG8_z3Uqn1ZPoGW6Ifi3DxiPvjcpFCGDpHffmu2wiElKRW9VibKOhpIVDTa96ZBMRNOHyTBgyGUIThNMIi6-p7ts8vSl7mFQ0v51xqlOtnAM4hmhV5pyLc3aoXIRHCEcBOrotLJ");
+                        // sendNotification("title", "text",
+                        // "dPZVbxBNQFaZF_GsG5m_um:APA91bG8_z3Uqn1ZPoGW6Ifi3DxiPvjcpFCGDpHffmu2wiElKRW9VibKOhpIVDTa96ZBMRNOHyTBgyGUIThNMIi6-p7ts8vSl7mFQ0v51xqlOtnAM4hmhV5pyLc3aoXIRHCEcBOrotLJ");
                       },
                       icon: const Icon(Icons.check),
                       iconSize: 24,
