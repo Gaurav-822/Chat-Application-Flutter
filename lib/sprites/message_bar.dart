@@ -49,9 +49,9 @@ class MessageBarState extends State<MessageBar> {
             ),
             onPressed: () {
               final message = _controller.text.trim();
+              _controller.clear();
               if (message.isNotEmpty) {
                 widget.onMessageSent(message);
-                _controller.clear();
               }
             },
           ),

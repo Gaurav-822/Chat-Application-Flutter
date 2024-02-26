@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -9,6 +10,32 @@ class FirebaseMessageApi {
     await _firebaseMessaging.requestPermission();
     final fCMToken = await _firebaseMessaging.getToken();
     return fCMToken;
+  }
+}
+
+Future<String?> getFCMTokenByUsername(String username) async {
+  FirebaseMessageApi firebaseMessageApi = FirebaseMessageApi();
+
+  String? fCMToken = await firebaseMessageApi.initNotification();
+
+  try {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .doc("profile")
+        .collection("admin")
+        .where('name', isEqualTo: username)
+        .get();
+
+    if (querySnapshot.docs.isNotEmpty) {
+      for (var doc in querySnapshot.docs) {
+        return doc.get('fcmToken'); // Return the FCM token
+      }
+    } else {
+      return null; // No user found with the given username
+    }
+  } catch (error) {
+    print("Error fetching document: $error");
+    return null; // Return null if there's an error
   }
 }
 
@@ -48,5 +75,31 @@ Future<void> sendNotification(
     }
   } catch (e) {
     print('Failed to send notification. Exception: $e');
+  }
+}
+
+Future<bool> sendNotificationToUser(
+    String username, String title, String text) async {
+  // Fetch the FCM token
+  String? fcmToken;
+  try {
+    fcmToken = await getFCMTokenByUsername(username);
+  } catch (error) {
+    print("Error fetching FCM token: $error");
+    return false;
+  }
+
+  if (fcmToken == null) {
+    print("No FCM token found for user: $username");
+    return false;
+  }
+
+  // Send the notification
+  try {
+    await sendNotification(title, text, fcmToken);
+    return true;
+  } catch (error) {
+    print("Error sending notification: $error");
+    return false;
   }
 }

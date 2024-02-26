@@ -1,8 +1,9 @@
+import 'package:chat_app/Functions/firebase_message_api.dart';
+import 'package:chat_app/Functions/profile_function.dart';
 import 'package:chat_app/sprites/message_bar.dart';
 import 'package:chat_app/sprites/text_bubble.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class Conversation extends StatefulWidget {
   final String admin, name;
@@ -34,6 +35,13 @@ class _Conversation extends State<Conversation> {
   }
 
   final ScrollController _scrollController = ScrollController();
+  void scrollToListBottom() {
+    _scrollController.animateTo(
+      _scrollController.position.maxScrollExtent,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeOut,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,6 +79,7 @@ class _Conversation extends State<Conversation> {
                 );
               }
               return ListView(
+                controller: _scrollController,
                 reverse: true, // to display the latest message at the bottom
                 children: snapshot.data!.docs.map((DocumentSnapshot document) {
                   Map<String, dynamic> data =
@@ -92,30 +101,21 @@ class _Conversation extends State<Conversation> {
         ),
         MessageBar(
           onMessageSent: (message) {
-            setState(() {
-              scrollToListBottom();
-              addData(widget.admin, widget.name, message);
-            });
+            addData(widget.admin, widget.name, message);
+            sendNotificationToUser(
+              widget.name,
+              widget.admin,
+              message,
+            );
           },
         ),
       ],
     );
   }
 
-  void scrollToListBottom() {
-    // Check if already at the bottom
-    if (_scrollController.position.pixels !=
-        _scrollController.position.maxScrollExtent) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        Future.delayed(const Duration(milliseconds: 50), () {
-          _scrollController.animateTo(
-            _scrollController.position.maxScrollExtent,
-            duration: const Duration(
-                milliseconds: 300), // Decrease duration for smoother scrolling
-            curve: Curves.easeInOut, // Use a smoother curve
-          );
-        });
-      });
-    }
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 }
