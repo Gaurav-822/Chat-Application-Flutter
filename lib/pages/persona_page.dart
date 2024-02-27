@@ -16,14 +16,15 @@ class PersonaPage extends StatefulWidget {
 
 class _PersonaPageState extends State<PersonaPage> {
   late String profileName = "";
-  late TextEditingController _adminController;
+  final TextEditingController _adminController = TextEditingController();
 
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+  bool _isLoading = false;
 
   @override
   void initState() {
     super.initState();
-    _adminController = TextEditingController();
     _loadProfileName();
   }
 
@@ -57,33 +58,31 @@ class _PersonaPageState extends State<PersonaPage> {
         return Wrap(
           children: <Widget>[
             ListTile(
-              leading: Icon(Icons.camera),
-              title: Text('Camera'),
-              onTap: () {
+              leading: const Icon(Icons.camera),
+              title: const Text('Camera'),
+              onTap: () async {
                 Navigator.pop(context);
-                _pickImageFromCamera();
+                setState(() {
+                  _isLoading = true;
+                });
+                await pickAndUploadImage(profileName, false);
+                setState(() {
+                  _isLoading = false;
+                });
               },
             ),
             ListTile(
-              leading: Icon(Icons.photo_library),
-              title: Text('Media'),
+              leading: const Icon(Icons.photo_library),
+              title: const Text('Media'),
               onTap: () {
                 Navigator.pop(context);
-                _pickImageFromMedia();
+                pickAndUploadImage(profileName, true);
               },
             ),
           ],
         );
       },
     );
-  }
-
-  void _pickImageFromCamera() async {
-    pickAndUploadImage(profileName, false);
-  }
-
-  void _pickImageFromMedia() async {
-    pickAndUploadImage(profileName, true);
   }
 
   @override
@@ -96,7 +95,17 @@ class _PersonaPageState extends State<PersonaPage> {
             onLongPress: () {
               _showOptionsBottomSheet();
             },
-            child: ProfilePic(name: profileName),
+            child: _isLoading
+                ? Container(
+                    width: 120,
+                    height: 120,
+                    clipBehavior: Clip.antiAlias,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                    ),
+                    child: const CircularProgressIndicator(),
+                  )
+                : ProfilePic(name: profileName),
           ),
           Align(
             alignment: Alignment.centerLeft,
