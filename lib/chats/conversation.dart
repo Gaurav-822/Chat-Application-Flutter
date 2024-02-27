@@ -78,6 +78,7 @@ class _Conversation extends State<Conversation> {
                   child: Text('Start Conversation..🤞'),
                 );
               }
+              // play the tone
               return ListView(
                 controller: _scrollController,
                 reverse: true, // to display the latest message at the bottom
