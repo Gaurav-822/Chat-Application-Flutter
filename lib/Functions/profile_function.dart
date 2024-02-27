@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
 Future<String?> getProfilePicUrl(String name) async {
@@ -171,31 +172,46 @@ void addUser(String name, String url) async {
   });
 }
 
-Future<void> pickAndUploadImage(profileName) async {
+Future<void> pickAndUploadImage(profileName, bool gallery) async {
   final picker = ImagePicker();
   String? imageUrl;
   try {
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-    Fluttertoast.showToast(
-        msg: "Profile pic setting for $profileName",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-        fontSize: 16.0);
+    final pickedFile = (gallery)
+        ? await picker.pickImage(source: ImageSource.gallery)
+        : await picker.pickImage(source: ImageSource.camera);
 
     if (pickedFile != null) {
-      final imageRef =
-          FirebaseStorage.instance.ref().child('images/$profileName.jpg');
-      await imageRef.putFile(File(pickedFile.path));
-      imageUrl = await imageRef.getDownloadURL();
+      // Crop the picked image
+      final croppedFile = await _cropImage(imageFile: File(pickedFile.path));
 
-      return addUser(profileName, imageUrl);
+      Fluttertoast.showToast(
+          msg: "Profile pic setting for $profileName",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+
+      if (croppedFile != null) {
+        final imageRef =
+            FirebaseStorage.instance.ref().child('images/$profileName.jpg');
+        await imageRef.putFile(croppedFile);
+        imageUrl = await imageRef.getDownloadURL();
+
+        return addUser(profileName, imageUrl);
+      }
     }
   } on FirebaseException catch (e) {
     debugPrint('Firebase error: $e');
   } catch (e) {
     debugPrint('Other error: $e');
   }
+}
+
+Future<File?> _cropImage({required File imageFile}) async {
+  CroppedFile? croppedImage =
+      await ImageCropper().cropImage(sourcePath: imageFile.path);
+  if (croppedImage == null) return null;
+  return File(croppedImage.path);
 }
