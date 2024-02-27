@@ -67,7 +67,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData.light().copyWith(
         // Light theme
         tabBarTheme: const TabBarTheme(
-          labelColor: Colors.pink, // Your desired tab label color
+          labelColor:
+              Color.fromARGB(255, 230, 180, 0), // Your desired tab label color
         ),
       ),
       darkTheme: ThemeData.dark().copyWith(
@@ -76,7 +77,7 @@ class MyApp extends StatelessWidget {
         // ),
         // Dark theme
         tabBarTheme: TabBarTheme(
-          labelColor: Colors.pinkAccent
+          labelColor: Colors.yellow
               .withOpacity(0.8), // Your desired tab label color for dark theme
         ),
       ),
