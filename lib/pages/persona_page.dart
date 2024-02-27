@@ -1,4 +1,3 @@
-import 'package:chat_app/Functions/firebase_message_api.dart';
 import 'package:chat_app/Functions/profile_function.dart';
 import 'package:chat_app/sprites/proflie_pic.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -7,7 +6,7 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PersonaPage extends StatefulWidget {
-  const PersonaPage({super.key});
+  const PersonaPage({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -51,6 +50,42 @@ class _PersonaPageState extends State<PersonaPage> {
     });
   }
 
+  void _showOptionsBottomSheet() {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Wrap(
+          children: <Widget>[
+            ListTile(
+              leading: Icon(Icons.camera),
+              title: Text('Camera'),
+              onTap: () {
+                Navigator.pop(context);
+                _pickImageFromCamera();
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.photo_library),
+              title: Text('Media'),
+              onTap: () {
+                Navigator.pop(context);
+                _pickImageFromMedia();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _pickImageFromCamera() async {
+    pickAndUploadImage(profileName, false);
+  }
+
+  void _pickImageFromMedia() async {
+    pickAndUploadImage(profileName, true);
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -59,9 +94,7 @@ class _PersonaPageState extends State<PersonaPage> {
         children: [
           GestureDetector(
             onLongPress: () {
-              setState(() {
-                pickAndUploadImage(profileName);
-              });
+              _showOptionsBottomSheet();
             },
             child: ProfilePic(name: profileName),
           ),
@@ -131,8 +164,6 @@ class _PersonaPageState extends State<PersonaPage> {
                         updateApiToken(_adminController.text);
                         _adminController.clear();
                         FocusManager.instance.primaryFocus?.unfocus();
-                        // sendNotification("title", "text",
-                        // "dPZVbxBNQFaZF_GsG5m_um:APA91bG8_z3Uqn1ZPoGW6Ifi3DxiPvjcpFCGDpHffmu2wiElKRW9VibKOhpIVDTa96ZBMRNOHyTBgyGUIThNMIi6-p7ts8vSl7mFQ0v51xqlOtnAM4hmhV5pyLc3aoXIRHCEcBOrotLJ");
                       },
                       icon: const Icon(Icons.check),
                       iconSize: 24,
