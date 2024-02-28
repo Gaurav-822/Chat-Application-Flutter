@@ -1,4 +1,6 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class LogIn extends StatefulWidget {
   const LogIn({super.key});
@@ -22,23 +24,14 @@ class _LogIn extends State<LogIn> {
               mainAxisSize: MainAxisSize.max,
               children: [
                 Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(0, 8, 0, 8),
-                  child: ShaderMask(
-                    shaderCallback: (Rect bounds) {
-                      return const LinearGradient(
-                        colors: [Colors.pinkAccent, Colors.yellowAccent],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ).createShader(bounds);
-                    },
-                    child: Text(
-                      'Log In',
-                      style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                            // color: Colors.white, // Text color can be adjusted
-                            fontWeight: FontWeight
-                                .bold, // Example: Applying bold font weight
-                          ),
-                    ),
+                  padding: const EdgeInsetsDirectional.fromSTEB(0, 16, 0, 8),
+                  child: Text(
+                    'Log In',
+                    style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                          // color: Colors.white, // Text color can be adjusted
+                          fontWeight: FontWeight
+                              .bold, // Example: Applying bold font weight
+                        ),
                   ),
                 ),
                 Padding(
@@ -54,12 +47,12 @@ class _LogIn extends State<LogIn> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(4),
                   child: TextFormField(
                     autofocus: false,
                     obscureText: false,
                     decoration: const InputDecoration(
-                      labelText: 'Username:',
+                      labelText: 'Email',
                       border: InputBorder.none,
                     ),
                     style: Theme.of(context).textTheme.bodyLarge,
@@ -70,11 +63,11 @@ class _LogIn extends State<LogIn> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(4),
                   child: TextFormField(
                     obscureText: true,
                     decoration: const InputDecoration(
-                      labelText: 'Password:',
+                      labelText: 'Password',
                       border: InputBorder.none,
                     ),
                     style: Theme.of(context).textTheme.bodyLarge,
@@ -82,6 +75,39 @@ class _LogIn extends State<LogIn> {
                       // Add your validation logic here
                       return null;
                     },
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Padding(
+                    padding: EdgeInsets.all(8),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        print('Button pressed ...');
+                      },
+                      style: ElevatedButton.styleFrom(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 24, vertical: 0),
+                        backgroundColor: Theme.of(context).primaryColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(24),
+                        ),
+                        elevation: 3,
+                        side: const BorderSide(
+                          color: Colors.transparent,
+                          width: 1,
+                        ),
+                      ),
+                      child: Text(
+                        'Login',
+                        style: TextStyle(
+                          fontFamily: 'Readex Pro',
+                          fontSize:
+                              Theme.of(context).textTheme.titleMedium!.fontSize,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
                 Align(
@@ -142,25 +168,34 @@ class _LogIn extends State<LogIn> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(0, 48, 0, 0),
-                  child: RichText(
-                    text: TextSpan(
-                      children: const [
-                        TextSpan(
-                          text: 'New User - ',
-                          style: TextStyle(
-                            fontFamily: 'Readex Pro',
-                            fontWeight: FontWeight.bold,
+                    padding: const EdgeInsetsDirectional.fromSTEB(0, 8, 0, 0),
+                    child: RichText(
+                      text: TextSpan(
+                        children: [
+                          const TextSpan(
+                            text: 'New User - ',
+                            style: TextStyle(
+                              fontFamily: 'Readex Pro',
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
-                        TextSpan(
-                          text: 'Sign In',
-                        )
-                      ],
-                      style: Theme.of(context).textTheme.bodyLarge,
-                    ),
-                  ),
-                ),
+                          TextSpan(
+                            text: 'Sign In',
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                // Add your sign-in logic here
+                                GoRouter.of(context).go('/signin');
+                                print('Sign In tapped!');
+                              },
+                            style: const TextStyle(
+                              color: Colors
+                                  .blue, // Change color to indicate it's clickable
+                            ),
+                          ),
+                        ],
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
+                    )),
               ],
             ),
           ),
