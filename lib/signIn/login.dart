@@ -1,3 +1,4 @@
+import 'package:chat_app/signIn/auth/email_pass_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -12,6 +13,9 @@ class LogIn extends StatefulWidget {
 }
 
 class _LogIn extends State<LogIn> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,6 +53,7 @@ class _LogIn extends State<LogIn> {
                 Padding(
                   padding: const EdgeInsets.all(4),
                   child: TextFormField(
+                    controller: emailController,
                     autofocus: false,
                     obscureText: false,
                     decoration: const InputDecoration(
@@ -65,6 +70,7 @@ class _LogIn extends State<LogIn> {
                 Padding(
                   padding: const EdgeInsets.all(4),
                   child: TextFormField(
+                    controller: passwordController,
                     obscureText: true,
                     decoration: const InputDecoration(
                       labelText: 'Password',
@@ -80,14 +86,15 @@ class _LogIn extends State<LogIn> {
                 Align(
                   alignment: Alignment.centerRight,
                   child: Padding(
-                    padding: EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(8),
                     child: ElevatedButton(
                       onPressed: () {
-                        print('Button pressed ...');
+                        signUserIn(
+                            emailController.text, passwordController.text);
                       },
                       style: ElevatedButton.styleFrom(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 24, vertical: 0),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 24, vertical: 0),
                         backgroundColor: Theme.of(context).primaryColor,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(24),
@@ -185,7 +192,6 @@ class _LogIn extends State<LogIn> {
                               ..onTap = () {
                                 // Add your sign-in logic here
                                 GoRouter.of(context).go('/signin');
-                                print('Sign In tapped!');
                               },
                             style: const TextStyle(
                               color: Colors
