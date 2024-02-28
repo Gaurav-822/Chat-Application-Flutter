@@ -1,3 +1,5 @@
+import 'package:chat_app/Functions/profile_function.dart';
+import 'package:chat_app/signIn/auth/email_pass_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -12,16 +14,17 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignIn extends State<SignIn> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController repasswordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: Colors.yellowAccent.withOpacity(0.15),
-
       body: SafeArea(
         top: true,
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.all(8),
+            padding: const EdgeInsets.all(8),
             child: Column(
               mainAxisSize: MainAxisSize.max,
               children: [
@@ -30,14 +33,12 @@ class _SignIn extends State<SignIn> {
                   child: Text(
                     'Sign In',
                     style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                          // color: Colors.white, // Text color can be adjusted
-                          fontWeight: FontWeight
-                              .bold, // Example: Applying bold font weight
+                          fontWeight: FontWeight.bold,
                         ),
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(4),
+                  padding: const EdgeInsets.all(4),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(24),
                     child: Image.asset(
@@ -51,29 +52,14 @@ class _SignIn extends State<SignIn> {
                 Padding(
                   padding: const EdgeInsets.all(4),
                   child: TextFormField(
-                    obscureText: true,
-                    decoration: const InputDecoration(
-                      labelText: 'Username',
-                      border: InputBorder.none,
-                    ),
-                    style: Theme.of(context).textTheme.bodyLarge,
-                    validator: (value) {
-                      // Add your validation logic here
-                      return null;
-                    },
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(4),
-                  child: TextFormField(
-                    obscureText: true,
+                    controller: emailController,
+                    obscureText: false,
                     decoration: const InputDecoration(
                       labelText: 'Email',
                       border: InputBorder.none,
                     ),
                     style: Theme.of(context).textTheme.bodyLarge,
                     validator: (value) {
-                      // Add your validation logic here
                       return null;
                     },
                   ),
@@ -81,6 +67,7 @@ class _SignIn extends State<SignIn> {
                 Padding(
                   padding: const EdgeInsets.all(4),
                   child: TextFormField(
+                    controller: passwordController,
                     obscureText: true,
                     decoration: const InputDecoration(
                       labelText: 'Password',
@@ -88,7 +75,21 @@ class _SignIn extends State<SignIn> {
                     ),
                     style: Theme.of(context).textTheme.bodyLarge,
                     validator: (value) {
-                      // Add your validation logic here
+                      return null;
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(4),
+                  child: TextFormField(
+                    controller: repasswordController,
+                    obscureText: true,
+                    decoration: const InputDecoration(
+                      labelText: 'Re-Password',
+                      border: InputBorder.none,
+                    ),
+                    style: Theme.of(context).textTheme.bodyLarge,
+                    validator: (value) {
                       return null;
                     },
                   ),
@@ -96,14 +97,23 @@ class _SignIn extends State<SignIn> {
                 Align(
                   alignment: Alignment.centerRight,
                   child: Padding(
-                    padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
+                    padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
                     child: ElevatedButton(
                       onPressed: () {
-                        print('Button pressed ...');
+                        if (passwordController.text ==
+                            repasswordController.text) {
+                          createUser(
+                              emailController.text, passwordController.text);
+                          signUserIn(
+                              emailController.text, passwordController.text);
+                        } else {
+                          showToastMessage(
+                              "Password and Repassword are not same");
+                        }
                       },
                       style: ElevatedButton.styleFrom(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 24, vertical: 0),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 24, vertical: 0),
                         backgroundColor: Theme.of(context).primaryColor,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(24),
@@ -127,13 +137,13 @@ class _SignIn extends State<SignIn> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0, 8, 0, 0),
+                  padding: const EdgeInsetsDirectional.fromSTEB(0, 8, 0, 0),
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Padding(
-                        padding: EdgeInsets.all(16),
+                        padding: const EdgeInsets.all(16),
                         child: Text(
                           'OR',
                           style: Theme.of(context).textTheme.bodyLarge,
@@ -194,13 +204,10 @@ class _SignIn extends State<SignIn> {
                           text: 'Log In',
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
-                              // Add your sign-in logic here
                               GoRouter.of(context).go('/login');
-                              print('Login In tapped!');
                             },
                           style: const TextStyle(
-                            color: Colors
-                                .blue, // Change color to indicate it's clickable
+                            color: Colors.blue,
                           ),
                         ),
                       ],

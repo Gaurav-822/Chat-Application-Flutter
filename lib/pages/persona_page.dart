@@ -1,4 +1,5 @@
 import 'package:chat_app/Functions/profile_function.dart';
+import 'package:chat_app/signIn/auth/email_pass_auth.dart';
 import 'package:chat_app/sprites/proflie_pic.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -183,6 +184,11 @@ class _PersonaPageState extends State<PersonaPage> {
               ],
             ),
           ),
+          ElevatedButton(
+              onPressed: () {
+                signOut();
+              },
+              child: const Text("Log Out")),
           Divider(
             thickness: 1,
             indent: 16,

@@ -1,5 +1,6 @@
 import 'package:chat_app/Functions/firebase_message_api.dart';
 import 'package:chat_app/firebase_options.dart';
+import 'package:chat_app/pages/auth_page.dart';
 import 'package:chat_app/pages/chats_page.dart';
 import 'package:chat_app/pages/friends_page.dart';
 import 'package:chat_app/pages/persona_page.dart';
@@ -42,7 +43,7 @@ class SplashApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       darkTheme: ThemeData.dark(),
-      home: const MyApp(),
+      home: const AuthPage(),
       // Add the conditional check of is auth or not
       //  FlutterSplashScreen(
       //   duration: const Duration(milliseconds: 1800),
