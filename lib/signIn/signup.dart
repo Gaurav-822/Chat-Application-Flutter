@@ -1,4 +1,6 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({super.key});
@@ -24,23 +26,14 @@ class _SignIn extends State<SignIn> {
               mainAxisSize: MainAxisSize.max,
               children: [
                 Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(0, 8, 0, 8),
-                  child: ShaderMask(
-                    shaderCallback: (Rect bounds) {
-                      return const LinearGradient(
-                        colors: [Colors.red, Colors.yellowAccent],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ).createShader(bounds);
-                    },
-                    child: Text(
-                      'Sign In',
-                      style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                            // color: Colors.white, // Text color can be adjusted
-                            fontWeight: FontWeight
-                                .bold, // Example: Applying bold font weight
-                          ),
-                    ),
+                  padding: const EdgeInsetsDirectional.fromSTEB(0, 16, 0, 8),
+                  child: Text(
+                    'Sign In',
+                    style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                          // color: Colors.white, // Text color can be adjusted
+                          fontWeight: FontWeight
+                              .bold, // Example: Applying bold font weight
+                        ),
                   ),
                 ),
                 Padding(
@@ -56,54 +49,81 @@ class _SignIn extends State<SignIn> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(4),
+                  padding: const EdgeInsets.all(4),
                   child: TextFormField(
-                    // controller: _model.textController1,
-                    // focusNode: _model.textFieldFocusNode1,
-                    autofocus: false,
-                    obscureText: false,
-                    decoration: InputDecoration(
-                      labelText: 'Username:',
-                      labelStyle: Theme.of(context).textTheme.titleMedium,
-                      hintStyle: Theme.of(context).textTheme.titleMedium,
+                    obscureText: true,
+                    decoration: const InputDecoration(
+                      labelText: 'Username',
                       border: InputBorder.none,
                     ),
                     style: Theme.of(context).textTheme.bodyLarge,
-                    // validator: _model.textController1Validator.asValidator(context),
+                    validator: (value) {
+                      // Add your validation logic here
+                      return null;
+                    },
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(4),
+                  padding: const EdgeInsets.all(4),
                   child: TextFormField(
-                    // controller: _model.textController2,
-                    // focusNode: _model.textFieldFocusNode2,
-                    autofocus: false,
-                    obscureText: false,
-                    decoration: InputDecoration(
-                      labelText: 'Email:',
-                      labelStyle: Theme.of(context).textTheme.subtitle1,
-                      hintStyle: Theme.of(context).textTheme.subtitle1,
-                      border: InputBorder.none,
-                    ),
-                    style: Theme.of(context).textTheme.bodyText1,
-                    // validator: _model.textController2Validator.asValidator(context),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(4),
-                  child: TextFormField(
-                    // controller: _model.textController3,
-                    // focusNode: _model.textFieldFocusNode3,
-                    autofocus: false,
-                    obscureText: false,
-                    decoration: InputDecoration(
-                      labelText: 'Password:',
-                      labelStyle: Theme.of(context).textTheme.titleMedium,
-                      hintStyle: Theme.of(context).textTheme.titleMedium,
+                    obscureText: true,
+                    decoration: const InputDecoration(
+                      labelText: 'Email',
                       border: InputBorder.none,
                     ),
                     style: Theme.of(context).textTheme.bodyLarge,
-                    // validator: _model.textController3Validator.asValidator(context),
+                    validator: (value) {
+                      // Add your validation logic here
+                      return null;
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(4),
+                  child: TextFormField(
+                    obscureText: true,
+                    decoration: const InputDecoration(
+                      labelText: 'Password',
+                      border: InputBorder.none,
+                    ),
+                    style: Theme.of(context).textTheme.bodyLarge,
+                    validator: (value) {
+                      // Add your validation logic here
+                      return null;
+                    },
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Padding(
+                    padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        print('Button pressed ...');
+                      },
+                      style: ElevatedButton.styleFrom(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 24, vertical: 0),
+                        backgroundColor: Theme.of(context).primaryColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(24),
+                        ),
+                        elevation: 3,
+                        side: const BorderSide(
+                          color: Colors.transparent,
+                          width: 1,
+                        ),
+                      ),
+                      child: Text(
+                        'Login',
+                        style: TextStyle(
+                          fontFamily: 'Readex Pro',
+                          fontSize:
+                              Theme.of(context).textTheme.titleMedium!.fontSize,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
                 Padding(
@@ -116,7 +136,7 @@ class _SignIn extends State<SignIn> {
                         padding: EdgeInsets.all(16),
                         child: Text(
                           'OR',
-                          style: Theme.of(context).textTheme.bodyText1,
+                          style: Theme.of(context).textTheme.bodyLarge,
                         ),
                       ),
                       const SizedBox(
@@ -154,7 +174,7 @@ class _SignIn extends State<SignIn> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0, 24, 0, 0),
+                  padding: const EdgeInsetsDirectional.fromSTEB(0, 8, 0, 0),
                   child: RichText(
                     text: TextSpan(
                       children: [
@@ -172,8 +192,17 @@ class _SignIn extends State<SignIn> {
                         ),
                         TextSpan(
                           text: 'Log In',
-                          style: TextStyle(),
-                        )
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              // Add your sign-in logic here
+                              GoRouter.of(context).go('/login');
+                              print('Login In tapped!');
+                            },
+                          style: const TextStyle(
+                            color: Colors
+                                .blue, // Change color to indicate it's clickable
+                          ),
+                        ),
                       ],
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),

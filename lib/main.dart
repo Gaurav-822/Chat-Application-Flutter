@@ -4,6 +4,7 @@ import 'package:chat_app/pages/chats_page.dart';
 import 'package:chat_app/pages/friends_page.dart';
 import 'package:chat_app/pages/persona_page.dart';
 import 'package:chat_app/routes.dart';
+import 'package:chat_app/signIn/login.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -41,18 +42,20 @@ class SplashApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       darkTheme: ThemeData.dark(),
-      home: FlutterSplashScreen(
-        duration: const Duration(milliseconds: 1800),
-        nextScreen: const MyApp(),
-        backgroundColor: const Color(0xFFE0E0E0),
-        splashScreenBody: Center(
-          child: Lottie.asset(
-            "assets/splash_screen.json",
-            repeat: false,
-            frameRate: const FrameRate(144),
-          ),
-        ),
-      ),
+      home: const MyApp(),
+      // Add the conditional check of is auth or not
+      //  FlutterSplashScreen(
+      //   duration: const Duration(milliseconds: 1800),
+      //   nextScreen: const MyApp(),
+      //   backgroundColor: const Color(0xFFE0E0E0),
+      //   splashScreenBody: Center(
+      //     child: Lottie.asset(
+      //       "assets/splash_screen.json",
+      //       repeat: false,
+      //       frameRate: const FrameRate(144),
+      //     ),
+      //   ),
+      // ),
     );
   }
 }
