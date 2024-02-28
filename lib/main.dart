@@ -29,7 +29,7 @@ void main() async {
 
   await precacheLottie('assets/splash_screen.json');
 
-  runApp(const SplashApp());
+  runApp(const AuthPage());
 }
 
 Future<void> precacheLottie(String assetPath) async {
@@ -43,20 +43,20 @@ class SplashApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       darkTheme: ThemeData.dark(),
-      home: const AuthPage(),
-      // Add the conditional check of is auth or not
-      //  FlutterSplashScreen(
-      //   duration: const Duration(milliseconds: 1800),
-      //   nextScreen: const MyApp(),
-      //   backgroundColor: const Color(0xFFE0E0E0),
-      //   splashScreenBody: Center(
-      //     child: Lottie.asset(
-      //       "assets/splash_screen.json",
-      //       repeat: false,
-      //       frameRate: const FrameRate(144),
-      //     ),
-      //   ),
-      // ),
+      home:
+          // Add the conditional check of is auth or not
+          FlutterSplashScreen(
+        duration: const Duration(milliseconds: 1800),
+        nextScreen: const MyApp(),
+        backgroundColor: const Color(0xFFE0E0E0),
+        splashScreenBody: Center(
+          child: Lottie.asset(
+            "assets/splash_screen.json",
+            repeat: false,
+            frameRate: const FrameRate(144),
+          ),
+        ),
+      ),
     );
   }
 }

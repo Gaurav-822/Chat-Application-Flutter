@@ -8,19 +8,22 @@ class AuthPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: StreamBuilder<User?>(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (context, snapshot) {
-          // user logged in
-          if (snapshot.hasData) {
-            return const MyHomePage(title: "Titly");
-          }
-          // user not logged in
-          else {
-            return const LogIn();
-          }
-        },
+    return MaterialApp(
+      darkTheme: ThemeData.dark(),
+      home: Scaffold(
+        body: StreamBuilder<User?>(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: (context, snapshot) {
+            // user logged in
+            if (snapshot.hasData) {
+              return const SplashApp();
+            }
+            // user not logged in
+            else {
+              return const LogIn();
+            }
+          },
+        ),
       ),
     );
   }

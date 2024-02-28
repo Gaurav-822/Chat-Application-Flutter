@@ -1,4 +1,5 @@
 import 'package:chat_app/chats/conversation_page.dart';
+import 'package:chat_app/main.dart';
 import 'package:chat_app/signIn/login.dart';
 import 'package:chat_app/signIn/signup.dart';
 import 'package:flutter/material.dart';
@@ -6,12 +7,14 @@ import 'package:go_router/go_router.dart';
 
 routes() {
   final GoRouter _router = GoRouter(
-    initialLocation: '/login',
+    initialLocation: '/',
     routes: [
       GoRoute(
         name: 'home',
         path: '/',
-        builder: (context, state) => const LogIn(),
+        builder: (context, state) => const MyHomePage(
+          title: "Titly",
+        ),
         routes: <RouteBase>[
           GoRoute(
             path: 'chats/:name',
