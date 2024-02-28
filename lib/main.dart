@@ -43,9 +43,7 @@ class SplashApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       darkTheme: ThemeData.dark(),
-      home:
-          // Add the conditional check of is auth or not
-          FlutterSplashScreen(
+      home: FlutterSplashScreen(
         duration: const Duration(milliseconds: 1800),
         nextScreen: const MyApp(),
         backgroundColor: const Color(0xFFE0E0E0),

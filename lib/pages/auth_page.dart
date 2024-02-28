@@ -1,4 +1,5 @@
 import 'package:chat_app/main.dart';
+import 'package:chat_app/routes.dart';
 import 'package:chat_app/signIn/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,11 @@ class AuthPage extends StatelessWidget {
             }
             // user not logged in
             else {
-              return const LogIn();
+              return MaterialApp.router(
+                routerConfig: authRoutes(),
+                theme: ThemeData.light(),
+                darkTheme: ThemeData.dark(),
+              );
             }
           },
         ),
