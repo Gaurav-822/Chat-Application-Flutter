@@ -110,6 +110,8 @@ flutter:
     - assets/splash.jpg
     - assets/dummy_user.jpg
     - assets/splash_gif_file.gif
+    - assets/neon_butterfly.png
+    - assets/neon_butterfly_cocoon.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

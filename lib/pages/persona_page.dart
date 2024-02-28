@@ -170,6 +170,7 @@ class _PersonaPageState extends State<PersonaPage> {
                     IconButton(
                       onPressed: () {
                         _saveAdminName(_adminController.text);
+                        addUserNameAndFCMToken(_adminController.text);
                         updateApiToken(_adminController.text);
                         _adminController.clear();
                         FocusManager.instance.primaryFocus?.unfocus();
