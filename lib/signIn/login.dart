@@ -121,9 +121,14 @@ class _LogIn extends State<LogIn> {
                   alignment: const AlignmentDirectional(1, 0),
                   child: Padding(
                     padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 8, 0),
-                    child: Text(
-                      'Forget Password?',
-                      style: Theme.of(context).textTheme.bodyLarge,
+                    child: GestureDetector(
+                      onTap: () {
+                        resetPassword(emailController.text);
+                      },
+                      child: Text(
+                        'Forget Password?',
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
                     ),
                   ),
                 ),

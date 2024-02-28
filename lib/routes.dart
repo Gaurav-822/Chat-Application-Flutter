@@ -33,3 +33,14 @@ routes() {
   );
   return _router;
 }
+
+authRoutes() {
+  final GoRouter _router = GoRouter(
+    initialLocation: '/login',
+    routes: [
+      GoRoute(path: "/signin", builder: ((context, state) => const SignIn())),
+      GoRoute(path: "/login", builder: ((context, state) => const LogIn())),
+    ],
+  );
+  return _router;
+}
