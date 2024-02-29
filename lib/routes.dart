@@ -1,5 +1,6 @@
 import 'package:chat_app/chats/conversation_page.dart';
 import 'package:chat_app/main.dart';
+import 'package:chat_app/pages/profile_page.dart';
 import 'package:chat_app/signIn/login.dart';
 import 'package:chat_app/signIn/signup.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +26,10 @@ routes() {
               );
             },
           ),
+          GoRoute(
+            path: "profilePage",
+            builder: (context, state) => ProfilePage(),
+          )
         ],
       ),
       GoRoute(path: "/signin", builder: ((context, state) => const SignIn())),
