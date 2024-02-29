@@ -132,10 +132,12 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       ),
       endDrawer: const Drawer(
         elevation: 24,
-        child: Padding(
-          padding: EdgeInsets.fromLTRB(8, 50, 0, 8),
-          child: SingleChildScrollView(
-            child: PersonaPage(),
+        child: Center(
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
+            child: SingleChildScrollView(
+              child: PersonaPage(),
+            ),
           ),
         ),
       ),
