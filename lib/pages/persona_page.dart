@@ -123,7 +123,6 @@ class _PersonaPageState extends State<PersonaPage> {
                         return const LinearGradient(
                           colors: <Color>[
                             Color.fromARGB(255, 255, 145, 0),
-                            // Colors.yellowAccent,
                             Color.fromARGB(255, 174, 157, 0)
                           ],
                         ).createShader(bounds);
