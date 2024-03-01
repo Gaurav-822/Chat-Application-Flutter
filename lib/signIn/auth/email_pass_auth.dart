@@ -2,12 +2,14 @@ import 'package:chat_app/Functions/profile_function.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 createUser(String emailAddress, password) async {
+  showToastMessage("Sigining You In");
   try {
     final credential =
         await FirebaseAuth.instance.createUserWithEmailAndPassword(
       email: emailAddress,
       password: password,
     );
+    showToastMessage("Yay, welcome to Titly!");
   } on FirebaseAuthException catch (e) {
     if (e.code == 'weak-password') {
       showToastMessage('The password provided is too weak.');
@@ -20,6 +22,9 @@ createUser(String emailAddress, password) async {
 }
 
 signUserIn(String emailAddress, password) async {
+  if (emailAddress == "" || password == "") {
+    showToastMessage("Enter Credentials");
+  }
   try {
     final credential = await FirebaseAuth.instance
         .signInWithEmailAndPassword(email: emailAddress, password: password);
@@ -48,5 +53,6 @@ resetPassword(String emailAddress) async {
 }
 
 signOut() async {
+  showToastMessage("Logged Out");
   await FirebaseAuth.instance.signOut();
 }
