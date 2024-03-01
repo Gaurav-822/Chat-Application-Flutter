@@ -221,13 +221,13 @@ class _PersonaPageState extends State<PersonaPage> {
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           Icon(
-                            Icons.developer_mode,
+                            Icons.settings,
                             color: Colors.grey, // Change to your desired color
                             size: 24,
                           ),
                           SizedBox(width: 16),
                           Text(
-                            'Developer',
+                            'Settings',
                             style: TextStyle(
                               fontFamily: 'Readex Pro',
                               fontSize: 24,
