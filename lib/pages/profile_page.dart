@@ -357,23 +357,6 @@ class _ProfilePage extends State<ProfilePage> {
             ),
           ],
         ),
-        //   Visibility(
-        //     visible: isVisible,
-        //     child: GestureDetector(
-        //       onTap: () => toggleVisibility(),
-        //       child: Padding(
-        //         padding: EdgeInsets.all(24),
-        //         child: Align(
-        //           alignment: AlignmentDirectional(0, 1),
-        //           child: Icon(
-        //             Icons.done,
-        //             size: 48,
-        //           ),
-        //         ),
-        //       ),
-        //     ),
-        //   ),
-        // ],
       ),
     );
   }

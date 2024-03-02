@@ -54,42 +54,51 @@ class _ProfilePic extends State<ProfilePic> {
                 decoration: const BoxDecoration(
                   shape: BoxShape.circle,
                 ),
-                child: GestureDetector(
-                  onTap: () {
-                    if (widget.zoom) {
-                      showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return Dialog(
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(16),
-                                child: CachedNetworkImage(
-                                  imageUrl: imageUrl ?? '',
-                                  fit: BoxFit.cover,
-                                  placeholder: (context, url) =>
-                                      const CircularProgressIndicator(),
-                                  errorWidget: (context, url, error) =>
-                                      Image.asset(
-                                    "assets/dummy_user.jpg",
-                                    fit: BoxFit.cover,
+                child: (widget.zoom)
+                    ? GestureDetector(
+                        onTap: () {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return Dialog(
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(16),
+                                    child: CachedNetworkImage(
+                                      imageUrl: imageUrl ?? '',
+                                      fit: BoxFit.cover,
+                                      placeholder: (context, url) =>
+                                          const CircularProgressIndicator(),
+                                      errorWidget: (context, url, error) =>
+                                          Image.asset(
+                                        "assets/dummy_user.jpg",
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
-                            );
-                          });
-                    }
-                  },
-                  child: CachedNetworkImage(
-                    imageUrl: imageUrl ?? '',
-                    fit: BoxFit.cover,
-                    placeholder: (context, url) =>
-                        const CircularProgressIndicator(),
-                    errorWidget: (context, url, error) => Image.asset(
-                      "assets/dummy_user.jpg",
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
+                                );
+                              });
+                        },
+                        child: CachedNetworkImage(
+                          imageUrl: imageUrl ?? '',
+                          fit: BoxFit.cover,
+                          placeholder: (context, url) =>
+                              const CircularProgressIndicator(),
+                          errorWidget: (context, url, error) => Image.asset(
+                            "assets/dummy_user.jpg",
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      )
+                    : CachedNetworkImage(
+                        imageUrl: imageUrl ?? '',
+                        fit: BoxFit.cover,
+                        placeholder: (context, url) =>
+                            const CircularProgressIndicator(),
+                        errorWidget: (context, url, error) => Image.asset(
+                          "assets/dummy_user.jpg",
+                          fit: BoxFit.cover,
+                        ),
+                      ),
               ),
             ),
           );

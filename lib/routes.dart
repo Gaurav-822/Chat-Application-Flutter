@@ -1,5 +1,7 @@
 import 'package:chat_app/chats/conversation_page.dart';
 import 'package:chat_app/main.dart';
+import 'package:chat_app/pages/gallery/for_admin.dart';
+import 'package:chat_app/pages/gallery/for_love.dart';
 import 'package:chat_app/pages/profile_page.dart';
 import 'package:chat_app/signIn/login.dart';
 import 'package:chat_app/signIn/signup.dart';
@@ -29,7 +31,15 @@ routes() {
           GoRoute(
             path: "profilePage",
             builder: (context, state) => ProfilePage(),
-          )
+          ),
+          GoRoute(
+            path: "galleryForLove",
+            builder: (context, state) => GalleryForLoved(),
+          ),
+          GoRoute(
+            path: "galleryForAdmin",
+            builder: (context, state) => GalleryForAdmin(),
+          ),
         ],
       ),
       GoRoute(path: "/signin", builder: ((context, state) => const SignIn())),
