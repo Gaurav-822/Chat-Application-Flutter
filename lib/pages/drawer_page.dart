@@ -107,6 +107,7 @@ class _PersonaPageState extends State<PersonaPage> {
                 width: 100,
                 child: ProfilePic(
                   name: profileName,
+                  zoom: true,
                 ),
               ),
               // ProfilePic(name: profileName),

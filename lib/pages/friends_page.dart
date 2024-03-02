@@ -1,4 +1,5 @@
 import 'package:chat_app/Functions/profile_function.dart';
+import 'package:chat_app/sprites/proflie_pic.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -124,29 +125,25 @@ class _FriendsPageState extends State<FriendsPage> {
                   ),
                 ),
                 Container(
-                  width: 75,
-                  height: 75,
-                  clipBehavior: Clip.antiAlias,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                  ),
-                  child: Image.network(
-                    'https://picsum.photos/seed/115/600',
-                    fit: BoxFit.cover,
-                  ),
+                  width: 100,
+                  height: 100,
+                  // clipBehavior: Clip.antiAlias,
+                  // decoration: const BoxDecoration(
+                  //   shape: BoxShape.circle,
+                  // ),
+                  child: ProfilePic(name: "Gaurav", zoom: false),
                 ),
                 Container(
-                  width: 75,
-                  height: 75,
-                  clipBehavior: Clip.antiAlias,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                  ),
-                  child: Image.network(
-                    'https://picsum.photos/seed/906/600',
-                    fit: BoxFit.cover,
-                  ),
-                ),
+                    width: 100,
+                    height: 100,
+                    // clipBehavior: Clip.antiAlias,
+                    // decoration: const BoxDecoration(
+                    //   shape: BoxShape.circle,
+                    // ),
+                    child: ProfilePic(
+                      name: "Padmaja",
+                      zoom: false,
+                    )),
               ],
             ),
           ),
