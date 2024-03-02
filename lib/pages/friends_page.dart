@@ -1,7 +1,9 @@
 import 'package:chat_app/Functions/profile_function.dart';
+import 'package:chat_app/pages/gallery/for_love.dart';
 import 'package:chat_app/sprites/proflie_pic.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class FriendsPage extends StatefulWidget {
@@ -124,16 +126,21 @@ class _FriendsPageState extends State<FriendsPage> {
                     // color: Colors.black, // Use your preferred color
                   ),
                 ),
-                Container(
-                  width: 100,
-                  height: 100,
-                  // clipBehavior: Clip.antiAlias,
-                  // decoration: const BoxDecoration(
-                  //   shape: BoxShape.circle,
-                  // ),
-                  child: ProfilePic(name: "Gaurav", zoom: false),
+                GestureDetector(
+                  onTap: () => GoRouter.of(context).go("/galleryForAdmin"),
+                  child: const SizedBox(
+                    width: 100,
+                    height: 100,
+                    // clipBehavior: Clip.antiAlias,
+                    // decoration: const BoxDecoration(
+                    //   shape: BoxShape.circle,
+                    // ),
+                    child: ProfilePic(name: "Gaurav", zoom: false),
+                  ),
                 ),
-                Container(
+                GestureDetector(
+                  onTap: () => GoRouter.of(context).go("/galleryForLove"),
+                  child: const SizedBox(
                     width: 100,
                     height: 100,
                     // clipBehavior: Clip.antiAlias,
@@ -143,7 +150,9 @@ class _FriendsPageState extends State<FriendsPage> {
                     child: ProfilePic(
                       name: "Padmaja",
                       zoom: false,
-                    )),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
