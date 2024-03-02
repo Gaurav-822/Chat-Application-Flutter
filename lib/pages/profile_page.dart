@@ -163,7 +163,10 @@ class _ProfilePage extends State<ProfilePage> {
                                 ),
                                 child: CircularProgressIndicator(),
                               )
-                            : ProfilePic(name: profileName),
+                            : ProfilePic(
+                                name: profileName,
+                                zoom: true,
+                              ),
                       ),
                       Visibility(
                         visible: isVisible,

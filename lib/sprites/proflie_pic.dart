@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 
 class ProfilePic extends StatefulWidget {
   final String name;
-  const ProfilePic({super.key, required this.name});
+  final bool zoom;
+  const ProfilePic({super.key, required this.name, required this.zoom});
 
   @override
   State<StatefulWidget> createState() {
@@ -55,26 +56,28 @@ class _ProfilePic extends State<ProfilePic> {
                 ),
                 child: GestureDetector(
                   onTap: () {
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return Dialog(
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(16),
-                              child: CachedNetworkImage(
-                                imageUrl: imageUrl ?? '',
-                                fit: BoxFit.cover,
-                                placeholder: (context, url) =>
-                                    const CircularProgressIndicator(),
-                                errorWidget: (context, url, error) =>
-                                    Image.asset(
-                                  "assets/dummy_user.jpg",
+                    if (widget.zoom) {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return Dialog(
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(16),
+                                child: CachedNetworkImage(
+                                  imageUrl: imageUrl ?? '',
                                   fit: BoxFit.cover,
+                                  placeholder: (context, url) =>
+                                      const CircularProgressIndicator(),
+                                  errorWidget: (context, url, error) =>
+                                      Image.asset(
+                                    "assets/dummy_user.jpg",
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                               ),
-                            ),
-                          );
-                        });
+                            );
+                          });
+                    }
                   },
                   child: CachedNetworkImage(
                     imageUrl: imageUrl ?? '',
