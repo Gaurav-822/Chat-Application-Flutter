@@ -206,13 +206,16 @@ class _ProfilePage extends State<ProfilePage> {
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  profileName,
-                  style: TextStyle(
-                    fontFamily: 'Montserrat',
-                    fontSize: 64,
+                Expanded(
+                  child: Text(
+                    profileName,
+                    style: TextStyle(
+                      fontFamily: 'Montserrat',
+                      fontSize: 64,
+                    ),
+                    textAlign: TextAlign.center,
+                    maxLines: null, // Allow the text to take up more lines
                   ),
-                  textAlign: TextAlign.center,
                 ),
                 Padding(
                   padding: EdgeInsets.all(8),
