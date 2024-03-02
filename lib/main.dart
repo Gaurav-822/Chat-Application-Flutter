@@ -3,9 +3,8 @@ import 'package:chat_app/firebase_options.dart';
 import 'package:chat_app/pages/auth_page.dart';
 import 'package:chat_app/pages/chats_page.dart';
 import 'package:chat_app/pages/friends_page.dart';
-import 'package:chat_app/pages/persona_page.dart';
+import 'package:chat_app/pages/drawer_page.dart';
 import 'package:chat_app/routes.dart';
-import 'package:chat_app/signIn/login.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -98,6 +97,13 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   late TabController _tabController;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    setState(() {});
+  }
+
   @override
   void initState() {
     super.initState();

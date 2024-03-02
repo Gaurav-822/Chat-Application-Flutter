@@ -1,3 +1,4 @@
+import 'package:chat_app/Functions/profile_function.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -65,8 +66,16 @@ class _FriendsPageState extends State<FriendsPage> {
     if (scanResult == null || scanResult == '-1' || !mounted) {
       // Return early if scanResult is null, empty, or widget is not mounted
       // Or if scanResult is '-1' indicating that scanning operation was canceled
+      showToastMessage("Scan not successful, Retry");
       return;
     }
+
+    if (!scanResult.startsWith("Titly/")) {
+      showToastMessage("Not a Titly Tag");
+      return;
+    }
+
+    scanResult = scanResult.split("/")[1];
 
     setState(() {
       addItemToList(scanResult!);

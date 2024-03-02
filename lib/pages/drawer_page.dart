@@ -31,6 +31,10 @@ class _PersonaPageState extends State<PersonaPage> {
     _loadProfileName();
   }
 
+  void closeEndDrawer(BuildContext context) {
+    Navigator.of(context).pop();
+  }
+
   _loadProfileName() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? admin = prefs.getString("admin");
@@ -159,6 +163,7 @@ class _PersonaPageState extends State<PersonaPage> {
                     padding: EdgeInsets.all(8),
                     child: GestureDetector(
                       onTap: () {
+                        closeEndDrawer(context);
                         GoRouter.of(context).go('/profilePage');
                       },
                       child: Row(
@@ -239,9 +244,22 @@ class _PersonaPageState extends State<PersonaPage> {
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: 16,
+                Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: Column(
+                    children: [
+                      QrImageView(
+                        data: "Titly/$profileName",
+                        version: QrVersions.auto,
+                        size: 175.0,
+                      ),
+                      const Text("Scan to add as a Friend"),
+                    ],
+                  ),
                 ),
+                // SizedBox(
+                //   height: 16,
+                // ),
                 Align(
                   alignment: AlignmentDirectional(1, 0),
                   child: Padding(
@@ -415,21 +433,21 @@ class _PersonaPageState extends State<PersonaPage> {
     //           endIndent: 16,
     //           color: Colors.black.withOpacity(0.08), // Adjust opacity as needed
     //         ),
-    //         Padding(
-    //           padding: const EdgeInsets.all(8),
-    //           child: Column(
-    //             children: [
-    //               const Text("Scan to add as a Friend"),
-    //               QrImageView(
-    //                 data: profileName,
-    //                 version: QrVersions.auto,
-    //                 size: 200.0,
-    //               ),
-    //             ],
-    //           ),
+    //       Padding(
+    //         padding: const EdgeInsets.all(8),
+    //         child: Column(
+    //           children: [
+    //             const Text("Scan to add as a Friend"),
+    //             QrImageView(
+    //               data: profileName,
+    //               version: QrVersions.auto,
+    //               size: 200.0,
+    //             ),
+    //           ],
     //         ),
-    //       ],
-    //     ),
-    //   );
+    //       ),
+    //     ],
+    //   ),
+    // );
   }
 }
