@@ -115,6 +115,9 @@ class _ProfilePage extends State<ProfilePage> {
                     onTap: () {
                       _profileNameController.text = profileName;
                       toggleVisibility();
+                      (isVisible)
+                          ? showToastMessage("Edit")
+                          : showToastMessage("Done");
                     },
                     child: Padding(
                       padding: EdgeInsets.all(8),
@@ -148,41 +151,32 @@ class _ProfilePage extends State<ProfilePage> {
                       ],
                     ),
                   ),
-                  Stack(
-                    alignment: AlignmentDirectional.center,
-                    children: [
-                      Align(
-                        alignment: Alignment.center,
-                        child: _isLoading
-                            ? Container(
-                                width: 120,
-                                height: 120,
-                                clipBehavior: Clip.antiAlias,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
+                  Align(
+                    alignment: Alignment.center,
+                    child: _isLoading
+                        ? Container(
+                            width: 120,
+                            height: 120,
+                            clipBehavior: Clip.antiAlias,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                            ),
+                            child: CircularProgressIndicator(),
+                          )
+                        : (isVisible)
+                            ? GestureDetector(
+                                onTap: () {
+                                  _showOptionsBottomSheet();
+                                },
+                                child: ProfilePic(
+                                  name: profileName,
+                                  zoom: false,
                                 ),
-                                child: CircularProgressIndicator(),
                               )
                             : ProfilePic(
                                 name: profileName,
                                 zoom: true,
                               ),
-                      ),
-                      Visibility(
-                        visible: isVisible,
-                        child: GestureDetector(
-                          onTap: () {
-                            _showOptionsBottomSheet();
-                          },
-                          child: Center(
-                            child: Icon(
-                              Icons.edit,
-                              size: 64,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
                   ),
                   Expanded(
                     child: Column(
@@ -202,89 +196,81 @@ class _ProfilePage extends State<ProfilePage> {
                 ],
               ),
             ),
-            Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Expanded(
-                  child: Text(
+            // Expanded(
+            (isVisible)
+                ? GestureDetector(
+                    onTap: () {
+                      showModalBottomSheet(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return Container(
+                            padding: EdgeInsets.all(16.0),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Row(
+                                  children: [
+                                    Icon(Icons.edit),
+                                    SizedBox(width: 8.0),
+                                    Text(
+                                      "Name",
+                                      style: TextStyle(
+                                        fontSize: 18.0,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 16.0),
+                                TextFormField(
+                                  controller: _profileNameController,
+                                  decoration: InputDecoration(
+                                    labelText: "Enter your information",
+                                    border: OutlineInputBorder(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(24)),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: 8.0),
+                                Align(
+                                  alignment: Alignment.centerRight,
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      // Add your onPressed logic here
+                                      _saveAdminName(
+                                          _profileNameController.text);
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text("Change"),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      );
+                    },
+                    child: Text(
+                      profileName,
+                      style: TextStyle(
+                        fontFamily: 'Montserrat',
+                        fontSize: 64,
+                      ),
+                      textAlign: TextAlign.center,
+                      maxLines: null, // Allow the text to take up more lines
+                    ),
+                  )
+                : Text(
                     profileName,
                     style: TextStyle(
                       fontFamily: 'Montserrat',
                       fontSize: 64,
                     ),
                     textAlign: TextAlign.center,
-                    maxLines: null, // Allow the text to take up more lines
+                    maxLines: null,
                   ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(8),
-                  child: Visibility(
-                    visible: isVisible,
-                    child: GestureDetector(
-                      onTap: () {
-                        showModalBottomSheet(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return Container(
-                              padding: EdgeInsets.all(16.0),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Icon(Icons.edit),
-                                      SizedBox(width: 8.0),
-                                      Text(
-                                        "Name",
-                                        style: TextStyle(
-                                          fontSize: 18.0,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(height: 16.0),
-                                  TextFormField(
-                                    controller: _profileNameController,
-                                    decoration: InputDecoration(
-                                      labelText: "Enter your information",
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(24)),
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(height: 8.0),
-                                  Align(
-                                    alignment: Alignment.centerRight,
-                                    child: ElevatedButton(
-                                      onPressed: () {
-                                        // Add your onPressed logic here
-                                        _saveAdminName(
-                                            _profileNameController.text);
-                                        Navigator.pop(context);
-                                      },
-                                      child: const Text("Change"),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
-                        );
-
-                        // _saveAdminName(_profileNameController.text);
-                      },
-                      child: Icon(
-                        Icons.edit,
-                        size: 24,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+            // ),
             Text(
               'soulgaurav08@gmail.com',
               style: Theme.of(context).textTheme.bodyLarge,
