@@ -20,6 +20,7 @@ class _ChatsState extends State<Chats> {
     _saveChatName("Gaurav");
     _saveChatName("Padmaja");
     _saveChatName("Papu");
+    _saveChatName("Anu Shaitan");
     _saveChatName("Mummy");
   }
 
