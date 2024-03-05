@@ -1,5 +1,6 @@
 import 'package:chat_app/chats/conversation_page.dart';
 import 'package:chat_app/main.dart';
+import 'package:chat_app/pages/about_page.dart';
 import 'package:chat_app/pages/gallery/for_admin.dart';
 import 'package:chat_app/pages/gallery/for_love.dart';
 import 'package:chat_app/pages/profile_page.dart';
@@ -31,6 +32,10 @@ routes() {
           GoRoute(
             path: "profilePage",
             builder: (context, state) => ProfilePage(),
+          ),
+          GoRoute(
+            path: "aboutPage",
+            builder: (context, state) => AboutPage(),
           ),
           GoRoute(
             path: "galleryForLove",
