@@ -15,3 +15,5 @@ saveAdminName(String adminName) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   prefs.setString("admin", adminName);
 }
+
+//streak
