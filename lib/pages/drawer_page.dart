@@ -1,4 +1,5 @@
 import 'package:chat_app/Functions/profile_function.dart';
+import 'package:chat_app/Functions/scanner.dart';
 import 'package:chat_app/pages/about_page.dart';
 import 'package:chat_app/pages/profile_page.dart';
 import 'package:chat_app/signIn/auth/email_pass_auth.dart';
@@ -223,7 +224,9 @@ class _PersonaPageState extends State<PersonaPage> {
                   child: Padding(
                     padding: EdgeInsets.all(8),
                     child: GestureDetector(
-                      // onTap: () => Developer(),
+                      onTap: () {
+                        scanQRCode();
+                      },
                       child: Row(
                         mainAxisSize: MainAxisSize.max,
                         children: [

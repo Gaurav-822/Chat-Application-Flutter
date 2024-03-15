@@ -1,8 +1,6 @@
-import 'package:chat_app/Functions/profile_function.dart';
-import 'package:chat_app/pages/gallery/for_love.dart';
+import 'package:chat_app/Functions/scanner.dart';
 import 'package:chat_app/sprites/proflie_pic.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -56,29 +54,7 @@ class _FriendsPageState extends State<FriendsPage> {
   }
 
   Future<void> _scanQRCode() async {
-    String? scanResult;
-
-    try {
-      scanResult = await FlutterBarcodeScanner.scanBarcode(
-          "#ff6666", "Cancel", true, ScanMode.DEFAULT);
-      // Add the checks for adding friends
-    } catch (e) {
-      scanResult = null;
-    }
-
-    if (scanResult == null || scanResult == '-1' || !mounted) {
-      // Return early if scanResult is null, empty, or widget is not mounted
-      // Or if scanResult is '-1' indicating that scanning operation was canceled
-      showToastMessage("Scan not successful, Retry");
-      return;
-    }
-
-    if (!scanResult.startsWith("Titly/")) {
-      showToastMessage("Not a Titly Tag");
-      return;
-    }
-
-    scanResult = scanResult.split("/")[1];
+    String? scanResult = await scanQRCode() as String?;
 
     setState(() {
       addItemToList(scanResult!);
