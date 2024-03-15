@@ -228,13 +228,13 @@ class _PersonaPageState extends State<PersonaPage> {
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           Icon(
-                            Icons.settings,
+                            Icons.qr_code,
                             color: Colors.grey, // Change to your desired color
                             size: 24,
                           ),
                           SizedBox(width: 16),
                           Text(
-                            'Settings',
+                            'Add Friend',
                             style: TextStyle(
                               fontFamily: 'Readex Pro',
                               fontSize: 24,
