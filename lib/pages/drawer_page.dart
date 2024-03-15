@@ -1,3 +1,4 @@
+import 'package:chat_app/Functions/image_functions.dart';
 import 'package:chat_app/Functions/profile_function.dart';
 import 'package:chat_app/Functions/scanner.dart';
 import 'package:chat_app/pages/about_page.dart';
