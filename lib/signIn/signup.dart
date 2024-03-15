@@ -1,4 +1,5 @@
 import 'package:chat_app/Functions/profile_function.dart';
+import 'package:chat_app/Functions/toasts.dart';
 import 'package:chat_app/signIn/auth/email_pass_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
