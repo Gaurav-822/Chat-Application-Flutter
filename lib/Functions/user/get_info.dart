@@ -1,4 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+String? getAdminUuid() {
+  User? user = FirebaseAuth.instance.currentUser;
+  String? uuid;
+  if (user != null) {
+    uuid = user.uid;
+  } else {
+    return null;
+  }
+  return uuid;
+}
 
 Future<String?> getUserImageUrl(String uuid) async {
   try {
