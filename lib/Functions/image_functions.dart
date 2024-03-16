@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:chat_app/Functions/profile_function.dart';
 import 'package:chat_app/Functions/toasts.dart';
+import 'package:chat_app/Functions/user/user.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -27,6 +28,10 @@ Future<void> pickAndUploadImage(profileName, bool gallery) async {
         await imageRef.putFile(croppedFile);
         imageUrl = await imageRef.getDownloadURL();
 
+        // new schema
+        userUpdateProfileImageURL(imageUrl);
+
+        //old schema
         return addUser(profileName, imageUrl);
       }
     }

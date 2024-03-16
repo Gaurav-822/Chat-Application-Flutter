@@ -11,7 +11,7 @@ createUser(String emailAddress, password) async {
       password: password,
     );
     // adding the user in our database
-    UserAdd();
+    userAdd();
     // update the local list of friends
     setFriendsLocally();
     showToastMessage("Yay, welcome to Titly!");

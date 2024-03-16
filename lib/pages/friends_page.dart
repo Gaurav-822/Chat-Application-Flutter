@@ -1,4 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chat_app/Functions/scanner.dart';
+import 'package:chat_app/Functions/toasts.dart';
+import 'package:chat_app/Functions/user/get_info.dart';
 import 'package:chat_app/sprites/proflie_pic.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -236,24 +239,40 @@ class _FriendsPageState extends State<FriendsPage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              text,
-                              style: const TextStyle(
-                                fontSize: 24,
-                              ),
-                            ),
+                            FutureBuilder(
+                                future: getUserName(text),
+                                builder: ((context, snapshot) {
+                                  String name = snapshot.data ?? '';
+                                  return Text(
+                                    name,
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                    ),
+                                  );
+                                })),
                             Container(
-                              width: 50,
-                              height: 50,
-                              clipBehavior: Clip.antiAlias,
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                              ),
-                              child: Image.network(
-                                'https://picsum.photos/seed/427/600',
-                                fit: BoxFit.cover,
-                              ),
-                            ),
+                                width: 50,
+                                height: 50,
+                                clipBehavior: Clip.antiAlias,
+                                decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                ),
+                                child: FutureBuilder(
+                                    future: getUserImageUrl(text),
+                                    builder: (context, snapshot) {
+                                      String imageURL = snapshot.data ?? '';
+                                      return CachedNetworkImage(
+                                        imageUrl: imageURL,
+                                        fit: BoxFit.cover,
+                                        placeholder: (context, url) =>
+                                            const CircularProgressIndicator(),
+                                        errorWidget: (context, url, error) =>
+                                            Image.asset(
+                                          "assets/dummy_user.jpg",
+                                          fit: BoxFit.cover,
+                                        ),
+                                      );
+                                    })),
                           ],
                         ),
                         const SizedBox(height: 8),
@@ -296,12 +315,42 @@ class _FriendsPageState extends State<FriendsPage> {
           children: [
             Padding(
               padding: const EdgeInsets.all(16),
-              child: Text(
-                text,
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontFamily: 'Readex Pro',
-                      fontSize: 16,
-                    ),
+              child: FutureBuilder(
+                future: getUserName(text),
+                builder: ((context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    // Show a loading screen while the data is being fetched
+                    return Row(
+                      children: [
+                        CircularProgressIndicator(),
+                        SizedBox(
+                          width: 4,
+                        ),
+                        Text(
+                          text,
+                          style:
+                              Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                    fontFamily: 'Readex Pro',
+                                    fontSize: 14,
+                                  ),
+                        ),
+                      ],
+                    );
+                    // );
+                  } else if (snapshot.hasError) {
+                    // Show an error message if there's an error
+                    return Text('Error: ${snapshot.error}');
+                  } else {
+                    String name = snapshot.data ?? '';
+                    return Text(
+                      name,
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            fontFamily: 'Readex Pro',
+                            fontSize: 16,
+                          ),
+                    );
+                  }
+                }),
               ),
             ),
             const Icon(
