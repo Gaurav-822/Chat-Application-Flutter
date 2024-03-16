@@ -1,7 +1,5 @@
 import 'package:chat_app/Functions/image_functions.dart';
-import 'package:chat_app/Functions/profile_function.dart';
 import 'package:chat_app/Functions/toasts.dart';
-import 'package:chat_app/Functions/user.dart';
 import 'package:chat_app/sprites/proflie_pic.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';

@@ -1,5 +1,6 @@
+import 'package:chat_app/Functions/user/friends.dart';
 import 'package:chat_app/Functions/toasts.dart';
-import 'package:chat_app/Functions/user.dart';
+import 'package:chat_app/Functions/user/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 createUser(String emailAddress, password) async {
@@ -11,6 +12,8 @@ createUser(String emailAddress, password) async {
     );
     // adding the user in our database
     UserAdd();
+    // update the local list of friends
+    setFriendsLocally();
     showToastMessage("Yay, welcome to Titly!");
   } on FirebaseAuthException catch (e) {
     if (e.code == 'weak-password') {
@@ -30,6 +33,7 @@ signUserIn(String emailAddress, password) async {
   try {
     await FirebaseAuth.instance
         .signInWithEmailAndPassword(email: emailAddress, password: password);
+    setFriendsLocally();
   } on FirebaseAuthException catch (e) {
     if (e.code == 'user-not-found') {
       showToastMessage('No user found for that email.');
