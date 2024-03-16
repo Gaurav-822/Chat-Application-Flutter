@@ -1,4 +1,4 @@
-import 'package:chat_app/Functions/profile_function.dart';
+import 'package:chat_app/Functions/user/friends.dart';
 import 'package:chat_app/Functions/toasts.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -30,6 +30,7 @@ Future scanQRCode() async {
 
   scanResult = scanResult.split("/")[1];
   // add this data to the cloud
+  addFriend(scanResult);
 
   updateFriendsDataToList(scanResult);
   showToastMessage("$scanResult is now a friend");
