@@ -1,5 +1,6 @@
 import 'package:chat_app/Functions/image_functions.dart';
 import 'package:chat_app/Functions/scanner.dart';
+import 'package:chat_app/Functions/user/get_info.dart';
 import 'package:chat_app/signIn/auth/email_pass_auth.dart';
 import 'package:chat_app/sprites/proflie_pic.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -252,7 +253,7 @@ class _PersonaPageState extends State<PersonaPage> {
                   child: Column(
                     children: [
                       QrImageView(
-                        data: "Titly/$profileName",
+                        data: "Titly/${getAdminUuid()}",
                         version: QrVersions.auto,
                         size: 175.0,
                       ),
