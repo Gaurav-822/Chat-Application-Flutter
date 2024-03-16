@@ -1,15 +1,16 @@
-import 'package:chat_app/Functions/profile_function.dart';
 import 'package:chat_app/Functions/toasts.dart';
+import 'package:chat_app/Functions/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 createUser(String emailAddress, password) async {
   showToastMessage("Sigining You In");
   try {
-    final credential =
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+    await FirebaseAuth.instance.createUserWithEmailAndPassword(
       email: emailAddress,
       password: password,
     );
+    // adding the user in our database
+    UserAdd();
     showToastMessage("Yay, welcome to Titly!");
   } on FirebaseAuthException catch (e) {
     if (e.code == 'weak-password') {
@@ -27,7 +28,7 @@ signUserIn(String emailAddress, password) async {
     showToastMessage("Enter Credentials");
   }
   try {
-    final credential = await FirebaseAuth.instance
+    await FirebaseAuth.instance
         .signInWithEmailAndPassword(email: emailAddress, password: password);
   } on FirebaseAuthException catch (e) {
     if (e.code == 'user-not-found') {
