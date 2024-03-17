@@ -1,6 +1,7 @@
 import 'package:chat_app/chats/chat_row.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Chats extends StatefulWidget {
@@ -16,12 +17,12 @@ class _ChatsState extends State<Chats> {
   @override
   void initState() {
     super.initState();
-    _loadChatNames();
-    _saveChatName("Gaurav");
-    _saveChatName("Padmaja");
-    _saveChatName("Papu");
-    _saveChatName("Anu Shaitan");
-    _saveChatName("Mummy");
+    // _loadChatNames();
+    // _saveChatName("Gaurav");
+    // _saveChatName("Padmaja");
+    // _saveChatName("Papu");
+    // _saveChatName("Anu Shaitan");
+    // _saveChatName("Mummy");
   }
 
   Future<void> _loadChatNames() async {
@@ -45,19 +46,44 @@ class _ChatsState extends State<Chats> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      padding: EdgeInsets.zero,
-      scrollDirection: Axis.vertical,
-      itemCount: chatNames.length,
-      itemBuilder: (BuildContext context, int index) {
-        final String name = chatNames[index];
-        return ChatRow(
-          name: name,
-          onTap: () {
-            GoRouter.of(context).go('/chats/$name');
-          },
-        );
-      },
-    );
+    return (chatNames.length == 0)
+        ? Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Lottie.asset(
+                "assets/lotties/send_messages_lottie.json",
+                repeat: true,
+                frameRate: const FrameRate(144),
+              ),
+              // Text(
+              //   "Start Connecting ❦",
+              //   style: TextStyle(fontSize: 20, fontWeight: FontWeight.w300),
+              // ),
+              GestureDetector(
+                onTap: () {
+                  // Change Tab
+                },
+                child: const Icon(
+                  Icons.chevron_right_rounded,
+                  size: 50,
+                ),
+              ),
+            ],
+          )
+        : ListView.builder(
+            padding: EdgeInsets.zero,
+            scrollDirection: Axis.vertical,
+            itemCount: chatNames.length,
+            itemBuilder: (BuildContext context, int index) {
+              final String name = chatNames[index];
+              return ChatRow(
+                name: name,
+                onTap: () {
+                  GoRouter.of(context).go('/chats/$name');
+                },
+              );
+            },
+          );
   }
 }
