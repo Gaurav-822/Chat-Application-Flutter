@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:chat_app/Functions/toasts.dart';
 import 'package:chat_app/Functions/user/get_info.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -53,34 +55,76 @@ void addFriend(String friendUuid) async {
   }
 }
 
-Future<void> setFriendsLocally() async {
+void setFriendsLocally() async {
   User? user = FirebaseAuth.instance.currentUser;
-  List<String> friendList = [];
+  String? uuid;
+  List<List<String>> friendsList = [];
 
   if (user != null) {
-    String uuid = user.uid;
+    uuid = user.uid;
+  } else {
+    showToastMessage("No user is currently authenticated.");
+    return null;
+  }
 
-    DocumentSnapshot<Map<String, dynamic>> relationsSnapshot =
-        await FirebaseFirestore.instance
-            .collection('users')
-            .doc("profiles")
-            .collection(uuid)
-            .doc("relations")
-            .get();
+  try {
+    DocumentSnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
+        .instance
+        .collection('users')
+        .doc("profiles")
+        .collection(uuid)
+        .doc("relations")
+        .get();
 
-    if (relationsSnapshot.exists) {
-      // If the "relations" document exists, fetch the friends
-      Map<String, dynamic>? friendsData = relationsSnapshot.data()?['friends'];
+    if (snapshot.exists) {
+      Map<String, dynamic>? friendsData = snapshot.data()?['friends'];
+
       if (friendsData != null) {
-        friendList = friendsData.keys.toList();
+        friendsData.forEach((key, value) {
+          friendsList.add([
+            value['name'],
+            value['uuid'],
+          ]);
+        });
       }
     }
 
-    // Update local preferences
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setStringList('friends', friendList);
-  } else {
-    // Handle the case where there's no authenticated user
-    print("No user is currently authenticated.");
+    saveNestedData(friendsList);
+    // return friendsList;
+  } catch (error) {
+    showToastMessage("Failed to fetch friends: $error");
+    throw ("Failed to fetch friends: $error");
   }
+}
+
+// methods to save and retrieve nested list data
+void saveNestedData(List<List<String>> nestedList) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  List<String> nestedJsonList =
+      nestedList.map((list) => json.encode(list)).toList();
+  await prefs.setStringList('nestedList', nestedJsonList);
+}
+
+Future<List<List<String>>> getNestedData() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  List<String>? nestedJsonList = prefs.getStringList('nestedList');
+  if (nestedJsonList != null) {
+    List<List<String>> nestedList = nestedJsonList
+        .map((jsonString) => List<String>.from(json.decode(jsonString)))
+        .toList();
+    return nestedList;
+  } else {
+    return [];
+  }
+}
+
+Future<void> addElementToNestedList(List<String> element) async {
+  // Retrieve the existing nested list from SharedPreferences
+  List<List<String>> nestedList = await getNestedData();
+
+  // Append the new element to the nested list
+  nestedList.add(element);
+
+  // Save the updated nested list back to SharedPreferences
+  saveNestedData(nestedList);
 }
