@@ -114,6 +114,7 @@ flutter:
     - assets/neon_butterfly.png
     - assets/neon_butterfly_cocoon.png
     - assets/about_love.png
+    - assets/lotties/send_messages_lottie.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
