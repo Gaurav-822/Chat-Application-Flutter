@@ -1,11 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chat_app/Functions/scanner.dart';
-import 'package:chat_app/Functions/toasts.dart';
+import 'package:chat_app/Functions/user/friends.dart';
 import 'package:chat_app/Functions/user/get_info.dart';
 import 'package:chat_app/sprites/proflie_pic.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 class FriendsPage extends StatefulWidget {
   const FriendsPage({super.key});
@@ -15,52 +15,46 @@ class FriendsPage extends StatefulWidget {
 }
 
 class _FriendsPageState extends State<FriendsPage> {
-  List<String> friends = [];
   TextEditingController searchController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
   final FocusNode _searchFocusNode = FocusNode();
-  List<String> filteredFriends = [];
+  List<List<String>> filteredFriends = [];
+
+  List<List<String>> nestedList = [];
 
   @override
   void initState() {
     super.initState();
 
-    loadFriendsDataToList();
+    getNestedList();
   }
 
-  void addItemToList(String newItem) {
+  void getNestedList() async {
+    nestedList = await getNestedData();
     setState(() {
-      friends.add(newItem);
-      updateFriendsDataToList();
+      filteredFriends = nestedList;
     });
-  }
-
-  loadFriendsDataToList() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      friends = prefs.getStringList('friends') ?? [];
-      filteredFriends = friends;
-    });
-  }
-
-  updateFriendsDataToList() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setStringList('friends', friends);
   }
 
   void filterFriendsList(String query) {
     setState(() {
-      filteredFriends = friends
-          .where((friend) => friend.toLowerCase().contains(query.toLowerCase()))
+      filteredFriends = nestedList
+          .where(
+              (friend) => friend[0].toLowerCase().contains(query.toLowerCase()))
           .toList();
     });
   }
 
   Future<void> _scanQRCode() async {
-    String? scanResult = await scanQRCode() as String?;
+    String? scanResult = await scanQRCode();
+    String? name = await getUserName(scanResult!);
 
     setState(() {
-      addItemToList(scanResult!);
+      filteredFriends.add([name!, scanResult]);
+    });
+
+    setState(() async {
+      await addElementToNestedList([name!, scanResult]);
     });
   }
 
@@ -210,8 +204,11 @@ class _FriendsPageState extends State<FriendsPage> {
                 scrollDirection: Axis.vertical,
                 itemCount: filteredFriends.length, // Use filteredFriends.length
                 itemBuilder: (context, index) {
-                  return _buildRow(context,
-                      filteredFriends[index]); // Use filteredFriends[index]
+                  return _buildRow(
+                      context,
+                      filteredFriends[index][0],
+                      filteredFriends[index][1],
+                      filteredFriends.length); // Use filteredFriends[index]
                 },
               ),
             ),
@@ -221,7 +218,8 @@ class _FriendsPageState extends State<FriendsPage> {
     );
   }
 
-  Widget _buildRow(BuildContext context, String text) {
+  Widget _buildRow(
+      BuildContext context, String name, String uuid, int totalFriends) {
     return GestureDetector(
       onLongPress: () {
         showDialog(
@@ -239,17 +237,12 @@ class _FriendsPageState extends State<FriendsPage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            FutureBuilder(
-                                future: getUserName(text),
-                                builder: ((context, snapshot) {
-                                  String name = snapshot.data ?? '';
-                                  return Text(
-                                    name,
-                                    style: const TextStyle(
-                                      fontSize: 16,
-                                    ),
-                                  );
-                                })),
+                            Text(
+                              name,
+                              style: const TextStyle(
+                                fontSize: 36,
+                              ),
+                            ),
                             Container(
                                 width: 50,
                                 height: 50,
@@ -258,7 +251,8 @@ class _FriendsPageState extends State<FriendsPage> {
                                   shape: BoxShape.circle,
                                 ),
                                 child: FutureBuilder(
-                                    future: getUserImageUrl(text),
+                                    // correct this
+                                    future: getUserImageUrl(uuid),
                                     builder: (context, snapshot) {
                                       String imageURL = snapshot.data ?? '';
                                       return CachedNetworkImage(
@@ -276,21 +270,17 @@ class _FriendsPageState extends State<FriendsPage> {
                           ],
                         ),
                         const SizedBox(height: 8),
-                        const Align(
-                          alignment: AlignmentDirectional(-1, 0),
+                        Align(
+                          alignment: const AlignmentDirectional(-1, 0),
                           child: Text(
-                            'Friends: 69',
+                            'Friends: $totalFriends',
                           ),
                         ),
-                        const SizedBox(height: 8),
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(8),
-                          child: Image.asset(
-                            'assets/icon.jpg',
-                            width: 200,
-                            height: 200,
-                            fit: BoxFit.contain,
-                          ),
+                        const SizedBox(height: 24),
+                        QrImageView(
+                          data: "Titly/$uuid",
+                          version: QrVersions.auto,
+                          size: 175.0,
                         ),
                       ],
                     ),
@@ -315,42 +305,12 @@ class _FriendsPageState extends State<FriendsPage> {
           children: [
             Padding(
               padding: const EdgeInsets.all(16),
-              child: FutureBuilder(
-                future: getUserName(text),
-                builder: ((context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    // Show a loading screen while the data is being fetched
-                    return Row(
-                      children: [
-                        CircularProgressIndicator(),
-                        SizedBox(
-                          width: 4,
-                        ),
-                        Text(
-                          text,
-                          style:
-                              Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                    fontFamily: 'Readex Pro',
-                                    fontSize: 14,
-                                  ),
-                        ),
-                      ],
-                    );
-                    // );
-                  } else if (snapshot.hasError) {
-                    // Show an error message if there's an error
-                    return Text('Error: ${snapshot.error}');
-                  } else {
-                    String name = snapshot.data ?? '';
-                    return Text(
-                      name,
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            fontFamily: 'Readex Pro',
-                            fontSize: 16,
-                          ),
-                    );
-                  }
-                }),
+              child: Text(
+                name,
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      fontFamily: 'Readex Pro',
+                      fontSize: 16,
+                    ),
               ),
             ),
             const Icon(
