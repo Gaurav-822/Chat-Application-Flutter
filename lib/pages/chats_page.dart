@@ -17,12 +17,12 @@ class _ChatsState extends State<Chats> {
   @override
   void initState() {
     super.initState();
-    // _loadChatNames();
-    // _saveChatName("Gaurav");
-    // _saveChatName("Padmaja");
-    // _saveChatName("Papu");
-    // _saveChatName("Anu Shaitan");
-    // _saveChatName("Mummy");
+    _loadChatNames();
+    _saveChatName("Gaurav");
+    _saveChatName("Padmaja");
+    _saveChatName("Papu");
+    _saveChatName("Anu Shaitan");
+    _saveChatName("Mummy");
   }
 
   Future<void> _loadChatNames() async {
