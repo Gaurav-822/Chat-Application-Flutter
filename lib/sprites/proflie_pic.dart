@@ -1,11 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:chat_app/Functions/profile_function.dart';
+import 'package:chat_app/Functions/user/get_info.dart';
 import 'package:flutter/material.dart';
 
 class ProfilePic extends StatefulWidget {
-  final String name;
+  final String uuid;
   final bool zoom;
-  const ProfilePic({super.key, required this.name, required this.zoom});
+  const ProfilePic({super.key, required this.uuid, required this.zoom});
 
   @override
   State<StatefulWidget> createState() {
@@ -22,7 +22,7 @@ class _ProfilePic extends State<ProfilePic> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<String?>(
-      future: getProfilePicUrl(widget.name),
+      future: getUserImageUrl(widget.uuid),
       builder: (BuildContext context, AsyncSnapshot<String?> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(

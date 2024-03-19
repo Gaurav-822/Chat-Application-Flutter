@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 String? getAdminUuid() {
   User? user = FirebaseAuth.instance.currentUser;
@@ -10,6 +11,18 @@ String? getAdminUuid() {
     return null;
   }
   return uuid;
+}
+
+void setAdminLocally() async {
+  String adminUuid = getAdminUuid() ?? "None";
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setString('adminUuid', adminUuid);
+}
+
+Future<String> getAdminLocally() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String adminUuid = prefs.getString('adminUuid') ?? "None";
+  return adminUuid;
 }
 
 Future<String?> getUserImageUrl(String uuid) async {
