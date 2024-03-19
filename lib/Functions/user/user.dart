@@ -90,6 +90,32 @@ Future<void> userUpdateProfileImageURL(String imageUrl) async {
   }
 }
 
+Future<String?> getUserProfileUrl(String uuid) async {
+  try {
+    DocumentSnapshot snapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .doc("profiles")
+        .collection(uuid)
+        .doc("details")
+        .get();
+
+    if (snapshot.exists) {
+      Map<String, dynamic>? data = snapshot.data() as Map<String, dynamic>?;
+
+      if (data != null) {
+        return data['image_url'] as String?;
+      } else {
+        return null; // Data is null
+      }
+    } else {
+      return null; // User details not found
+    }
+  } catch (error) {
+    print('Error retrieving user profile URL: $error');
+    return null;
+  }
+}
+
 Future<void> userUpdateProfileName(String newName) async {
   User? user = FirebaseAuth.instance.currentUser;
   String? uuid;
