@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:chat_app/Functions/messages/message_grouping.dart';
 import 'package:chat_app/Functions/scanner.dart';
 import 'package:chat_app/Functions/user/friends.dart';
 import 'package:chat_app/Functions/user/get_info.dart';
@@ -313,9 +314,15 @@ class _FriendsPageState extends State<FriendsPage> {
                     ),
               ),
             ),
-            const Icon(
-              Icons.send_rounded,
-              size: 24,
+            GestureDetector(
+              onTap: () {
+                saveChatName(name);
+                GoRouter.of(context).go('/chats/$name');
+              },
+              child: const Icon(
+                Icons.send_rounded,
+                size: 24,
+              ),
             ),
           ],
         ),

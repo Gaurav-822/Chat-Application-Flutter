@@ -18,11 +18,6 @@ class _ChatsState extends State<Chats> {
   void initState() {
     super.initState();
     _loadChatNames();
-    _saveChatName("Gaurav");
-    _saveChatName("Padmaja");
-    _saveChatName("Papu");
-    _saveChatName("Anu Shaitan");
-    _saveChatName("Mummy");
   }
 
   Future<void> _loadChatNames() async {
@@ -35,13 +30,18 @@ class _ChatsState extends State<Chats> {
 
   Future<void> _saveChatName(String name) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (!chatNames.contains(name)) {
-      // Check if the name is not already in the list
-      chatNames.add(name); // Add the new name to the list
-      await prefs.setStringList('chatNames',
-          chatNames); // Save the updated list to shared preferences
-      setState(() {}); // Trigger a rebuild to reflect the changes
-    }
+
+    // Remove the existing occurrence of the name (if any)
+    chatNames.remove(name);
+
+    // Add the name to the beginning of the list
+    chatNames.insert(0, name);
+
+    // Save the updated list to shared preferences
+    await prefs.setStringList('chatNames', chatNames);
+
+    // Trigger a rebuild to reflect the changes
+    setState(() {});
   }
 
   @override
