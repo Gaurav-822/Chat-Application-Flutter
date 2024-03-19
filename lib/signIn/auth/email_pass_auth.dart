@@ -1,5 +1,6 @@
 import 'package:chat_app/Functions/user/friends.dart';
 import 'package:chat_app/Functions/toasts.dart';
+import 'package:chat_app/Functions/user/get_info.dart';
 import 'package:chat_app/Functions/user/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -34,6 +35,7 @@ signUserIn(String emailAddress, password) async {
     await FirebaseAuth.instance
         .signInWithEmailAndPassword(email: emailAddress, password: password);
     setFriendsLocally();
+    setAdminLocally();
   } on FirebaseAuthException catch (e) {
     if (e.code == 'user-not-found') {
       showToastMessage('No user found for that email.');

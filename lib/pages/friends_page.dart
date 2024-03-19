@@ -109,7 +109,7 @@ class _FriendsPageState extends State<FriendsPage> {
                     // decoration: const BoxDecoration(
                     //   shape: BoxShape.circle,
                     // ),
-                    child: ProfilePic(name: "Gaurav", zoom: false),
+                    child: ProfilePic(uuid: "Gaurav", zoom: false),
                   ),
                 ),
                 GestureDetector(
@@ -122,7 +122,7 @@ class _FriendsPageState extends State<FriendsPage> {
                     //   shape: BoxShape.circle,
                     // ),
                     child: ProfilePic(
-                      name: "Padmaja",
+                      uuid: "Padmaja",
                       zoom: false,
                     ),
                   ),

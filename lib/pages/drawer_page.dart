@@ -19,7 +19,7 @@ class PersonaPage extends StatefulWidget {
 }
 
 class _PersonaPageState extends State<PersonaPage> {
-  late String profileName = "";
+  late String profileName = "", uuid;
   final TextEditingController adminController = TextEditingController();
 
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -30,6 +30,12 @@ class _PersonaPageState extends State<PersonaPage> {
   void initState() {
     super.initState();
     _loadProfileName();
+    _loadUuid();
+  }
+
+  _loadUuid() async {
+    String get_uuid = await getAdminLocally();
+    uuid = get_uuid;
   }
 
   void closeEndDrawer(BuildContext context) {
@@ -107,7 +113,7 @@ class _PersonaPageState extends State<PersonaPage> {
                 height: 100,
                 width: 100,
                 child: ProfilePic(
-                  name: profileName,
+                  uuid: uuid,
                   zoom: true,
                 ),
               ),

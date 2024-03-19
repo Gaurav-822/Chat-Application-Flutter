@@ -119,8 +119,8 @@ void setFriendsLocally() async {
           friendsList.add([
             value['name'],
             value['uuid'],
-            value['added_at'],
-            value['updated_at'],
+            value['added_at'].toString(),
+            value['updated_at'].toString(),
             value['messaged'],
           ]);
         });

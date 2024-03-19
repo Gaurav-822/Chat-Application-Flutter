@@ -20,6 +20,7 @@ class _ProfilePage extends State<ProfilePage> {
   bool _isLoading = false;
   late String profileName = "";
   late TextEditingController _profileNameController;
+  late String uuid;
 
   void toggleVisibility() {
     setState(() {
@@ -32,6 +33,12 @@ class _ProfilePage extends State<ProfilePage> {
     super.initState();
     _profileNameController = TextEditingController();
     _loadProfileName();
+    _loadUuid();
+  }
+
+  _loadUuid() async {
+    String get_uuid = await getAdminLocally();
+    uuid = get_uuid;
   }
 
   _loadProfileName() async {
@@ -43,7 +50,7 @@ class _ProfilePage extends State<ProfilePage> {
       String? uuid = getAdminUuid();
       // showToastMessage(uuid ?? "False UUID");
       String name = await getUserName(uuid!) ?? "Setup your Profile!";
-      showToastMessage(name);
+      // showToastMessage(name);
       setState(() {
         profileName = name;
       });
@@ -122,6 +129,7 @@ class _ProfilePage extends State<ProfilePage> {
                   ),
                   GestureDetector(
                     onTap: () {
+                      // showToastMessage(uuid);
                       _profileNameController.text = profileName;
                       toggleVisibility();
                       (isVisible)
@@ -178,12 +186,12 @@ class _ProfilePage extends State<ProfilePage> {
                                   _showOptionsBottomSheet();
                                 },
                                 child: ProfilePic(
-                                  name: profileName,
+                                  uuid: uuid,
                                   zoom: false,
                                 ),
                               )
                             : ProfilePic(
-                                name: profileName,
+                                uuid: uuid,
                                 zoom: true,
                               ),
                   ),
