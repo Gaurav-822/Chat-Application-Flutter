@@ -1,5 +1,6 @@
 import 'package:chat_app/Functions/image_functions.dart';
 import 'package:chat_app/Functions/toasts.dart';
+import 'package:chat_app/Functions/user/get_info.dart';
 import 'package:chat_app/Functions/user/user.dart';
 import 'package:chat_app/sprites/proflie_pic.dart';
 import 'package:flutter/material.dart';
@@ -37,10 +38,16 @@ class _ProfilePage extends State<ProfilePage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? admin = prefs.getString("admin");
 
-    if (admin == null || admin.isEmpty) {
+    // String? uuid = getAdminUuid();
+    if (admin == null) {
+      String? uuid = getAdminUuid();
+      // showToastMessage(uuid ?? "False UUID");
+      String name = await getUserName(uuid!) ?? "Setup your Profile!";
+      showToastMessage(name);
       setState(() {
-        profileName = "Setup your Profile!";
+        profileName = name;
       });
+      _saveAdminName(profileName);
     } else {
       setState(() {
         profileName = admin;
