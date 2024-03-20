@@ -1,3 +1,4 @@
+import 'package:chat_app/Functions/user/friends.dart';
 import 'package:chat_app/chats/chat_row.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -12,7 +13,7 @@ class Chats extends StatefulWidget {
 }
 
 class _ChatsState extends State<Chats> {
-  List<String> chatNames = [];
+  List<List<String>> chatNames = [];
 
   @override
   void initState() {
@@ -21,28 +22,27 @@ class _ChatsState extends State<Chats> {
   }
 
   Future<void> _loadChatNames() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String> storedChatNames = prefs.getStringList('chatNames') ?? [];
+    List<List<String>> temp = await getNestedDataForChat();
     setState(() {
-      chatNames = storedChatNames;
+      chatNames = temp;
     });
   }
 
-  Future<void> _saveChatName(String name) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+  // Future<void> _saveChatName(String name) async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    // Remove the existing occurrence of the name (if any)
-    chatNames.remove(name);
+  //   // Remove the existing occurrence of the name (if any)
+  //   chatNames.remove(name);
 
-    // Add the name to the beginning of the list
-    chatNames.insert(0, name);
+  //   // Add the name to the beginning of the list
+  //   chatNames.insert(0, name);
 
-    // Save the updated list to shared preferences
-    await prefs.setStringList('chatNames', chatNames);
+  //   // Save the updated list to shared preferences
+  //   await prefs.setStringList('chatNames', chatNames);
 
-    // Trigger a rebuild to reflect the changes
-    setState(() {});
-  }
+  //   // Trigger a rebuild to reflect the changes
+  //   setState(() {});
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -76,11 +76,12 @@ class _ChatsState extends State<Chats> {
             scrollDirection: Axis.vertical,
             itemCount: chatNames.length,
             itemBuilder: (BuildContext context, int index) {
-              final String name = chatNames[index];
+              final String name = chatNames[index][0];
+              final String uuid = chatNames[index][1];
               return ChatRow(
                 name: name,
                 onTap: () {
-                  GoRouter.of(context).go('/chats/$name');
+                  GoRouter.of(context).go('/chats/$uuid');
                 },
               );
             },

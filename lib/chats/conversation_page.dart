@@ -1,15 +1,16 @@
 import 'dart:async';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:chat_app/Functions/toasts.dart';
+import 'package:chat_app/Functions/user/get_info.dart';
 import 'package:chat_app/chats/conversation.dart';
-import 'package:chat_app/sprites/message_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ConversationPage extends StatefulWidget {
-  final String name;
-  const ConversationPage({super.key, required this.name});
+  final String uuid;
+  const ConversationPage({super.key, required this.uuid});
 
   @override
   State<StatefulWidget> createState() => _ConversationPage();
@@ -21,7 +22,7 @@ class _ConversationPage extends State<ConversationPage> {
   late Stream<QuerySnapshot> receiverSenderStream;
   late Stream<QuerySnapshot> senderReceiverStream;
 
-  late String admin;
+  late String adminUuid, reciever_name;
 
   @override
   void initState() {
@@ -30,26 +31,26 @@ class _ConversationPage extends State<ConversationPage> {
     _initializeProfileAndStreams();
   }
 
-  Future<String?> getProfilePicUrl(String name) async {
-    try {
-      final querySnapshot = await FirebaseFirestore.instance
-          .collection('users')
-          .doc('profile')
-          .collection('admin')
-          .where('name', isEqualTo: name)
-          .get();
+  // Future<String?> getProfilePicUrl(String name) async {
+  //   try {
+  //     final querySnapshot = await FirebaseFirestore.instance
+  //         .collection('users')
+  //         .doc('profile')
+  //         .collection('admin')
+  //         .where('name', isEqualTo: name)
+  //         .get();
 
-      if (querySnapshot.docs.isNotEmpty) {
-        return querySnapshot.docs.first.data()['url'] as String?;
-      } else {
-        print('No profile pic found for $name');
-        return null;
-      }
-    } catch (error) {
-      print('Error retrieving profile pic: $error');
-      return null;
-    }
-  }
+  //     if (querySnapshot.docs.isNotEmpty) {
+  //       return querySnapshot.docs.first.data()['url'] as String?;
+  //     } else {
+  //       print('No profile pic found for $name');
+  //       return null;
+  //     }
+  //   } catch (error) {
+  //     print('Error retrieving profile pic: $error');
+  //     return null;
+  //   }
+  // }
 
   void _initializeProfileAndStreams() async {
     await _loadProfileName();
@@ -64,14 +65,18 @@ class _ConversationPage extends State<ConversationPage> {
           .snapshots();
     }
 
-    senderReceiverStream = getMessagesStream(admin, widget.name);
+    senderReceiverStream = getMessagesStream(adminUuid, widget.uuid);
 
-    receiverSenderStream = getMessagesStream(admin, widget.name);
+    receiverSenderStream = getMessagesStream(adminUuid, widget.uuid);
   }
 
   _loadProfileName() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    admin = prefs.getString("admin")!;
+    String admin = await getAdminLocally();
+    adminUuid = admin;
+
+    String r_name = await getUserName(widget.uuid) ?? "None";
+    // showToastMessage(widget.uuid);
+    reciever_name = r_name;
   }
 
   final ScrollController _scrollController = ScrollController();
@@ -110,7 +115,7 @@ class _ConversationPage extends State<ConversationPage> {
   }
 
   Widget _buildConversationPage() {
-    String name = widget.name;
+    String uuid = widget.uuid;
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -124,7 +129,7 @@ class _ConversationPage extends State<ConversationPage> {
                   shape: BoxShape.circle,
                 ),
                 child: FutureBuilder<String?>(
-                    future: getProfilePicUrl(name),
+                    future: getUserImageUrl(uuid),
                     builder: (BuildContext context,
                         AsyncSnapshot<String?> snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
@@ -180,13 +185,13 @@ class _ConversationPage extends State<ConversationPage> {
               ),
             ),
             const SizedBox(width: 4),
-            Text(name),
+            Text(reciever_name),
           ],
         ),
       ),
       body: Conversation(
-        admin: admin,
-        name: widget.name,
+        admin_uuid: adminUuid,
+        receiver_uuid: widget.uuid,
       ),
     );
   }

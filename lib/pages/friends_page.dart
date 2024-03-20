@@ -316,8 +316,9 @@ class _FriendsPageState extends State<FriendsPage> {
             ),
             GestureDetector(
               onTap: () {
-                saveChatName(name);
-                GoRouter.of(context).go('/chats/$name');
+                // saveChatName(name);
+                GoRouter.of(context).go('/chats/$uuid');
+                updateFriendUpdated(uuid);
               },
               child: const Icon(
                 Icons.send_rounded,
