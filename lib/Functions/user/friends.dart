@@ -156,6 +156,20 @@ Future<List<List<String>>> getNestedData() async {
   }
 }
 
+Future<List<List<String>>> getNestedDataForChat() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  List<String>? nestedJsonList = prefs.getStringList('nestedList');
+  if (nestedJsonList != null) {
+    List<List<String>> nestedList = nestedJsonList
+        .map((jsonString) => List<String>.from(json.decode(jsonString)))
+        .where((innerList) => innerList.isNotEmpty && innerList.last == "yes")
+        .toList();
+    return nestedList;
+  } else {
+    return [];
+  }
+}
+
 void updateFriendUpdatedAtLocal(String friendUuid) async {
   List<List<String>> friendsList = await getNestedData();
   int friendIndex = -1;

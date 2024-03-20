@@ -6,8 +6,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class Conversation extends StatefulWidget {
-  final String admin, name;
-  const Conversation({super.key, required this.admin, required this.name});
+  final String admin_uuid, receiver_uuid;
+  const Conversation(
+      {super.key, required this.admin_uuid, required this.receiver_uuid});
 
   @override
   State<StatefulWidget> createState() {
@@ -45,9 +46,9 @@ class _Conversation extends State<Conversation> {
 
   @override
   Widget build(BuildContext context) {
-    String documentId = widget.admin.compareTo(widget.name) > 0
-        ? "${widget.admin}\_${widget.name}"
-        : "${widget.name}\_${widget.admin}";
+    String documentId = widget.admin_uuid.compareTo(widget.receiver_uuid) > 0
+        ? "${widget.admin_uuid}\_${widget.receiver_uuid}"
+        : "${widget.receiver_uuid}\_${widget.admin_uuid}";
     return Column(
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -88,7 +89,7 @@ class _Conversation extends State<Conversation> {
                   return GestureDetector(
                     child: TextBubble(
                         text: data['message'],
-                        orientation: (data['sender'] == widget.admin)
+                        orientation: (data['sender'] == widget.admin_uuid)
                             ? "right"
                             : "left"),
                     onLongPress: () {
@@ -102,10 +103,10 @@ class _Conversation extends State<Conversation> {
         ),
         MessageBar(
           onMessageSent: (message) {
-            addData(widget.admin, widget.name, message);
+            addData(widget.admin_uuid, widget.receiver_uuid, message);
             sendNotificationToUser(
-              widget.name,
-              widget.admin,
+              widget.receiver_uuid,
+              widget.admin_uuid,
               message,
             );
           },

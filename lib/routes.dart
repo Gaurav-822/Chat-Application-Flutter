@@ -25,7 +25,7 @@ routes() {
             builder: (BuildContext context, GoRouterState state) {
               final name = state.pathParameters['name'] ?? "";
               return ConversationPage(
-                name: name,
+                uuid: name,
               );
             },
           ),
