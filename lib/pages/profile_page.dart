@@ -43,7 +43,7 @@ class _ProfilePage extends State<ProfilePage> {
 
   _loadProfileName() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? admin = prefs.getString("admin");
+    String? admin = prefs.getString("adminName");
 
     // String? uuid = getAdminUuid();
     if (admin == null) {
@@ -65,7 +65,7 @@ class _ProfilePage extends State<ProfilePage> {
 
   _saveAdminName(String adminName) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString("admin", adminName);
+    prefs.setString("adminName", adminName);
     setState(() {
       profileName = adminName;
     });

@@ -44,7 +44,7 @@ class _PersonaPageState extends State<PersonaPage> {
 
   _loadProfileName() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? admin = prefs.getString("admin");
+    String? admin = prefs.getString("adminName");
 
     if (admin == null || admin.isEmpty) {
       setState(() {
@@ -55,14 +55,6 @@ class _PersonaPageState extends State<PersonaPage> {
         profileName = admin;
       });
     }
-  }
-
-  saveAdmin(String adminName) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString("admin", adminName);
-    setState(() {
-      profileName = adminName;
-    });
   }
 
   void showBottomOptionBar() {
