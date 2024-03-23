@@ -13,7 +13,7 @@ class AboutPage extends StatelessWidget {
             mainAxisSize: MainAxisSize.max,
             children: [
               Align(
-                alignment: Alignment.center,
+                alignment: AlignmentDirectional.center,
                 child: Padding(
                   padding: EdgeInsets.all(8),
                   child: Text(
@@ -22,6 +22,16 @@ class AboutPage extends StatelessWidget {
                       fontFamily: 'Readex Pro',
                       fontSize: 64,
                     ),
+                  ),
+                ),
+              ),
+              Align(
+                alignment: AlignmentDirectional.centerStart,
+                child: Padding(
+                  padding: EdgeInsets.all(8),
+                  child: Text(
+                    'From its creation to its purpose, this app is made with love and care for our loved ones. Every aspect reflects our genuine affection, fostering deeper connections and meaningful interactions. Embrace its warmth and intentionality as we celebrate the bonds that truly matter.',
+                    style: TextStyle(),
                   ),
                 ),
               ),
@@ -61,50 +71,40 @@ class AboutPage extends StatelessWidget {
                         ),
                       ],
                     ),
-                    Expanded(
-                      child: Text(
-                        'For\n♥️\nOnes\'',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 24,
-                        ),
-                      ),
+                    Text(
+                      'Connecting\n♥️\nOnes',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(),
                     ),
                   ],
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.all(8),
-                child: Align(
-                  alignment: Alignment.centerLeft,
+              Align(
+                alignment: Alignment.center,
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(8, 8, 8, 0),
                   child: Text(
-                    'Developer\'s Note',
+                    'Sharing is Love, ...from Developer',
                     style: TextStyle(
                       fontFamily: 'Readex Pro',
-                      fontSize: 24,
+                      fontSize: 16,
                     ),
                   ),
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.all(8),
-                child: Text(
-                  'Stating from the making of this app, to the use case yes both are done, and intented to be done with a non intentional love and caring.',
-                  style: TextStyle(
-                    fontSize: 16,
-                  ),
-                ),
+              Divider(
+                thickness: 1,
+                indent: 24,
+                endIndent: 24,
               ),
-              Padding(
-                padding: EdgeInsets.all(8),
-                child: Align(
-                  alignment: Alignment.centerLeft,
+              Align(
+                alignment: Alignment.center,
+                child: Padding(
+                  padding: EdgeInsets.all(8),
                   child: Text(
-                    'Developer\'s Note',
-                    style: TextStyle(
-                      fontFamily: 'Readex Pro',
-                      fontSize: 24,
-                    ),
+                    'If love was a finding, \nI wouldn\'t have been so lost\n\nIf Soulmates were to be found\nNo Questions wouldve\' been on the trust\n\nIf forever was not an illusion\nWe wouldve\' been still \"US\"\n\nNo memories renewal, no past reviwed\nI\'d still run to you, I have the guts!',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(),
                   ),
                 ),
               ),
