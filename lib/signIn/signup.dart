@@ -2,6 +2,7 @@ import 'package:chat_app/Functions/toasts.dart';
 import 'package:chat_app/signIn/auth/email_pass_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 
@@ -194,12 +195,12 @@ class _SignIn extends State<SignIn> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  Icon(
-                                    Icons.android,
+                                  FaIcon(
+                                    FontAwesomeIcons.google,
                                     size: 24,
                                   ),
-                                  Icon(
-                                    Icons.facebook,
+                                  FaIcon(
+                                    FontAwesomeIcons.facebook,
                                     size: 24,
                                   ),
                                 ],

@@ -265,25 +265,34 @@ class _ProfilePage extends State<ProfilePage> {
             Align(
               alignment: AlignmentDirectional(0, 0),
               child: Padding(
-                padding: EdgeInsets.all(8),
+                padding: EdgeInsets.fromLTRB(0, 8, 0, 8),
                 child: Row(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Text(
                       'soulgaurav08@gmail.com',
-                      style: Theme.of(context).textTheme.bodyText1,
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                    const SizedBox(
+                      height: 50,
+                      child: VerticalDivider(
+                        thickness: 1,
+                        indent: 4,
+                        endIndent: 4,
+                        // color: Colors.black, // Use your preferred color
+                      ),
                     ),
                     Column(
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Text(
                           '4',
-                          style: Theme.of(context).textTheme.bodyText1,
+                          style: Theme.of(context).textTheme.bodyLarge,
                         ),
                         Text(
                           '♡',
-                          style: Theme.of(context).textTheme.bodyText1,
+                          style: Theme.of(context).textTheme.bodyLarge,
                         ),
                       ],
                     ),
@@ -292,11 +301,11 @@ class _ProfilePage extends State<ProfilePage> {
                       children: [
                         Text(
                           '1',
-                          style: Theme.of(context).textTheme.bodyText1,
+                          style: Theme.of(context).textTheme.bodyLarge,
                         ),
                         Text(
                           'Friends',
-                          style: Theme.of(context).textTheme.bodyText1,
+                          style: Theme.of(context).textTheme.bodyLarge,
                         ),
                       ],
                     ),
@@ -310,7 +319,7 @@ class _ProfilePage extends State<ProfilePage> {
                 padding: EdgeInsets.all(8),
                 child: Text(
                   'Memories',
-                  style: Theme.of(context).textTheme.bodyText1!.merge(TextStyle(
+                  style: Theme.of(context).textTheme.bodyLarge!.merge(TextStyle(
                         fontFamily: 'Readex Pro',
                         fontSize: 24,
                       )),
