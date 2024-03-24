@@ -130,6 +130,7 @@ void setFriendsLocally() async {
     saveNestedData(friendsList);
     // return friendsList;
   } catch (error) {
+    saveNestedData([]);
     showToastMessage("Failed to fetch friends: $error");
     throw ("Failed to fetch friends: $error");
   }
