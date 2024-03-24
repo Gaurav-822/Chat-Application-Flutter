@@ -36,35 +36,94 @@ class _GalleryForAdmin extends State<GalleryForAdmin> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.all(8),
-              child: Container(
-                width: 120,
-                height: 120,
-                clipBehavior: Clip.antiAlias,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                ),
-                child: Image.network(
-                  'https://picsum.photos/seed/681/600',
-                  fit: BoxFit.cover,
-                ),
+              padding: EdgeInsets.fromLTRB(16, 8, 16, 8),
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Container(
+                    width: 100,
+                    decoration: BoxDecoration(),
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Padding(
+                        padding: EdgeInsets.fromLTRB(0, 8, 0, 8),
+                        child: Text(
+                          'Gaurav',
+                          style: TextStyle(
+                            fontFamily: 'Readex Pro',
+                            fontSize: 24,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 75,
+                    child: VerticalDivider(
+                      thickness: 1,
+                      indent: 8,
+                      endIndent: 8,
+                      // color: Theme.of(context).textTheme.subtitle1.color,
+                    ),
+                  ),
+                  Container(
+                    width: 60,
+                    height: 60,
+                    clipBehavior: Clip.antiAlias,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                    ),
+                    child: Image.network(
+                      'https://picsum.photos/seed/927/600',
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  Container(
+                    width: 60,
+                    height: 60,
+                    clipBehavior: Clip.antiAlias,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                    ),
+                    child: Image.asset(
+                      'assets/images/112966037.jpg',
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  Container(
+                    width: 60,
+                    height: 60,
+                    clipBehavior: Clip.antiAlias,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                    ),
+                    child: Image.asset(
+                      'assets/images/Gemini_Generated_Image__4_-removebg-preview.png',
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  Container(
+                    width: 60,
+                    height: 60,
+                    clipBehavior: Clip.antiAlias,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                    ),
+                    child: Image.asset(
+                      'assets/images/neon_butterfly-removebg-preview.png',
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ].expand((widget) => [widget, SizedBox(width: 8)]).toList(),
               ),
             ),
-            Padding(
-              padding: EdgeInsets.all(8),
-              child: Icon(
-                Icons.notifications_active,
-                size: 24,
-              ),
-            ),
-            Divider(
-              thickness: 1,
-              indent: 48,
-              endIndent: 48,
+            Container(
+              width: 200,
+              decoration: BoxDecoration(),
             ),
             Expanded(
               child: Padding(
-                padding: EdgeInsets.all(36),
+                padding: EdgeInsets.fromLTRB(16, 8, 16, 0),
                 child: GridView(
                   padding: EdgeInsets.zero,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -87,7 +146,7 @@ class _GalleryForAdmin extends State<GalleryForAdmin> {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(8),
                       child: Image.network(
-                        'https://picsum.photos/seed/230/600',
+                        'https://picsum.photos/seed/389/600',
                         width: 300,
                         height: 200,
                         fit: BoxFit.cover,
@@ -96,7 +155,7 @@ class _GalleryForAdmin extends State<GalleryForAdmin> {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(8),
                       child: Image.network(
-                        'https://picsum.photos/seed/389/600',
+                        'https://picsum.photos/seed/230/600',
                         width: 300,
                         height: 200,
                         fit: BoxFit.cover,

@@ -34,50 +34,92 @@ class _GalleryForLoved extends State<GalleryForLoved> {
                 ],
               ),
             ),
-            Padding(
-              padding: EdgeInsets.all(8),
-              child: Container(
-                width: 120,
-                height: 120,
-                clipBehavior: Clip.antiAlias,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
+            Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Column(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding: EdgeInsets.all(8),
+                        child: Container(
+                          width: 120,
+                          height: 120,
+                          clipBehavior: Clip.antiAlias,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                          ),
+                          child: Image.asset(
+                            'assets/images/112966037.jpg',
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(8),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Icon(
+                            Icons.chat_bubble_outline_outlined,
+                            // color: Theme.of(context).textTheme.subtitle1.color,
+                            size: 24,
+                          ),
+                          SizedBox(
+                            width: 16,
+                          ),
+                          Icon(
+                            Icons.add,
+                            // color: Theme.of(context).textTheme.subtitle1.color,
+                            size: 36,
+                          ),
+                          SizedBox(
+                            width: 16,
+                          ),
+                          Icon(
+                            Icons.notifications_active,
+                            // color: Theme.of(context).textTheme.subtitle1.color,
+                            size: 24,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-                child: Image.network(
-                  'https://picsum.photos/seed/681/600',
-                  fit: BoxFit.cover,
+                Column(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(8),
+                      child: Text(
+                        'Gaurav',
+                        style: TextStyle(
+                          fontFamily: 'Readex Pro',
+                          fontSize: 48,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      width: 200,
+                      decoration: BoxDecoration(),
+                    ),
+                  ],
                 ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.all(8),
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Icon(
-                    Icons.chat_bubble_outline_outlined,
-                    size: 24,
-                  ),
-                  Icon(
-                    Icons.add,
-                    size: 36,
-                  ),
-                  Icon(
-                    Icons.notifications_active,
-                    size: 24,
-                  ),
-                ],
-              ),
+              ],
             ),
             Divider(
               thickness: 1,
-              indent: 48,
-              endIndent: 48,
+              indent: 12,
+              endIndent: 12,
             ),
             Expanded(
               child: Padding(
-                padding: EdgeInsets.all(36),
+                padding: EdgeInsets.all(16),
                 child: GridView(
                   padding: EdgeInsets.zero,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -89,7 +131,7 @@ class _GalleryForLoved extends State<GalleryForLoved> {
                   scrollDirection: Axis.vertical,
                   children: [
                     ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(0),
                       child: Image.network(
                         'https://picsum.photos/seed/338/600',
                         width: 300,
@@ -98,7 +140,7 @@ class _GalleryForLoved extends State<GalleryForLoved> {
                       ),
                     ),
                     ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(0),
                       child: Image.network(
                         'https://picsum.photos/seed/230/600',
                         width: 300,
@@ -107,13 +149,18 @@ class _GalleryForLoved extends State<GalleryForLoved> {
                       ),
                     ),
                     ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(0),
                       child: Image.network(
                         'https://picsum.photos/seed/389/600',
                         width: 300,
                         height: 200,
                         fit: BoxFit.cover,
                       ),
+                    ),
+                    Icon(
+                      Icons.add,
+                      // color: Theme.of(context).textTheme.subtitle1.color,
+                      size: 36,
                     ),
                   ],
                 ),
