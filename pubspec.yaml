@@ -63,6 +63,7 @@ dependencies:
   google_auth: ^0.0.3
   image_cropper: ^5.0.1
   firebase_auth: ^4.17.6
+  font_awesome_flutter: ^10.7.0
 
 dev_dependencies:
   flutter_test:
