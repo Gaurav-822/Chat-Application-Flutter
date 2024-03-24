@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:chat_app/Functions/messages/message_grouping.dart';
 import 'package:chat_app/Functions/scanner.dart';
 import 'package:chat_app/Functions/user/friends.dart';
 import 'package:chat_app/Functions/user/get_info.dart';
@@ -23,10 +22,13 @@ class _FriendsPageState extends State<FriendsPage> {
 
   List<List<String>> nestedList = [];
 
+  late String adminUUID;
+
   @override
   void initState() {
     super.initState();
 
+    getAdminUUID();
     getNestedList();
   }
 
@@ -44,6 +46,10 @@ class _FriendsPageState extends State<FriendsPage> {
               (friend) => friend[0].toLowerCase().contains(query.toLowerCase()))
           .toList();
     });
+  }
+
+  void getAdminUUID() async {
+    adminUUID = await getAdminLocally();
   }
 
   Future<void> _scanQRCode() async {
@@ -102,14 +108,14 @@ class _FriendsPageState extends State<FriendsPage> {
                 ),
                 GestureDetector(
                   onTap: () => GoRouter.of(context).go("/galleryForAdmin"),
-                  child: const SizedBox(
+                  child: SizedBox(
                     width: 100,
                     height: 100,
                     // clipBehavior: Clip.antiAlias,
                     // decoration: const BoxDecoration(
                     //   shape: BoxShape.circle,
                     // ),
-                    child: ProfilePic(uuid: "Gaurav", zoom: false),
+                    child: ProfilePic(uuid: adminUUID, zoom: false),
                   ),
                 ),
                 GestureDetector(

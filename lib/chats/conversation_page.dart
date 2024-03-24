@@ -1,16 +1,20 @@
 import 'dart:async';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:chat_app/Functions/toasts.dart';
 import 'package:chat_app/Functions/user/get_info.dart';
 import 'package:chat_app/chats/conversation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class ConversationPage extends StatefulWidget {
-  final String uuid;
-  const ConversationPage({super.key, required this.uuid});
+  final String senderUuid, receiverUuid, senderName, receiverName;
+  const ConversationPage({
+    super.key,
+    required this.senderUuid,
+    required this.receiverUuid,
+    required this.senderName,
+    required this.receiverName,
+  });
 
   @override
   State<StatefulWidget> createState() => _ConversationPage();
@@ -22,38 +26,17 @@ class _ConversationPage extends State<ConversationPage> {
   late Stream<QuerySnapshot> receiverSenderStream;
   late Stream<QuerySnapshot> senderReceiverStream;
 
-  late String adminUuid, reciever_name;
+  // late String adminreceiverUuid, reciever_name;
 
   @override
   void initState() {
     super.initState();
-    _loadProfileName();
+    // _loadProfileName();
     _initializeProfileAndStreams();
   }
 
-  // Future<String?> getProfilePicUrl(String name) async {
-  //   try {
-  //     final querySnapshot = await FirebaseFirestore.instance
-  //         .collection('users')
-  //         .doc('profile')
-  //         .collection('admin')
-  //         .where('name', isEqualTo: name)
-  //         .get();
-
-  //     if (querySnapshot.docs.isNotEmpty) {
-  //       return querySnapshot.docs.first.data()['url'] as String?;
-  //     } else {
-  //       print('No profile pic found for $name');
-  //       return null;
-  //     }
-  //   } catch (error) {
-  //     print('Error retrieving profile pic: $error');
-  //     return null;
-  //   }
-  // }
-
   void _initializeProfileAndStreams() async {
-    await _loadProfileName();
+    // await _loadProfileName();
 
     // Now that admin is initialized, initialize streams
     Stream<QuerySnapshot> getMessagesStream(String sender, receiver) {
@@ -65,19 +48,20 @@ class _ConversationPage extends State<ConversationPage> {
           .snapshots();
     }
 
-    senderReceiverStream = getMessagesStream(adminUuid, widget.uuid);
+    senderReceiverStream =
+        getMessagesStream(widget.senderUuid, widget.receiverUuid);
 
-    receiverSenderStream = getMessagesStream(adminUuid, widget.uuid);
+    receiverSenderStream =
+        getMessagesStream(widget.senderUuid, widget.receiverUuid);
   }
 
-  _loadProfileName() async {
-    String admin = await getAdminLocally();
-    adminUuid = admin;
+  // _loadProfileName() async {
+  //   String admin = await getAdminLocally();
+  //   adminreceiverUuid = admin;
 
-    String r_name = await getUserName(widget.uuid) ?? "None";
-    // showToastMessage(widget.uuid);
-    reciever_name = r_name;
-  }
+  //   String r_name = await getUserName(widget.receiverUuid) ?? "None";
+  //   reciever_name = r_name;
+  // }
 
   final ScrollController _scrollController = ScrollController();
 
@@ -99,23 +83,26 @@ class _ConversationPage extends State<ConversationPage> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: _loadProfileName(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const CircularProgressIndicator(); // or any loading indicator
-        }
-        if (snapshot.hasError) {
-          return Center(child: Text('Error: ${snapshot.error}'));
-        }
-        // Once profile is loaded, build the UI
-        return _buildConversationPage();
-      },
-    );
+    return _buildConversationPage();
+    // return FutureBuilder(
+    //   future: _loadProfileName(),
+    //   builder: (context, snapshot) {
+    //     if (snapshot.connectionState == ConnectionState.waiting) {
+    //       return Center(
+    //         child: CircularProgressIndicator(),
+    //       );
+    //     }
+    //     if (snapshot.hasError) {
+    //       return Center(child: Text('Error: ${snapshot.error}'));
+    //     }
+    //     // Once profile is loaded, build the UI
+    //     return _buildConversationPage();
+    //   },
+    // );
   }
 
   Widget _buildConversationPage() {
-    String uuid = widget.uuid;
+    String receiverUuid = widget.receiverUuid;
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -129,7 +116,7 @@ class _ConversationPage extends State<ConversationPage> {
                   shape: BoxShape.circle,
                 ),
                 child: FutureBuilder<String?>(
-                    future: getUserImageUrl(uuid),
+                    future: getUserImageUrl(receiverUuid),
                     builder: (BuildContext context,
                         AsyncSnapshot<String?> snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
@@ -185,13 +172,14 @@ class _ConversationPage extends State<ConversationPage> {
               ),
             ),
             const SizedBox(width: 4),
-            Text(reciever_name),
+            Text(widget.receiverName),
           ],
         ),
       ),
       body: Conversation(
-        admin_uuid: adminUuid,
-        receiver_uuid: widget.uuid,
+        admin_uuid: widget.senderUuid,
+        receiver_uuid: widget.receiverUuid,
+        admin_name: widget.senderName,
       ),
     );
   }

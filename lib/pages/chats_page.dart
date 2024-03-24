@@ -2,8 +2,6 @@ import 'package:chat_app/Functions/user/friends.dart';
 import 'package:chat_app/chats/chat_row.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lottie/lottie.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Chats extends StatefulWidget {
   const Chats({super.key});
@@ -28,48 +26,41 @@ class _ChatsState extends State<Chats> {
     });
   }
 
-  // Future<void> _saveChatName(String name) async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-
-  //   // Remove the existing occurrence of the name (if any)
-  //   chatNames.remove(name);
-
-  //   // Add the name to the beginning of the list
-  //   chatNames.insert(0, name);
-
-  //   // Save the updated list to shared preferences
-  //   await prefs.setStringList('chatNames', chatNames);
-
-  //   // Trigger a rebuild to reflect the changes
-  //   setState(() {});
-  // }
-
   @override
   Widget build(BuildContext context) {
-    return (chatNames.length == 0)
-        ? Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Lottie.asset(
-                "assets/lotties/send_messages_lottie.json",
-                repeat: true,
-                frameRate: const FrameRate(144),
-              ),
-              // Text(
-              //   "Start Connecting ❦",
-              //   style: TextStyle(fontSize: 20, fontWeight: FontWeight.w300),
-              // ),
-              GestureDetector(
-                onTap: () {
-                  // Change Tab
-                },
-                child: const Icon(
-                  Icons.chevron_right_rounded,
-                  size: 50,
-                ),
-              ),
-            ],
+    return (chatNames.isEmpty)
+        ? FutureBuilder<void>(
+            future: _loadChatNames(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                // Show a loading indicator while data is being fetched
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else if (snapshot.hasError) {
+                // Handle error case
+                return Center(
+                  child: Text('Error loading data'),
+                );
+              } else {
+                // Data loaded successfully, show the list
+                return ListView.builder(
+                  padding: EdgeInsets.zero,
+                  scrollDirection: Axis.vertical,
+                  itemCount: chatNames.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    final String name = chatNames[index][0];
+                    final String uuid = chatNames[index][1];
+                    return ChatRow(
+                      name: name,
+                      onTap: () {
+                        GoRouter.of(context).go('/chats/$uuid/$name');
+                      },
+                    );
+                  },
+                );
+              }
+            },
           )
         : ListView.builder(
             padding: EdgeInsets.zero,
@@ -81,7 +72,7 @@ class _ChatsState extends State<Chats> {
               return ChatRow(
                 name: name,
                 onTap: () {
-                  GoRouter.of(context).go('/chats/$uuid');
+                  GoRouter.of(context).go('/chats/$name/$uuid');
                 },
               );
             },
