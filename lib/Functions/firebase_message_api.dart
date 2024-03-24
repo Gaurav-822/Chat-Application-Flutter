@@ -1,3 +1,4 @@
+import 'package:chat_app/Functions/toasts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:http/http.dart' as http;
@@ -9,33 +10,29 @@ class FirebaseMessageApi {
   Future<String?> initNotification() async {
     await _firebaseMessaging.requestPermission();
     final fCMToken = await _firebaseMessaging.getToken();
+    showToastMessage(fCMToken ?? "None");
     return fCMToken;
   }
 }
 
-Future<String?> getFCMTokenByUsername(String username) async {
-  FirebaseMessageApi firebaseMessageApi = FirebaseMessageApi();
-
-  String? fCMToken = await firebaseMessageApi.initNotification();
-
+Future<String?> getFCMToken(String uuid) async {
   try {
-    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+    DocumentSnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
+        .instance
         .collection('users')
-        .doc("profile")
-        .collection("admin")
-        .where('name', isEqualTo: username)
+        .doc("profiles")
+        .collection(uuid)
+        .doc("details")
         .get();
 
-    if (querySnapshot.docs.isNotEmpty) {
-      for (var doc in querySnapshot.docs) {
-        return doc.get('fcmToken'); // Return the FCM token
-      }
+    if (snapshot.exists) {
+      return snapshot.data()?['fcmToken'];
     } else {
-      return null; // No user found with the given username
+      return null; // Document doesn't exist
     }
   } catch (error) {
-    print("Error fetching document: $error");
-    return null; // Return null if there's an error
+    print("Error getting name: $error");
+    return null;
   }
 }
 
@@ -79,18 +76,18 @@ Future<void> sendNotification(
 }
 
 Future<bool> sendNotificationToUser(
-    String username, String title, String text) async {
+    String uuid, String title, String text) async {
   // Fetch the FCM token
   String? fcmToken;
   try {
-    fcmToken = await getFCMTokenByUsername(username);
+    fcmToken = await getFCMToken(uuid);
   } catch (error) {
     print("Error fetching FCM token: $error");
     return false;
   }
 
   if (fcmToken == null) {
-    print("No FCM token found for user: $username");
+    print("No FCM token found for user: $uuid");
     return false;
   }
 

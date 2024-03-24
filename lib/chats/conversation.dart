@@ -1,14 +1,16 @@
 import 'package:chat_app/Functions/firebase_message_api.dart';
-import 'package:chat_app/Functions/profile_function.dart';
 import 'package:chat_app/sprites/message_bar.dart';
 import 'package:chat_app/sprites/text_bubble.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class Conversation extends StatefulWidget {
-  final String admin_uuid, receiver_uuid;
+  final String admin_uuid, receiver_uuid, admin_name;
   const Conversation(
-      {super.key, required this.admin_uuid, required this.receiver_uuid});
+      {super.key,
+      required this.admin_uuid,
+      required this.receiver_uuid,
+      required this.admin_name});
 
   @override
   State<StatefulWidget> createState() {
@@ -106,7 +108,7 @@ class _Conversation extends State<Conversation> {
             addData(widget.admin_uuid, widget.receiver_uuid, message);
             sendNotificationToUser(
               widget.receiver_uuid,
-              widget.admin_uuid,
+              widget.admin_name,
               message,
             );
           },

@@ -2,6 +2,7 @@ import 'package:chat_app/Functions/firebase_message_api.dart';
 import 'package:chat_app/Functions/toasts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
 // adding user when signed in
@@ -86,6 +87,31 @@ Future<void> userUpdateProfileImageURL(String imageUrl) async {
     showToastMessage('Image Updated Succesfully');
   } catch (error) {
     showToastMessage('Failed to update image');
+    // Handle error
+  }
+}
+
+void userUpdateFcmTocken() async {
+  User? user = FirebaseAuth.instance.currentUser;
+  final firebaseMessaging = FirebaseMessaging.instance;
+  final fcmToken = await firebaseMessaging.getToken();
+  String? uuid;
+  if (user != null) {
+    uuid = user.uid;
+  } else {
+    showToastMessage("No user is currently authenticated.");
+  }
+
+  try {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc("profiles")
+        .collection(uuid!)
+        .doc("details")
+        .update({'fcmToken': fcmToken});
+    showToastMessage('fcmToken Updated Succesfully');
+  } catch (error) {
+    showToastMessage('Failed to update fcmToken');
     // Handle error
   }
 }

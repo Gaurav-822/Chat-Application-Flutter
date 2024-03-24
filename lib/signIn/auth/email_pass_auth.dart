@@ -36,6 +36,7 @@ signUserIn(String emailAddress, password) async {
         .signInWithEmailAndPassword(email: emailAddress, password: password);
     setFriendsLocally();
     setAdminLocally();
+    userUpdateFcmTocken();
   } on FirebaseAuthException catch (e) {
     if (e.code == 'user-not-found') {
       showToastMessage('No user found for that email.');
