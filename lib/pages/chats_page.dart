@@ -2,6 +2,7 @@ import 'package:chat_app/Functions/user/friends.dart';
 import 'package:chat_app/chats/chat_row.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lottie/lottie.dart';
 
 class Chats extends StatefulWidget {
   const Chats({super.key});
@@ -28,7 +29,7 @@ class _ChatsState extends State<Chats> {
 
   @override
   Widget build(BuildContext context) {
-    return (chatNames.isEmpty)
+    return (chatNames.isNotEmpty)
         ? FutureBuilder<void>(
             future: _loadChatNames(),
             builder: (context, snapshot) {
@@ -37,7 +38,8 @@ class _ChatsState extends State<Chats> {
                 return Center(
                   child: CircularProgressIndicator(),
                 );
-              } else if (snapshot.hasError) {
+              }
+              if (snapshot.hasError) {
                 // Handle error case
                 return Center(
                   child: Text('Error loading data'),
@@ -62,20 +64,12 @@ class _ChatsState extends State<Chats> {
               }
             },
           )
-        : ListView.builder(
-            padding: EdgeInsets.zero,
-            scrollDirection: Axis.vertical,
-            itemCount: chatNames.length,
-            itemBuilder: (BuildContext context, int index) {
-              final String name = chatNames[index][0];
-              final String uuid = chatNames[index][1];
-              return ChatRow(
-                name: name,
-                onTap: () {
-                  GoRouter.of(context).go('/chats/$name/$uuid');
-                },
-              );
-            },
+        : Center(
+            child: Lottie.asset(
+              "assets/lotties/send_messages_lottie.json",
+              repeat: false,
+              frameRate: const FrameRate(144),
+            ),
           );
   }
 }

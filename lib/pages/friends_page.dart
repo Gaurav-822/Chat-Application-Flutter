@@ -320,17 +320,21 @@ class _FriendsPageState extends State<FriendsPage> {
                     ),
               ),
             ),
-            GestureDetector(
-              onTap: () {
-                // saveChatName(name);
-                GoRouter.of(context).go('/chats/$uuid');
-                updateFriendUpdated(uuid);
-              },
-              child: const Icon(
-                Icons.send_rounded,
-                size: 24,
-              ),
-            ),
+            FutureBuilder(
+                future: getUserName(uuid),
+                builder: (context, snapshot) {
+                  return GestureDetector(
+                    onTap: () {
+                      // saveChatName(name);
+                      GoRouter.of(context).go('/chats/${snapshot.data}/$uuid');
+                      updateFriendUpdated(uuid);
+                    },
+                    child: const Icon(
+                      Icons.send_rounded,
+                      size: 24,
+                    ),
+                  );
+                })
           ],
         ),
       ),
