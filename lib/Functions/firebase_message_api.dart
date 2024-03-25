@@ -31,7 +31,7 @@ Future<String?> getFCMToken(String uuid) async {
       return null; // Document doesn't exist
     }
   } catch (error) {
-    print("Error getting name: $error");
+    // print("Error getting name: $error");
     return null;
   }
 }
@@ -39,9 +39,9 @@ Future<String?> getFCMToken(String uuid) async {
 Future<void> sendNotification(
     String title, String text, String fcmToken) async {
   // Replace with your actual server key
-  final String serverKey =
+  const String serverKey =
       'AAAAdKq6UDE:APA91bFlbO7B5pk8UV1IqZDncvTLVd8PvuYRRQCfd_HwA96puUbPDYCqZp7M4Tly90JnnwGpDKyGkn14hSyG0smXJNXD94WMIwX3ZwC1A16FL6hSxXG_GxrJYT1Y566NNVloIsihTmNN';
-  final String url = 'https://fcm.googleapis.com/fcm/send';
+  const String url = 'https://fcm.googleapis.com/fcm/send';
 
   final Map<String, dynamic> notification = {
     'body': text,
@@ -66,12 +66,12 @@ Future<void> sendNotification(
     );
 
     if (response.statusCode == 200) {
-      print('Notification sent successfully');
+      // print('Notification sent successfully');
     } else {
-      print('Failed to send notification. Error: ${response.body}');
+      // print('Failed to send notification. Error: ${response.body}');
     }
   } catch (e) {
-    print('Failed to send notification. Exception: $e');
+    // print('Failed to send notification. Exception: $e');
   }
 }
 
@@ -82,12 +82,12 @@ Future<bool> sendNotificationToUser(
   try {
     fcmToken = await getFCMToken(uuid);
   } catch (error) {
-    print("Error fetching FCM token: $error");
+    // print("Error fetching FCM token: $error");
     return false;
   }
 
   if (fcmToken == null) {
-    print("No FCM token found for user: $uuid");
+    // print("No FCM token found for user: $uuid");
     return false;
   }
 
@@ -96,7 +96,7 @@ Future<bool> sendNotificationToUser(
     await sendNotification(title, text, fcmToken);
     return true;
   } catch (error) {
-    print("Error sending notification: $error");
+    // print("Error sending notification: $error");
     return false;
   }
 }

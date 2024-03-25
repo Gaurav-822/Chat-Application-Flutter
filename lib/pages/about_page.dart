@@ -12,7 +12,7 @@ class AboutPage extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: [
-              Align(
+              const Align(
                 alignment: AlignmentDirectional.center,
                 child: Padding(
                   padding: EdgeInsets.all(8),
@@ -25,7 +25,7 @@ class AboutPage extends StatelessWidget {
                   ),
                 ),
               ),
-              Align(
+              const Align(
                 alignment: AlignmentDirectional.centerStart,
                 child: Padding(
                   padding: EdgeInsets.all(8),
@@ -36,7 +36,7 @@ class AboutPage extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(8),
+                padding: const EdgeInsets.all(8),
                 child: Row(
                   mainAxisSize: MainAxisSize.max,
                   children: [
@@ -45,7 +45,7 @@ class AboutPage extends StatelessWidget {
                         Opacity(
                           opacity: 0.2,
                           child: Padding(
-                            padding: EdgeInsets.all(8),
+                            padding: const EdgeInsets.all(8),
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(8),
                               child: Image.asset(
@@ -58,7 +58,7 @@ class AboutPage extends StatelessWidget {
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.all(8),
+                          padding: const EdgeInsets.all(8),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(24),
                             child: Image.asset(
@@ -71,7 +71,7 @@ class AboutPage extends StatelessWidget {
                         ),
                       ],
                     ),
-                    Text(
+                    const Text(
                       'Connecting\n♥️\nOnes',
                       textAlign: TextAlign.center,
                       style: TextStyle(),
@@ -79,7 +79,7 @@ class AboutPage extends StatelessWidget {
                   ],
                 ),
               ),
-              Align(
+              const Align(
                 alignment: Alignment.center,
                 child: Padding(
                   padding: EdgeInsets.fromLTRB(8, 8, 8, 0),
@@ -92,17 +92,17 @@ class AboutPage extends StatelessWidget {
                   ),
                 ),
               ),
-              Divider(
+              const Divider(
                 thickness: 1,
                 indent: 24,
                 endIndent: 24,
               ),
-              Align(
+              const Align(
                 alignment: Alignment.center,
                 child: Padding(
                   padding: EdgeInsets.all(8),
                   child: Text(
-                    'If love was a finding, \nI wouldn\'t have been so lost\n\nIf Soulmates were to be found\nNo Questions wouldve\' been on the trust\n\nIf forever was not an illusion\nWe wouldve\' been still \"US\"\n\nNo memories renewal, no past reviwed\nI\'d still run to you, I have the guts!',
+                    'If love was a finding, \nI wouldn\'t have been so lost\n\nIf Soulmates were to be found\nNo Questions wouldve\' been on the trust\n\nIf forever was not an illusion\nWe wouldve\' been still "US"\n\nNo memories renewal, no past reviwed\nI\'d still run to you, I have the guts!',
                     textAlign: TextAlign.center,
                     style: TextStyle(),
                   ),

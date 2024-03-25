@@ -41,7 +41,7 @@ Future<String?> getUserImageUrl(String uuid) async {
       return null; // Document doesn't exist
     }
   } catch (error) {
-    print("Error getting name: $error");
+    // print("Error getting name: $error");
     return null;
   }
 }
@@ -62,7 +62,7 @@ Future<String?> getUserName(String uuid) async {
       return null; // Document doesn't exist
     }
   } catch (error) {
-    print("Error getting name: $error");
+    // print("Error getting name: $error");
     return null;
   }
 }

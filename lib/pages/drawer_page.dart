@@ -34,8 +34,8 @@ class _PersonaPageState extends State<PersonaPage> {
   }
 
   _loadUuid() async {
-    String get_uuid = await getAdminLocally();
-    uuid = get_uuid;
+    String getUuid = await getAdminLocally();
+    uuid = getUuid;
   }
 
   void closeEndDrawer(BuildContext context) {

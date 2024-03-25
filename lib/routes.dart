@@ -12,7 +12,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 
 routes() {
-  final GoRouter _router = GoRouter(
+  final GoRouter router = GoRouter(
     initialLocation: '/',
     routes: [
       GoRoute(
@@ -69,19 +69,19 @@ routes() {
           ),
           GoRoute(
             path: "profilePage",
-            builder: (context, state) => ProfilePage(),
+            builder: (context, state) => const ProfilePage(),
           ),
           GoRoute(
             path: "aboutPage",
-            builder: (context, state) => AboutPage(),
+            builder: (context, state) => const AboutPage(),
           ),
           GoRoute(
             path: "galleryForLove",
-            builder: (context, state) => GalleryForLoved(),
+            builder: (context, state) => const GalleryForLoved(),
           ),
           GoRoute(
             path: "galleryForAdmin",
-            builder: (context, state) => GalleryForAdmin(),
+            builder: (context, state) => const GalleryForAdmin(),
           ),
         ],
       ),
@@ -89,16 +89,16 @@ routes() {
       GoRoute(path: "/login", builder: ((context, state) => const LogIn())),
     ],
   );
-  return _router;
+  return router;
 }
 
 authRoutes() {
-  final GoRouter _router = GoRouter(
+  final GoRouter router = GoRouter(
     initialLocation: '/login',
     routes: [
       GoRoute(path: "/signin", builder: ((context, state) => const SignIn())),
       GoRoute(path: "/login", builder: ((context, state) => const LogIn())),
     ],
   );
-  return _router;
+  return router;
 }

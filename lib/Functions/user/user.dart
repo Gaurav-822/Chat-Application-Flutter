@@ -137,7 +137,7 @@ Future<String?> getUserProfileUrl(String uuid) async {
       return null; // User details not found
     }
   } catch (error) {
-    print('Error retrieving user profile URL: $error');
+    // print('Error retrieving user profile URL: $error');
     return null;
   }
 }

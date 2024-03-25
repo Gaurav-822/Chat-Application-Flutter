@@ -53,7 +53,7 @@ class _ConversationPage extends State<ConversationPage> {
   final ScrollController _scrollController = ScrollController();
 
   void addData(String sender, receiver, message) {
-    String documentId = "${sender}_${receiver}";
+    String documentId = "${sender}_$receiver";
     FirebaseFirestore.instance
         .collection('users')
         .doc("messages")
@@ -64,8 +64,9 @@ class _ConversationPage extends State<ConversationPage> {
       'message': message,
       'timestamp': FieldValue.serverTimestamp(),
     }).then((DocumentReference docRef) {
-      print("Message added with ID: ${docRef.id}");
-    }).catchError((error) => throw ("Failed to add message: $error"));
+      // print("Message added with ID: ${docRef.id}");
+    });
+    // .catchError((error) => throw ("Failed to add message: $error"));
   }
 
   @override
