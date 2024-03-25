@@ -43,24 +43,6 @@ class _TheSpecial extends State<TheSpecial> {
               child: ProfilePic(uuid: getAdminUuid() ?? "", zoom: false),
             ),
           ),
-
-          // FutureBuilder(
-          //   future: getAdminUuid(),
-          //   builder: (context, snapshot) {
-          //     return GestureDetector(
-          //       onTap: () => GoRouter.of(context).go("/galleryForAdmin"),
-          //       child: SizedBox(
-          //         width: 100,
-          //         height: 100,
-          //         // clipBehavior: Clip.antiAlias,
-          //         // decoration: const BoxDecoration(
-          //         //   shape: BoxShape.circle,
-          //         // ),
-          //         child: ProfilePic(uuid: getAdminUuid() ?? "", zoom: false),
-          //       ),
-          //     );
-          //   },
-          // ),
           GestureDetector(
             onTap: () => GoRouter.of(context).go("/galleryForLove"),
             child: const SizedBox(
