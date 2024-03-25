@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chat_app/Functions/scanner.dart';
 import 'package:chat_app/Functions/user/friends.dart';
 import 'package:chat_app/Functions/user/get_info.dart';
+import 'package:chat_app/pages/friends/the_special.dart';
 import 'package:chat_app/sprites/proflie_pic.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -22,13 +23,13 @@ class _FriendsPageState extends State<FriendsPage> {
 
   List<List<String>> nestedList = [];
 
-  late String adminUUID;
+  // late String adminUUID;
 
   @override
   void initState() {
     super.initState();
 
-    getAdminUUID();
+    // getAdminUUID();
     getNestedList();
   }
 
@@ -48,9 +49,9 @@ class _FriendsPageState extends State<FriendsPage> {
     });
   }
 
-  void getAdminUUID() async {
-    adminUUID = await getAdminLocally();
-  }
+  // void getAdminUUID() async {
+  //   adminUUID = await getAdminLocally();
+  // }
 
   Future<void> _scanQRCode() async {
     String? scanResult = await scanQRCode();
@@ -87,55 +88,56 @@ class _FriendsPageState extends State<FriendsPage> {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8),
-            child: Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                const Icon(
-                  Icons.favorite_rounded,
-                  size: 24,
-                ),
-                const SizedBox(
-                  height: 100,
-                  child: VerticalDivider(
-                    thickness: 1,
-                    indent: 16,
-                    endIndent: 16,
-                    // color: Colors.black, // Use your preferred color
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () => GoRouter.of(context).go("/galleryForAdmin"),
-                  child: SizedBox(
-                    width: 100,
-                    height: 100,
-                    // clipBehavior: Clip.antiAlias,
-                    // decoration: const BoxDecoration(
-                    //   shape: BoxShape.circle,
-                    // ),
-                    child: ProfilePic(uuid: adminUUID, zoom: false),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () => GoRouter.of(context).go("/galleryForLove"),
-                  child: const SizedBox(
-                    width: 100,
-                    height: 100,
-                    // clipBehavior: Clip.antiAlias,
-                    // decoration: const BoxDecoration(
-                    //   shape: BoxShape.circle,
-                    // ),
-                    child: ProfilePic(
-                      uuid: "Padmaja",
-                      zoom: false,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+          TheSpecial(adminUuid: "adminUUID", favUuid: "favUuid"),
+          // Padding(
+          //   padding: const EdgeInsets.all(8),
+          //   child: Row(
+          //     mainAxisSize: MainAxisSize.max,
+          //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          //     children: [
+          //       const Icon(
+          //         Icons.favorite_rounded,
+          //         size: 24,
+          //       ),
+          //       const SizedBox(
+          //         height: 100,
+          //         child: VerticalDivider(
+          //           thickness: 1,
+          //           indent: 16,
+          //           endIndent: 16,
+          //           // color: Colors.black, // Use your preferred color
+          //         ),
+          //       ),
+          //       GestureDetector(
+          //         onTap: () => GoRouter.of(context).go("/galleryForAdmin"),
+          //         child: SizedBox(
+          //           width: 100,
+          //           height: 100,
+          //           // clipBehavior: Clip.antiAlias,
+          //           // decoration: const BoxDecoration(
+          //           //   shape: BoxShape.circle,
+          //           // ),
+          //           child: ProfilePic(uuid: adminUUID, zoom: false),
+          //         ),
+          //       ),
+          //       GestureDetector(
+          //         onTap: () => GoRouter.of(context).go("/galleryForLove"),
+          //         child: const SizedBox(
+          //           width: 100,
+          //           height: 100,
+          //           // clipBehavior: Clip.antiAlias,
+          //           // decoration: const BoxDecoration(
+          //           //   shape: BoxShape.circle,
+          //           // ),
+          //           child: ProfilePic(
+          //             uuid: "Padmaja",
+          //             zoom: false,
+          //           ),
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
           Padding(
             padding: const EdgeInsets.all(8),
             child: Row(

@@ -2,7 +2,7 @@ import 'package:chat_app/Functions/firebase_message_api.dart';
 import 'package:chat_app/firebase_options.dart';
 import 'package:chat_app/pages/auth_page.dart';
 import 'package:chat_app/pages/chats_page.dart';
-import 'package:chat_app/pages/friends_page.dart';
+import 'package:chat_app/pages/friends/friends_page.dart';
 import 'package:chat_app/pages/drawer_page.dart';
 import 'package:chat_app/routes.dart';
 import 'package:flutter/gestures.dart';

@@ -40,7 +40,7 @@ class _ChatsState extends State<Chats> {
               return ChatRow(
                 name: name,
                 onTap: () {
-                  GoRouter.of(context).go('/chats/$uuid/$name');
+                  GoRouter.of(context).go('/chats/$name/$uuid');
                 },
               );
             },
