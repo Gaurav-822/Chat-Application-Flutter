@@ -37,8 +37,8 @@ class _ProfilePage extends State<ProfilePage> {
   }
 
   _loadUuid() async {
-    String get_uuid = await getAdminLocally();
-    uuid = get_uuid;
+    String getUuid = await getAdminLocally();
+    uuid = getUuid;
   }
 
   _loadProfileName() async {
@@ -114,7 +114,7 @@ class _ProfilePage extends State<ProfilePage> {
           mainAxisSize: MainAxisSize.max,
           children: [
             Padding(
-              padding: EdgeInsets.all(8),
+              padding: const EdgeInsets.all(8),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -122,7 +122,7 @@ class _ProfilePage extends State<ProfilePage> {
                     onTap: () {
                       Navigator.pop(context);
                     },
-                    child: Padding(
+                    child: const Padding(
                       padding: EdgeInsets.all(8),
                       child: Icon(Icons.arrow_back),
                     ),
@@ -137,7 +137,7 @@ class _ProfilePage extends State<ProfilePage> {
                           : showToastMessage("Done");
                     },
                     child: Padding(
-                      padding: EdgeInsets.all(8),
+                      padding: const EdgeInsets.all(8),
                       child: Icon(
                         (!isVisible) ? Icons.edit : Icons.done,
                         size: 24,
@@ -154,10 +154,10 @@ class _ProfilePage extends State<ProfilePage> {
                       width: 120,
                       height: 120,
                       clipBehavior: Clip.antiAlias,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         shape: BoxShape.circle,
                       ),
-                      child: CircularProgressIndicator(),
+                      child: const CircularProgressIndicator(),
                     )
                   : (isVisible)
                       ? GestureDetector(
@@ -181,11 +181,11 @@ class _ProfilePage extends State<ProfilePage> {
                         context: context,
                         builder: (BuildContext context) {
                           return Container(
-                            padding: EdgeInsets.all(16.0),
+                            padding: const EdgeInsets.all(16.0),
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Row(
+                                const Row(
                                   children: [
                                     Icon(Icons.edit),
                                     SizedBox(width: 8.0),
@@ -198,10 +198,10 @@ class _ProfilePage extends State<ProfilePage> {
                                     ),
                                   ],
                                 ),
-                                SizedBox(height: 16.0),
+                                const SizedBox(height: 16.0),
                                 TextFormField(
                                   controller: _profileNameController,
-                                  decoration: InputDecoration(
+                                  decoration: const InputDecoration(
                                     labelText: "Enter your information",
                                     border: OutlineInputBorder(
                                       borderRadius:
@@ -209,7 +209,7 @@ class _ProfilePage extends State<ProfilePage> {
                                     ),
                                   ),
                                 ),
-                                SizedBox(height: 8.0),
+                                const SizedBox(height: 8.0),
                                 Align(
                                   alignment: Alignment.centerRight,
                                   child: ElevatedButton(
@@ -233,10 +233,10 @@ class _ProfilePage extends State<ProfilePage> {
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: Padding(
-                        padding: EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(8),
                         child: Text(
                           profileName,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontFamily: 'Montserrat',
                             fontSize: 64,
                           ),
@@ -250,10 +250,10 @@ class _ProfilePage extends State<ProfilePage> {
                 : Align(
                     alignment: Alignment.centerLeft,
                     child: Padding(
-                      padding: EdgeInsets.all(8),
+                      padding: const EdgeInsets.all(8),
                       child: Text(
                         profileName,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontFamily: 'Montserrat',
                           fontSize: 64,
                         ),
@@ -263,9 +263,9 @@ class _ProfilePage extends State<ProfilePage> {
                     ),
                   ),
             Align(
-              alignment: AlignmentDirectional(0, 0),
+              alignment: const AlignmentDirectional(0, 0),
               child: Padding(
-                padding: EdgeInsets.fromLTRB(0, 8, 0, 8),
+                padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
                 child: Row(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -314,12 +314,15 @@ class _ProfilePage extends State<ProfilePage> {
               ),
             ),
             Align(
-              alignment: AlignmentDirectional(-1, 0),
+              alignment: const AlignmentDirectional(-1, 0),
               child: Padding(
-                padding: EdgeInsets.all(8),
+                padding: const EdgeInsets.all(8),
                 child: Text(
                   'Memories',
-                  style: Theme.of(context).textTheme.bodyLarge!.merge(TextStyle(
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyLarge!
+                      .merge(const TextStyle(
                         fontFamily: 'Readex Pro',
                         fontSize: 24,
                       )),
@@ -328,10 +331,10 @@ class _ProfilePage extends State<ProfilePage> {
             ),
             Expanded(
               child: Padding(
-                padding: EdgeInsets.all(8),
+                padding: const EdgeInsets.all(8),
                 child: GridView(
                   padding: EdgeInsets.zero,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3,
                     crossAxisSpacing: 10,
                     mainAxisSpacing: 10,
@@ -340,7 +343,7 @@ class _ProfilePage extends State<ProfilePage> {
                   scrollDirection: Axis.vertical,
                   children: [
                     ClipRRect(
-                      borderRadius: BorderRadius.only(
+                      borderRadius: const BorderRadius.only(
                         bottomLeft: Radius.circular(0),
                         bottomRight: Radius.circular(0),
                         topLeft: Radius.circular(8),
@@ -363,7 +366,7 @@ class _ProfilePage extends State<ProfilePage> {
                       ),
                     ),
                     ClipRRect(
-                      borderRadius: BorderRadius.only(
+                      borderRadius: const BorderRadius.only(
                         bottomLeft: Radius.circular(0),
                         bottomRight: Radius.circular(0),
                         topLeft: Radius.circular(0),

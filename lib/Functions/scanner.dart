@@ -1,9 +1,7 @@
 import 'package:chat_app/Functions/user/friends.dart';
 import 'package:chat_app/Functions/toasts.dart';
 import 'package:chat_app/Functions/user/get_info.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 List<String> friends = [];
 

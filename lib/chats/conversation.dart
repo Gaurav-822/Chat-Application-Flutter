@@ -5,12 +5,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class Conversation extends StatefulWidget {
-  final String admin_uuid, receiver_uuid, admin_name;
+  final String adminUuid, receiverUuid, adminName;
   const Conversation(
       {super.key,
-      required this.admin_uuid,
-      required this.receiver_uuid,
-      required this.admin_name});
+      required this.adminUuid,
+      required this.receiverUuid,
+      required this.adminName});
 
   @override
   State<StatefulWidget> createState() {
@@ -21,8 +21,8 @@ class Conversation extends StatefulWidget {
 class _Conversation extends State<Conversation> {
   void addData(String sender, receiver, message) {
     String documentId = sender.compareTo(receiver) > 0
-        ? "$sender\_$receiver"
-        : "$receiver\_$sender";
+        ? "${sender}_$receiver"
+        : "${receiver}_$sender";
     FirebaseFirestore.instance
         .collection('users')
         .doc("messages")
@@ -33,8 +33,9 @@ class _Conversation extends State<Conversation> {
       'message': message,
       'timestamp': FieldValue.serverTimestamp(),
     }).then((DocumentReference docRef) {
-      print("Message added with ID: ${docRef.id}");
-    }).catchError((error) => print("Failed to add message: $error"));
+      // print("Message added with ID: ${docRef.id}");
+    });
+    // .catchError((error) => print("Failed to add message: $error"));
   }
 
   final ScrollController _scrollController = ScrollController();
@@ -48,9 +49,9 @@ class _Conversation extends State<Conversation> {
 
   @override
   Widget build(BuildContext context) {
-    String documentId = widget.admin_uuid.compareTo(widget.receiver_uuid) > 0
-        ? "${widget.admin_uuid}\_${widget.receiver_uuid}"
-        : "${widget.receiver_uuid}\_${widget.admin_uuid}";
+    String documentId = widget.adminUuid.compareTo(widget.receiverUuid) > 0
+        ? "${widget.adminUuid}_${widget.receiverUuid}"
+        : "${widget.receiverUuid}_${widget.adminUuid}";
     return Column(
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -67,7 +68,7 @@ class _Conversation extends State<Conversation> {
                 .snapshots(),
             builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(
+                return const Center(
                   child: CircularProgressIndicator(),
                 );
               }
@@ -77,7 +78,7 @@ class _Conversation extends State<Conversation> {
                 );
               }
               if (snapshot.data == null || snapshot.data!.docs.isEmpty) {
-                return Center(
+                return const Center(
                   child: Text('Start Conversation..🤞'),
                 );
               }
@@ -91,7 +92,7 @@ class _Conversation extends State<Conversation> {
                   return GestureDetector(
                     child: TextBubble(
                         text: data['message'],
-                        orientation: (data['sender'] == widget.admin_uuid)
+                        orientation: (data['sender'] == widget.adminUuid)
                             ? "right"
                             : "left"),
                     onLongPress: () {
@@ -105,10 +106,10 @@ class _Conversation extends State<Conversation> {
         ),
         MessageBar(
           onMessageSent: (message) {
-            addData(widget.admin_uuid, widget.receiver_uuid, message);
+            addData(widget.adminUuid, widget.receiverUuid, message);
             sendNotificationToUser(
-              widget.receiver_uuid,
-              widget.admin_name,
+              widget.receiverUuid,
+              widget.adminName,
               message,
             );
           },

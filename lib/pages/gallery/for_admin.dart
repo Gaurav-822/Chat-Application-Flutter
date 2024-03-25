@@ -20,14 +20,14 @@ class _GalleryForAdmin extends State<GalleryForAdmin> {
           mainAxisSize: MainAxisSize.max,
           children: [
             Padding(
-              padding: EdgeInsets.all(8),
+              padding: const EdgeInsets.all(8),
               child: Row(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   GestureDetector(
                     onTap: () => Navigator.pop(context),
-                    child: Icon(
+                    child: const Icon(
                       Icons.chevron_left,
                       size: 36,
                     ),
@@ -36,14 +36,14 @@ class _GalleryForAdmin extends State<GalleryForAdmin> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.fromLTRB(16, 8, 16, 8),
+              padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
               child: Row(
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   Container(
                     width: 100,
-                    decoration: BoxDecoration(),
-                    child: Align(
+                    decoration: const BoxDecoration(),
+                    child: const Align(
                       alignment: Alignment.center,
                       child: Padding(
                         padding: EdgeInsets.fromLTRB(0, 8, 0, 8),
@@ -57,7 +57,7 @@ class _GalleryForAdmin extends State<GalleryForAdmin> {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 75,
                     child: VerticalDivider(
                       thickness: 1,
@@ -67,7 +67,7 @@ class _GalleryForAdmin extends State<GalleryForAdmin> {
                     ),
                   ),
                   Expanded(
-                    child: Container(
+                    child: SizedBox(
                       height: 100,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
@@ -76,10 +76,10 @@ class _GalleryForAdmin extends State<GalleryForAdmin> {
                           return Container(
                             width: 60,
                             height: 60,
-                            margin: EdgeInsets.symmetric(
+                            margin: const EdgeInsets.symmetric(
                                 horizontal: 8), // Adjust margin as needed
                             clipBehavior: Clip.antiAlias,
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               shape: BoxShape.circle,
                             ),
                             child: Image.network(
@@ -96,14 +96,14 @@ class _GalleryForAdmin extends State<GalleryForAdmin> {
             ),
             Container(
               width: 200,
-              decoration: BoxDecoration(),
+              decoration: const BoxDecoration(),
             ),
             Expanded(
               child: Padding(
-                padding: EdgeInsets.fromLTRB(16, 8, 16, 0),
+                padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
                 child: GridView(
                   padding: EdgeInsets.zero,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     crossAxisSpacing: 10,
                     mainAxisSpacing: 10,

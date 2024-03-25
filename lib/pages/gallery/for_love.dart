@@ -19,14 +19,14 @@ class _GalleryForLoved extends State<GalleryForLoved> {
           mainAxisSize: MainAxisSize.max,
           children: [
             Padding(
-              padding: EdgeInsets.all(8),
+              padding: const EdgeInsets.all(8),
               child: Row(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   GestureDetector(
                     onTap: () => Navigator.pop(context),
-                    child: Icon(
+                    child: const Icon(
                       Icons.chevron_left,
                       size: 36,
                     ),
@@ -44,12 +44,12 @@ class _GalleryForLoved extends State<GalleryForLoved> {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Padding(
-                        padding: EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(8),
                         child: Container(
                           width: 120,
                           height: 120,
                           clipBehavior: Clip.antiAlias,
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             shape: BoxShape.circle,
                           ),
                           child: Image.asset(
@@ -59,7 +59,7 @@ class _GalleryForLoved extends State<GalleryForLoved> {
                         ),
                       ),
                     ),
-                    Padding(
+                    const Padding(
                       padding: EdgeInsets.all(8),
                       child: Row(
                         mainAxisSize: MainAxisSize.max,
@@ -94,7 +94,7 @@ class _GalleryForLoved extends State<GalleryForLoved> {
                 Column(
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    Padding(
+                    const Padding(
                       padding: EdgeInsets.all(8),
                       child: Text(
                         'Gaurav',
@@ -106,23 +106,23 @@ class _GalleryForLoved extends State<GalleryForLoved> {
                     ),
                     Container(
                       width: 200,
-                      decoration: BoxDecoration(),
+                      decoration: const BoxDecoration(),
                     ),
                   ],
                 ),
               ],
             ),
-            Divider(
+            const Divider(
               thickness: 1,
               indent: 12,
               endIndent: 12,
             ),
             Expanded(
               child: Padding(
-                padding: EdgeInsets.all(16),
+                padding: const EdgeInsets.all(16),
                 child: GridView(
                   padding: EdgeInsets.zero,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     crossAxisSpacing: 10,
                     mainAxisSpacing: 10,
@@ -157,7 +157,7 @@ class _GalleryForLoved extends State<GalleryForLoved> {
                         fit: BoxFit.cover,
                       ),
                     ),
-                    Icon(
+                    const Icon(
                       Icons.add,
                       // color: Theme.of(context).textTheme.subtitle1.color,
                       size: 36,

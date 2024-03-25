@@ -26,18 +26,13 @@ class _ConversationPage extends State<ConversationPage> {
   late Stream<QuerySnapshot> receiverSenderStream;
   late Stream<QuerySnapshot> senderReceiverStream;
 
-  // late String adminreceiverUuid, reciever_name;
-
   @override
   void initState() {
     super.initState();
-    // _loadProfileName();
     _initializeProfileAndStreams();
   }
 
   void _initializeProfileAndStreams() async {
-    // await _loadProfileName();
-
     // Now that admin is initialized, initialize streams
     Stream<QuerySnapshot> getMessagesStream(String sender, receiver) {
       return FirebaseFirestore.instance
@@ -55,18 +50,10 @@ class _ConversationPage extends State<ConversationPage> {
         getMessagesStream(widget.senderUuid, widget.receiverUuid);
   }
 
-  // _loadProfileName() async {
-  //   String admin = await getAdminLocally();
-  //   adminreceiverUuid = admin;
-
-  //   String r_name = await getUserName(widget.receiverUuid) ?? "None";
-  //   reciever_name = r_name;
-  // }
-
   final ScrollController _scrollController = ScrollController();
 
   void addData(String sender, receiver, message) {
-    String documentId = "${sender}_${receiver}";
+    String documentId = "${sender}_$receiver";
     FirebaseFirestore.instance
         .collection('users')
         .doc("messages")
@@ -77,28 +64,14 @@ class _ConversationPage extends State<ConversationPage> {
       'message': message,
       'timestamp': FieldValue.serverTimestamp(),
     }).then((DocumentReference docRef) {
-      print("Message added with ID: ${docRef.id}");
-    }).catchError((error) => print("Failed to add message: $error"));
+      // print("Message added with ID: ${docRef.id}");
+    });
+    // .catchError((error) => throw ("Failed to add message: $error"));
   }
 
   @override
   Widget build(BuildContext context) {
     return _buildConversationPage();
-    // return FutureBuilder(
-    //   future: _loadProfileName(),
-    //   builder: (context, snapshot) {
-    //     if (snapshot.connectionState == ConnectionState.waiting) {
-    //       return Center(
-    //         child: CircularProgressIndicator(),
-    //       );
-    //     }
-    //     if (snapshot.hasError) {
-    //       return Center(child: Text('Error: ${snapshot.error}'));
-    //     }
-    //     // Once profile is loaded, build the UI
-    //     return _buildConversationPage();
-    //   },
-    // );
   }
 
   Widget _buildConversationPage() {
@@ -112,7 +85,7 @@ class _ConversationPage extends State<ConversationPage> {
                 width: 50,
                 height: 50,
                 clipBehavior: Clip.antiAlias,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   shape: BoxShape.circle,
                 ),
                 child: FutureBuilder<String?>(
@@ -121,7 +94,7 @@ class _ConversationPage extends State<ConversationPage> {
                         AsyncSnapshot<String?> snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         // Show a loading screen while the data is being fetched
-                        return CircularProgressIndicator();
+                        return const CircularProgressIndicator();
                         // );
                       } else if (snapshot.hasError) {
                         // Show an error message if there's an error
@@ -177,9 +150,9 @@ class _ConversationPage extends State<ConversationPage> {
         ),
       ),
       body: Conversation(
-        admin_uuid: widget.senderUuid,
-        receiver_uuid: widget.receiverUuid,
-        admin_name: widget.senderName,
+        adminUuid: widget.senderUuid,
+        receiverUuid: widget.receiverUuid,
+        adminName: widget.senderName,
       ),
     );
   }

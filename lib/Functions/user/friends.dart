@@ -189,9 +189,9 @@ void updateFriendUpdatedAtLocal(String friendUuid) async {
     // Save the modified nested list back to shared preferences
     friendsList[friendIndex][4] = "yes";
     saveNestedData(friendsList);
-    print('Friend updated successfully');
+    // print('Friend updated successfully');
   } else {
-    print('Friend with UUID $friendUuid not found');
+    // print('Friend with UUID $friendUuid not found');
   }
 }
 
