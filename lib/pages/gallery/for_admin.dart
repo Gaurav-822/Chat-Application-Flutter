@@ -66,55 +66,32 @@ class _GalleryForAdmin extends State<GalleryForAdmin> {
                       // color: Theme.of(context).textTheme.subtitle1.color,
                     ),
                   ),
-                  Container(
-                    width: 60,
-                    height: 60,
-                    clipBehavior: Clip.antiAlias,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                    ),
-                    child: Image.network(
-                      'https://picsum.photos/seed/927/600',
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  Container(
-                    width: 60,
-                    height: 60,
-                    clipBehavior: Clip.antiAlias,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                    ),
-                    child: Image.asset(
-                      'assets/images/112966037.jpg',
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  Container(
-                    width: 60,
-                    height: 60,
-                    clipBehavior: Clip.antiAlias,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                    ),
-                    child: Image.asset(
-                      'assets/images/Gemini_Generated_Image__4_-removebg-preview.png',
-                      fit: BoxFit.cover,
+                  Expanded(
+                    child: Container(
+                      height: 100,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: 4,
+                        itemBuilder: (context, index) {
+                          return Container(
+                            width: 60,
+                            height: 60,
+                            margin: EdgeInsets.symmetric(
+                                horizontal: 8), // Adjust margin as needed
+                            clipBehavior: Clip.antiAlias,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                            ),
+                            child: Image.network(
+                              'https://picsum.photos/seed/927/600',
+                              fit: BoxFit.cover,
+                            ),
+                          );
+                        },
+                      ),
                     ),
                   ),
-                  Container(
-                    width: 60,
-                    height: 60,
-                    clipBehavior: Clip.antiAlias,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                    ),
-                    child: Image.asset(
-                      'assets/images/neon_butterfly-removebg-preview.png',
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ].expand((widget) => [widget, SizedBox(width: 8)]).toList(),
+                ],
               ),
             ),
             Container(
