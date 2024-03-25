@@ -30,38 +30,19 @@ class _ChatsState extends State<Chats> {
   @override
   Widget build(BuildContext context) {
     return (chatNames.isNotEmpty)
-        ? FutureBuilder<void>(
-            future: _loadChatNames(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                // Show a loading indicator while data is being fetched
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-              if (snapshot.hasError) {
-                // Handle error case
-                return Center(
-                  child: Text('Error loading data'),
-                );
-              } else {
-                // Data loaded successfully, show the list
-                return ListView.builder(
-                  padding: EdgeInsets.zero,
-                  scrollDirection: Axis.vertical,
-                  itemCount: chatNames.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    final String name = chatNames[index][0];
-                    final String uuid = chatNames[index][1];
-                    return ChatRow(
-                      name: name,
-                      onTap: () {
-                        GoRouter.of(context).go('/chats/$uuid/$name');
-                      },
-                    );
-                  },
-                );
-              }
+        ? ListView.builder(
+            padding: EdgeInsets.zero,
+            scrollDirection: Axis.vertical,
+            itemCount: chatNames.length,
+            itemBuilder: (BuildContext context, int index) {
+              final String name = chatNames[index][0];
+              final String uuid = chatNames[index][1];
+              return ChatRow(
+                name: name,
+                onTap: () {
+                  GoRouter.of(context).go('/chats/$uuid/$name');
+                },
+              );
             },
           )
         : Center(
