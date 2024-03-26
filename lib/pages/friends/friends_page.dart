@@ -8,7 +8,8 @@ import 'package:go_router/go_router.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class FriendsPage extends StatefulWidget {
-  const FriendsPage({super.key});
+  final Function() setParentState;
+  const FriendsPage({super.key, required this.setParentState});
 
   @override
   State<StatefulWidget> createState() => _FriendsPageState();
@@ -280,6 +281,7 @@ class _FriendsPageState extends State<FriendsPage> {
                       // saveChatName(name);
                       GoRouter.of(context).go('/chats/${snapshot.data}/$uuid');
                       updateFriendUpdated(uuid);
+                      widget.setParentState();
                     },
                     child: const Icon(
                       Icons.send_rounded,

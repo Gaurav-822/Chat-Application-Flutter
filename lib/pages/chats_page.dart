@@ -5,30 +5,32 @@ import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 
 class Chats extends StatefulWidget {
-  const Chats({super.key});
+  final List<List<String>> chatNames;
+  const Chats({super.key, required this.chatNames});
 
   @override
   State<StatefulWidget> createState() => _ChatsState();
 }
 
 class _ChatsState extends State<Chats> {
-  List<List<String>> chatNames = [];
-
   @override
   void initState() {
     super.initState();
-    _loadChatNames();
+    // _loadChatNames();
   }
 
-  Future<void> _loadChatNames() async {
-    List<List<String>> temp = await getNestedDataForChat();
-    setState(() {
-      chatNames = temp;
-    });
-  }
+  // List<List<String>> chatNames = [];
+
+  // Future<void> _loadChatNames() async {
+  //   List<List<String>> temp = await getNestedDataForChat();
+  //   setState(() {
+  //     chatNames = temp;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
+    List<List<String>> chatNames = widget.chatNames;
     return (chatNames.isNotEmpty)
         ? ListView.builder(
             padding: EdgeInsets.zero,

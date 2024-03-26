@@ -1,4 +1,6 @@
 import 'package:chat_app/Functions/firebase_message_api.dart';
+import 'package:chat_app/Functions/toasts.dart';
+import 'package:chat_app/Functions/user/friends.dart';
 import 'package:chat_app/firebase_options.dart';
 import 'package:chat_app/pages/auth_page.dart';
 import 'package:chat_app/pages/chats_page.dart';
@@ -109,6 +111,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     super.initState();
     askNoti();
     _tabController = TabController(length: 2, vsync: this);
+    _loadChatNames();
   }
 
   void askNoti() async {
@@ -116,6 +119,24 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   }
 
   final _pageController = PageController(initialPage: 0);
+
+  // Chats Page
+  List<List<String>> chatNames = [];
+
+  Future<void> _loadChatNames() async {
+    List<List<String>> temp = await getNestedDataForChat();
+    // setState(() {
+    chatNames = temp;
+    // });
+  }
+
+  final GlobalKey _childKey = GlobalKey();
+
+  void setStateInChild() async {
+    // Access the child widget using the key and call its setState method
+    await _loadChatNames();
+    _childKey.currentState?.setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -193,9 +214,14 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
             child: PageView(
               controller: _pageController,
               dragStartBehavior: DragStartBehavior.start,
-              children: const [
-                Chats(),
-                FriendsPage(),
+              children: [
+                Chats(
+                  key: _childKey,
+                  chatNames: chatNames,
+                ),
+                FriendsPage(
+                  setParentState: setStateInChild,
+                ),
               ],
               onPageChanged: (index) {
                 _tabController.index = index;

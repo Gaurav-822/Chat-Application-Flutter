@@ -1,5 +1,6 @@
 import 'package:chat_app/Functions/image_functions.dart';
 import 'package:chat_app/Functions/scanner.dart';
+import 'package:chat_app/Functions/toasts.dart';
 import 'package:chat_app/Functions/user/get_info.dart';
 import 'package:chat_app/signIn/auth/email_pass_auth.dart';
 import 'package:chat_app/sprites/proflie_pic.dart';
@@ -205,6 +206,44 @@ class _PersonaPageState extends State<PersonaPage> {
                           SizedBox(width: 16),
                           Text(
                             'About',
+                            style: TextStyle(
+                              fontFamily: 'Readex Pro',
+                              fontSize: 24,
+                              fontWeight: FontWeight.w100,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                Align(
+                  alignment: const AlignmentDirectional(1, 0),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: GestureDetector(
+                      onTap: () {
+                        void clearSharedPreferences() async {
+                          SharedPreferences prefs =
+                              await SharedPreferences.getInstance();
+                          await prefs.clear();
+                          // print('SharedPreferences cleared');
+                        }
+
+                        clearSharedPreferences();
+                        showToastMessage("Local Data is Cleared");
+                      },
+                      child: const Row(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Icon(
+                            Icons.delete,
+                            color: Colors.grey, // Change to your desired color
+                            size: 24,
+                          ),
+                          SizedBox(width: 16),
+                          Text(
+                            'Delete',
                             style: TextStyle(
                               fontFamily: 'Readex Pro',
                               fontSize: 24,
