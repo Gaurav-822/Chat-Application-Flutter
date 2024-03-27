@@ -108,45 +108,39 @@ class _ProfilePage extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Center(
+          child: Text(
+            "Profile Page",
+            style: TextStyle(
+              fontFamily: "title_font",
+              letterSpacing: 1.5,
+            ),
+          ),
+        ),
+        actions: [
+          GestureDetector(
+            onTap: () {
+              // showToastMessage(uuid);
+              _profileNameController.text = profileName;
+              toggleVisibility();
+              (isVisible) ? showToastMessage("Edit") : showToastMessage("Done");
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(8),
+              child: Icon(
+                (!isVisible) ? Icons.edit : Icons.done,
+                size: 24,
+              ),
+            ),
+          )
+        ],
+      ),
       body: SafeArea(
         top: true,
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: const Padding(
-                      padding: EdgeInsets.all(8),
-                      child: Icon(Icons.arrow_back),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      // showToastMessage(uuid);
-                      _profileNameController.text = profileName;
-                      toggleVisibility();
-                      (isVisible)
-                          ? showToastMessage("Edit")
-                          : showToastMessage("Done");
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: Icon(
-                        (!isVisible) ? Icons.edit : Icons.done,
-                        size: 24,
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ),
             Align(
               alignment: Alignment.centerLeft,
               child: _isLoading
@@ -238,7 +232,7 @@ class _ProfilePage extends State<ProfilePage> {
                           profileName,
                           style: const TextStyle(
                             fontFamily: 'Montserrat',
-                            fontSize: 64,
+                            fontSize: 48,
                           ),
                           textAlign: TextAlign.center,
                           maxLines:
@@ -255,10 +249,10 @@ class _ProfilePage extends State<ProfilePage> {
                         profileName,
                         style: const TextStyle(
                           fontFamily: 'Montserrat',
-                          fontSize: 64,
+                          fontSize: 48,
                         ),
                         textAlign: TextAlign.center,
-                        maxLines: null,
+                        maxLines: null, // Allow the text to take up more lines
                       ),
                     ),
                   ),

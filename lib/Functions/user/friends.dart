@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+// adds a user to friends list
 void addFriend(String friendUuid) async {
   User? user = FirebaseAuth.instance.currentUser;
   String? uuid;
@@ -64,6 +65,7 @@ void addFriend(String friendUuid) async {
   }
 }
 
+// removes a user from the friends list
 void removeFriend(String friendUuid) async {
   // Check the user has the previlages to remove friends or not ?
   User? user = FirebaseAuth.instance.currentUser;
@@ -74,9 +76,7 @@ void removeFriend(String friendUuid) async {
     showToastMessage("No user is currently authenticated.");
     return;
   }
-
   // Remove from firestore
-
   try {
     await FirebaseFirestore.instance
         .collection('users')
@@ -92,12 +92,10 @@ void removeFriend(String friendUuid) async {
     showToastMessage("Failed to remove friend: $error");
     throw ("Failed to remove friend: $error");
   }
-
   // Remove locally
-
   SharedPreferences prefs = await SharedPreferences.getInstance();
-
   List<String>? friendsList = prefs.getStringList('friends_list');
+
   if (friendsList != null && friendsList.isNotEmpty) {
     List<String> updatedList = [];
     for (String friendData in friendsList) {
@@ -114,6 +112,7 @@ void removeFriend(String friendUuid) async {
   }
 }
 
+// remove user from chats page
 void updateMessagedToNo(String friendUuid) async {
   User? user = FirebaseAuth.instance.currentUser;
   String? uuid;
@@ -123,8 +122,7 @@ void updateMessagedToNo(String friendUuid) async {
     showToastMessage("No user is currently authenticated.");
     return;
   }
-
-  // Update in Firestore, correct
+  // Update in Firestore
   try {
     await FirebaseFirestore.instance
         .collection('users')
@@ -140,11 +138,14 @@ void updateMessagedToNo(String friendUuid) async {
     showToastMessage("Failed to update messaged status in Firestore: $error");
     throw ("Failed to update messaged status in Firestore: $error");
   }
-
+  // set the data locally
   setFriendsLocally();
 }
 
-void updateFriendUpdatedAtOnline(String friendUuid) async {
+// Implement this in the entire app
+
+//updates the timestamp of change for user sets local data accordingly, required for ordering
+void updateFriends(String friendUuid) async {
   User? user = FirebaseAuth.instance.currentUser;
   String? uuid;
   if (user != null) {
@@ -164,12 +165,14 @@ void updateFriendUpdatedAtOnline(String friendUuid) async {
       'friends.$friendUuid.updated_at': FieldValue.serverTimestamp(),
       'friends.$friendUuid.messaged': "yes",
     }).then((_) {});
+    setFriendsLocally();
   } catch (error) {
     showToastMessage("Failed to update friend: $error");
     throw ("Failed to update friend: $error");
   }
 }
 
+// set the friends locally
 void setFriendsLocally() async {
   User? user = FirebaseAuth.instance.currentUser;
   String? uuid;
@@ -207,23 +210,20 @@ void setFriendsLocally() async {
       }
     }
 
-    saveNestedData(friendsList);
-    // return friendsList;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> nestedJsonList =
+        friendsList.map((list) => json.encode(list)).toList();
+    await prefs.setStringList('nestedList', nestedJsonList);
   } catch (error) {
-    saveNestedData([]);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> nestedJsonList = [].map((list) => json.encode(list)).toList();
+    await prefs.setStringList('nestedList', nestedJsonList);
     showToastMessage("Failed to fetch friends: $error");
     throw ("Failed to fetch friends: $error");
   }
 }
 
-// methods to save and retrieve nested list data
-void saveNestedData(List<List<String>> nestedList) async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  List<String> nestedJsonList =
-      nestedList.map((list) => json.encode(list)).toList();
-  await prefs.setStringList('nestedList', nestedJsonList);
-}
-
+// get the local friends data
 Future<List<List<String>>> getNestedData() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   List<String>? nestedJsonList = prefs.getStringList('nestedList');
@@ -249,55 +249,6 @@ Future<List<List<String>>> getNestedDataForChat() async {
   } else {
     return [];
   }
-}
-
-void updateFriendUpdatedAtLocal(String friendUuid) async {
-  List<List<String>> friendsList = await getNestedData();
-  int friendIndex = -1;
-
-  // Find the index of the friend with the provided UUID
-  for (int i = 0; i < friendsList.length; i++) {
-    if (friendsList[i][1] == friendUuid) {
-      friendIndex = i;
-      break;
-    }
-  }
-
-  if (friendIndex != -1) {
-    // Update the updated_at field for the friend
-    friendsList[friendIndex][3] = DateTime.now().toIso8601String();
-    // Save the modified nested list back to shared preferences
-    friendsList[friendIndex][4] = "yes";
-    saveNestedData(friendsList);
-    // print('Friend updated successfully');
-  } else {
-    // print('Friend with UUID $friendUuid not found');
-  }
-}
-
-void updateFriendUpdated(String friendUuid) {
-  updateFriendUpdatedAtLocal(friendUuid);
-  updateFriendUpdatedAtOnline(friendUuid);
-}
-
-Future<void> addElementToNestedList(List<String> element) async {
-  // Append timestamps to the element
-  String addedAt = DateTime.now().toIso8601String();
-  String updatedAt = addedAt;
-
-  // Add timestamps to the element
-  element.add(addedAt);
-  element.add(updatedAt);
-  element.add("no");
-
-  // Retrieve the existing nested list from SharedPreferences
-  List<List<String>> nestedList = await getNestedData();
-
-  // Append the new element to the nested list
-  nestedList.add(element);
-
-  // Save the updated nested list back to SharedPreferences
-  saveNestedData(nestedList);
 }
 
 List<List<String>> sortNestedList(List<List<String>> dataList) {

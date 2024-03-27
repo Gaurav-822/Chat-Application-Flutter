@@ -35,11 +35,8 @@ Future scanQRCode() async {
     showToastMessage("No such user exists");
   } else {
     addFriend(scanResult);
-    // updating the local data
-    addElementToNestedList([
-      name,
-      scanResult,
-    ]);
+    // getNestedData();
+    setFriendsLocally();
   }
 
   return scanResult;

@@ -23,13 +23,10 @@ class _FriendsPageState extends State<FriendsPage> {
 
   List<List<String>> nestedList = [];
 
-  // late String adminUUID;
-
   @override
   void initState() {
     super.initState();
 
-    // getAdminUUID();
     getNestedList();
   }
 
@@ -49,20 +46,14 @@ class _FriendsPageState extends State<FriendsPage> {
     });
   }
 
-  // void getAdminUUID() async {
-  //   adminUUID = await getAdminLocally();
-  // }
-
   Future<void> _scanQRCode() async {
     String? scanResult = await scanQRCode();
     String? name = await getUserName(scanResult!);
 
     setState(() {
       filteredFriends.add([name!, scanResult]);
-    });
-
-    setState(() async {
-      await addElementToNestedList([name!, scanResult]);
+      addFriend(name);
+      setFriendsLocally();
     });
   }
 
@@ -280,7 +271,7 @@ class _FriendsPageState extends State<FriendsPage> {
                     onTap: () {
                       // saveChatName(name);
                       GoRouter.of(context).go('/chats/${snapshot.data}/$uuid');
-                      updateFriendUpdated(uuid);
+                      updateFriends(uuid);
                       widget.callback();
                     },
                     child: const Icon(
