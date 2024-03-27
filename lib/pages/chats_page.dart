@@ -21,6 +21,9 @@ class _ChatsState extends State<Chats> {
   @override
   Widget build(BuildContext context) {
     List<List<String>> chatNames = widget.chatNames;
+    // sort according to the time stamps
+    print(chatNames);
+    chatNames = sortNestedList(chatNames);
     return (chatNames.isNotEmpty)
         ? ListView.builder(
             padding: EdgeInsets.zero,
@@ -29,48 +32,6 @@ class _ChatsState extends State<Chats> {
             itemBuilder: (BuildContext context, int index) {
               final String name = chatNames[index][0];
               final String uuid = chatNames[index][1];
-              // return Dismissible(
-              //   key: Key(uuid), // Unique key for each item
-              //   direction: DismissDirection.startToEnd,
-              //   confirmDismiss: (DismissDirection direction) async {
-              //     return await showDialog(
-              //       context: context,
-              //       builder: (BuildContext context) {
-              //         return AlertDialog(
-              //           title: Text("Confirm"),
-              //           content: Text("Are you sure you want to delete $name?"),
-              //           actions: <Widget>[
-              //             TextButton(
-              //               onPressed: () => Navigator.of(context).pop(true),
-              //               child: Text("DELETE"),
-              //             ),
-              //             TextButton(
-              //               onPressed: () => Navigator.of(context).pop(false),
-              //               child: Text("CANCEL"),
-              //             ),
-              //           ],
-              //         );
-              //       },
-              //     );
-              //   },
-              //   onDismissed: (direction) {
-              //     // Remove the item from the list when dismissed
-              //     setState(() {
-              //       chatNames.removeAt(index);
-              //       updateMessagedToNo(uuid);
-              //     });
-              //   },
-              //   background: Container(
-              //     color: Colors.red, // Background color when swiping to delete
-              //     alignment: Alignment.centerRight,
-              //     child: const Padding(
-              //       padding: EdgeInsets.only(right: 20.0),
-              //       child: Icon(
-              //         Icons.delete,
-              //         color: Colors.white,
-              //       ),
-              //     ),
-              //   ), child:
               return GestureDetector(
                 onLongPress: () {
                   showModalBottomSheet(
