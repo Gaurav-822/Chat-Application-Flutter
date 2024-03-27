@@ -100,6 +100,9 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   late TabController _tabController;
 
+  // Chats Page
+  List<List<String>> chatNames = [];
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -120,22 +123,11 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
   final _pageController = PageController(initialPage: 0);
 
-  // Chats Page
-  List<List<String>> chatNames = [];
-
   Future<void> _loadChatNames() async {
     List<List<String>> temp = await getNestedDataForChat();
-    // setState(() {
-    chatNames = temp;
-    // });
-  }
-
-  final GlobalKey _childKey = GlobalKey();
-
-  void setStateInChild() async {
-    // Access the child widget using the key and call its setState method
-    await _loadChatNames();
-    _childKey.currentState?.setState(() {});
+    setState(() {
+      chatNames = temp;
+    });
   }
 
   @override
@@ -215,12 +207,18 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
               controller: _pageController,
               dragStartBehavior: DragStartBehavior.start,
               children: [
-                Chats(
-                  key: _childKey,
-                  chatNames: chatNames,
+                RefreshIndicator(
+                  onRefresh: () async {
+                    await _loadChatNames();
+                  },
+                  child: Chats(
+                    chatNames: chatNames,
+                  ),
                 ),
                 FriendsPage(
-                  setParentState: setStateInChild,
+                  callback: () async {
+                    await _loadChatNames();
+                  },
                 ),
               ],
               onPageChanged: (index) {

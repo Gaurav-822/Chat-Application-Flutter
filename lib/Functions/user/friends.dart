@@ -64,6 +64,86 @@ void addFriend(String friendUuid) async {
   }
 }
 
+void removeFriend(String friendUuid) async {
+  // Check the user has the previlages to remove friends or not ?
+  User? user = FirebaseAuth.instance.currentUser;
+  String? uuid;
+  if (user != null) {
+    uuid = user.uid;
+  } else {
+    showToastMessage("No user is currently authenticated.");
+    return;
+  }
+
+  // Remove from firestore
+
+  try {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc("profiles")
+        .collection(uuid)
+        .doc("relations")
+        .update({
+      'friends.$friendUuid': FieldValue.delete(),
+    }).then((_) {
+      showToastMessage("Friend removed successfully");
+    });
+  } catch (error) {
+    showToastMessage("Failed to remove friend: $error");
+    throw ("Failed to remove friend: $error");
+  }
+
+  // Remove locally
+
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+
+  List<String>? friendsList = prefs.getStringList('friends_list');
+  if (friendsList != null && friendsList.isNotEmpty) {
+    List<String> updatedList = [];
+    for (String friendData in friendsList) {
+      List<String> friendInfo = friendData.split(',');
+      if (friendInfo.length >= 2 && friendInfo[1] == friendUuid) {
+        continue; // Skip the friend with the specified UUID
+      }
+      updatedList.add(friendData);
+    }
+    await prefs.setStringList('friends_list', updatedList);
+    showToastMessage("Friend removed locally successfully");
+  } else {
+    showToastMessage("No friends to remove locally.");
+  }
+}
+
+void updateMessagedToNo(String friendUuid) async {
+  User? user = FirebaseAuth.instance.currentUser;
+  String? uuid;
+  if (user != null) {
+    uuid = user.uid;
+  } else {
+    showToastMessage("No user is currently authenticated.");
+    return;
+  }
+
+  // Update in Firestore, correct
+  try {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc("profiles")
+        .collection(uuid)
+        .doc("relations")
+        .update({
+      'friends.$friendUuid.messaged': "no",
+    }).then((_) {
+      showToastMessage("Messaged status updated successfully in Firestore");
+    });
+  } catch (error) {
+    showToastMessage("Failed to update messaged status in Firestore: $error");
+    throw ("Failed to update messaged status in Firestore: $error");
+  }
+
+  setFriendsLocally();
+}
+
 void updateFriendUpdatedAtOnline(String friendUuid) async {
   User? user = FirebaseAuth.instance.currentUser;
   String? uuid;
