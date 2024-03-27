@@ -1,10 +1,10 @@
 import 'package:chat_app/Functions/user/get_info.dart';
 import 'package:chat_app/chats/conversation_page.dart';
 import 'package:chat_app/main.dart';
-import 'package:chat_app/pages/about_page.dart';
+import 'package:chat_app/pages/about/about_page.dart';
 import 'package:chat_app/pages/gallery/for_admin.dart';
 import 'package:chat_app/pages/gallery/for_love.dart';
-import 'package:chat_app/pages/profile_page.dart';
+import 'package:chat_app/pages/profile/profile_page.dart';
 import 'package:chat_app/signIn/login.dart';
 import 'package:chat_app/signIn/signup.dart';
 import 'package:flutter/material.dart';

@@ -45,12 +45,9 @@ class _ProfilePage extends State<ProfilePage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? admin = prefs.getString("adminName");
 
-    // String? uuid = getAdminUuid();
     if (admin == null) {
       String? uuid = getAdminUuid();
-      // showToastMessage(uuid ?? "False UUID");
       String name = await getUserName(uuid!) ?? "Setup your Profile!";
-      // showToastMessage(name);
       setState(() {
         profileName = name;
       });
