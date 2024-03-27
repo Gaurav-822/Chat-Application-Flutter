@@ -146,6 +146,7 @@ void updateMessagedToNo(String friendUuid) async {
 
 //updates the timestamp of change for user sets local data accordingly, required for ordering
 void updateFriends(String friendUuid) async {
+  //checks user authorized or not ?
   User? user = FirebaseAuth.instance.currentUser;
   String? uuid;
   if (user != null) {
@@ -155,6 +156,7 @@ void updateFriends(String friendUuid) async {
     return;
   }
 
+  // change the time stamp and set messaged to yes
   try {
     await FirebaseFirestore.instance
         .collection('users')
@@ -165,6 +167,8 @@ void updateFriends(String friendUuid) async {
       'friends.$friendUuid.updated_at': FieldValue.serverTimestamp(),
       'friends.$friendUuid.messaged': "yes",
     }).then((_) {});
+
+    // sets the new data in the local storage
     setFriendsLocally();
   } catch (error) {
     showToastMessage("Failed to update friend: $error");
@@ -251,22 +255,20 @@ Future<List<List<String>>> getNestedDataForChat() async {
   }
 }
 
-List<List<String>> sortNestedList(List<List<String>> dataList) {
-  // Convert timestamp strings to DateTime objects
-  List<List<dynamic>> convertedList = dataList.map((value) {
-    DateTime updatedDateTime = DateTime.tryParse(value[3]) ?? DateTime.now();
-    return [
-      value[0],
-      value[1],
-      value[2],
-      updatedDateTime.toString(),
-      value[4]
-    ]; // Convert DateTime to String
-  }).toList();
+List<List<String>> sortNestedList(List<List<String>> friendsList) {
+  // Sort the friendsList based on the fourth element (updated_at) in each sublist
+  friendsList.sort((a, b) {
+    Timestamp aTimestamp = Timestamp(
+        (int.parse(a[3].split('=')[1].split(',')[0])), // Extract seconds
+        (int.parse(a[3].split('=')[2].split(')')[0])) // Extract nanoseconds
+        ); // Assuming the timestamp is at index 3
 
-  // Sort the list based on updated_at field
-  convertedList.sort((a, b) => a[3].compareTo(b[3]));
+    Timestamp bTimestamp = Timestamp(
+        (int.parse(b[3].split('=')[1].split(',')[0])), // Extract seconds
+        (int.parse(b[3].split('=')[2].split(')')[0])) // Extract nanoseconds
+        );
 
-  // Convert back to List<List<String>>
-  return convertedList.map((list) => list.cast<String>()).toList();
+    return bTimestamp.toDate().compareTo(aTimestamp.toDate());
+  });
+  return friendsList;
 }
