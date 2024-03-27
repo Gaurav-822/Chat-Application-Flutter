@@ -8,8 +8,8 @@ import 'package:go_router/go_router.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class FriendsPage extends StatefulWidget {
-  final Function() setParentState;
-  const FriendsPage({super.key, required this.setParentState});
+  final VoidCallback callback;
+  const FriendsPage({super.key, required this.callback});
 
   @override
   State<StatefulWidget> createState() => _FriendsPageState();
@@ -23,13 +23,10 @@ class _FriendsPageState extends State<FriendsPage> {
 
   List<List<String>> nestedList = [];
 
-  // late String adminUUID;
-
   @override
   void initState() {
     super.initState();
 
-    // getAdminUUID();
     getNestedList();
   }
 
@@ -49,20 +46,14 @@ class _FriendsPageState extends State<FriendsPage> {
     });
   }
 
-  // void getAdminUUID() async {
-  //   adminUUID = await getAdminLocally();
-  // }
-
   Future<void> _scanQRCode() async {
     String? scanResult = await scanQRCode();
     String? name = await getUserName(scanResult!);
 
     setState(() {
       filteredFriends.add([name!, scanResult]);
-    });
-
-    setState(() async {
-      await addElementToNestedList([name!, scanResult]);
+      addFriend(name);
+      setFriendsLocally();
     });
   }
 
@@ -280,8 +271,8 @@ class _FriendsPageState extends State<FriendsPage> {
                     onTap: () {
                       // saveChatName(name);
                       GoRouter.of(context).go('/chats/${snapshot.data}/$uuid');
-                      updateFriendUpdated(uuid);
-                      widget.setParentState();
+                      updateFriends(uuid);
+                      widget.callback();
                     },
                     child: const Icon(
                       Icons.send_rounded,

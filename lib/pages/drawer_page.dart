@@ -226,7 +226,7 @@ class _PersonaPageState extends State<PersonaPage> {
                         void clearSharedPreferences() async {
                           SharedPreferences prefs =
                               await SharedPreferences.getInstance();
-                          await prefs.clear();
+                          await prefs.remove('nestedList');
                           // print('SharedPreferences cleared');
                         }
 
