@@ -7,13 +7,13 @@ import 'package:chat_app/pages/chat/chats_page.dart';
 import 'package:chat_app/pages/friends/friends_page.dart';
 import 'package:chat_app/pages/drawer/drawer_page.dart';
 import 'package:chat_app/routes.dart';
+import 'package:chat_app/starting_tasks/local_init.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:another_flutter_splash_screen/another_flutter_splash_screen.dart';
 import 'package:lottie/lottie.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,11 +22,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  // Shared Pref
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  if (prefs.getString("admin") == null) {
-    prefs.setString("admin", "");
-  }
+  localInit();
 
   await precacheLottie('assets/splash_screen.json');
 
