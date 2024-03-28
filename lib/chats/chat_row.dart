@@ -1,14 +1,16 @@
 // for now i will make the chat row as a stateless widget!
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:chat_app/Functions/profile_function.dart';
+import 'package:chat_app/Functions/user/get_info.dart';
 import 'package:flutter/material.dart';
 
 class ChatRow extends StatelessWidget {
   final String name;
+  final String uuid;
   final VoidCallback onTap;
   const ChatRow({
     super.key,
     required this.name,
+    required this.uuid,
     required this.onTap,
   });
 
@@ -42,7 +44,7 @@ class ChatRow extends StatelessWidget {
                   shape: BoxShape.circle,
                 ),
                 child: FutureBuilder<String?>(
-                  future: getProfilePicUrl(name),
+                  future: getUserImageUrl(uuid),
                   builder:
                       (BuildContext context, AsyncSnapshot<String?> snapshot) {
                     if (snapshot.hasError) {

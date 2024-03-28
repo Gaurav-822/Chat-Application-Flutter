@@ -64,6 +64,7 @@ class _ChatsState extends State<Chats> {
                 },
                 child: ChatRow(
                   name: name,
+                  uuid: uuid,
                   onTap: () {
                     GoRouter.of(context).go('/chats/$name/$uuid');
                   },
