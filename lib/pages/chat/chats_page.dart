@@ -67,6 +67,7 @@ class _ChatsState extends State<Chats> {
                   uuid: uuid,
                   onTap: () {
                     GoRouter.of(context).go('/chats/$name/$uuid');
+                    updateFriends(uuid);
                   },
                 ),
               );
