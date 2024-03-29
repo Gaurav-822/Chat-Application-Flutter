@@ -6,25 +6,34 @@ class AboutPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          "About",
+          style: TextStyle(
+            fontFamily: "title_font",
+            letterSpacing: 1.5,
+          ),
+        ),
+      ),
       body: SafeArea(
         top: true,
         child: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: [
-              const Align(
-                alignment: AlignmentDirectional.center,
-                child: Padding(
-                  padding: EdgeInsets.all(8),
-                  child: Text(
-                    'ABOUT',
-                    style: TextStyle(
-                      fontFamily: 'Readex Pro',
-                      fontSize: 64,
-                    ),
-                  ),
-                ),
-              ),
+              // const Align(
+              //   alignment: AlignmentDirectional.center,
+              //   child: Padding(
+              //     padding: EdgeInsets.all(8),
+              //     child: Text(
+              //       'ABOUT',
+              //       style: TextStyle(
+              //         fontFamily: 'Readex Pro',
+              //         fontSize: 64,
+              //       ),
+              //     ),
+              //   ),
+              // ),
               const Align(
                 alignment: AlignmentDirectional.centerStart,
                 child: Padding(

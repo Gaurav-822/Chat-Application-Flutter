@@ -217,44 +217,45 @@ class _PersonaPageState extends State<PersonaPage> {
                     ),
                   ),
                 ),
-                Align(
-                  alignment: const AlignmentDirectional(1, 0),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: GestureDetector(
-                      onTap: () {
-                        void clearSharedPreferences() async {
-                          SharedPreferences prefs =
-                              await SharedPreferences.getInstance();
-                          await prefs.remove('nestedList');
-                          // print('SharedPreferences cleared');
-                        }
+                // Removing delete friends from the drawer
+                // Align(
+                //   alignment: const AlignmentDirectional(1, 0),
+                //   child: Padding(
+                //     padding: const EdgeInsets.all(8),
+                //     child: GestureDetector(
+                //       onTap: () {
+                //         void clearSharedPreferences() async {
+                //           SharedPreferences prefs =
+                //               await SharedPreferences.getInstance();
+                //           await prefs.remove('nestedList');
+                //           // print('SharedPreferences cleared');
+                //         }
 
-                        clearSharedPreferences();
-                        showToastMessage("Local Data is Cleared");
-                      },
-                      child: const Row(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Icon(
-                            Icons.delete,
-                            color: Colors.grey, // Change to your desired color
-                            size: 24,
-                          ),
-                          SizedBox(width: 16),
-                          Text(
-                            'Delete',
-                            style: TextStyle(
-                              fontFamily: 'Readex Pro',
-                              fontSize: 24,
-                              fontWeight: FontWeight.w100,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
+                //         clearSharedPreferences();
+                //         showToastMessage("Local Data is Cleared");
+                //       },
+                //       child: const Row(
+                //         mainAxisSize: MainAxisSize.max,
+                //         children: [
+                //           Icon(
+                //             Icons.delete,
+                //             color: Colors.grey, // Change to your desired color
+                //             size: 24,
+                //           ),
+                //           SizedBox(width: 16),
+                //           Text(
+                //             'Delete',
+                //             style: TextStyle(
+                //               fontFamily: 'Readex Pro',
+                //               fontSize: 24,
+                //               fontWeight: FontWeight.w100,
+                //             ),
+                //           ),
+                //         ],
+                //       ),
+                //     ),
+                //   ),
+                // ),
                 Align(
                   alignment: const AlignmentDirectional(1, 0),
                   child: Padding(
