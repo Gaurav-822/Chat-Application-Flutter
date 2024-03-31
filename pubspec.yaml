@@ -94,6 +94,9 @@ flutter:
   - family: amatic
     fonts:
     - asset: assets/fonts/amatic.ttf
+  - family: LovedByTheKing
+    fonts:
+    - asset: assets/fonts/LovedByTheKing.ttf
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
