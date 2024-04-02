@@ -1,5 +1,4 @@
 import 'package:chat_app/Functions/firebase_message_api.dart';
-import 'package:chat_app/Functions/toasts.dart';
 import 'package:chat_app/Functions/user/friends.dart';
 import 'package:chat_app/firebase_options.dart';
 import 'package:chat_app/pages/auth/auth_page.dart';

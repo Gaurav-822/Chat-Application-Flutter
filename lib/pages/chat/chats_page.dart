@@ -22,7 +22,6 @@ class _ChatsState extends State<Chats> {
   Widget build(BuildContext context) {
     List<List<String>> chatNames = widget.chatNames;
     // sort according to the time stamps
-    print(chatNames);
     chatNames = sortNestedList(chatNames);
     return (chatNames.isNotEmpty)
         ? ListView.builder(
