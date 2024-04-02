@@ -10,7 +10,6 @@ class FirebaseMessageApi {
   Future<String?> initNotification() async {
     await _firebaseMessaging.requestPermission();
     final fCMToken = await _firebaseMessaging.getToken();
-    showToastMessage(fCMToken ?? "None");
     return fCMToken;
   }
 }

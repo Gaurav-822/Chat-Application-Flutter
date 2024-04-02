@@ -77,7 +77,7 @@ class AboutPage extends StatelessWidget {
                 endIndent: 48,
               ),
               const Padding(
-                padding: EdgeInsets.all(8),
+                padding: EdgeInsets.fromLTRB(36, 8, 8, 8),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -87,7 +87,7 @@ class AboutPage extends StatelessWidget {
                         Expanded(
                           child: Text(
                             'If love was a finding, \nI wouldn\'t have been so lost\n\nIf Soulmates were to be found\nNo Questions wouldve\' been on the trust\n\nIf forever was not an illusion\nWe wouldve\' been still "US"\n\nNo memories renewal, no past reviwed\nI\'d still run to you, I have the guts!',
-                            textAlign: TextAlign.center,
+                            textAlign: TextAlign.left,
                             style: TextStyle(
                               fontFamily: 'LovedByTheKing',
                               fontSize: 24,
@@ -106,12 +106,12 @@ class AboutPage extends StatelessWidget {
                 endIndent: 48,
               ),
               const Align(
-                alignment: AlignmentDirectional(0, 0),
+                alignment: AlignmentDirectional(-1, 0),
                 child: Padding(
-                  padding: EdgeInsets.all(8),
+                  padding: EdgeInsets.fromLTRB(36, 8, 8, 8),
                   child: Text(
                     'Surprise surprise lol,\nso just like this app is made.\nit\'s made to do the same :),\nHope u all get the reason\nfor being our user',
-                    textAlign: TextAlign.center,
+                    textAlign: TextAlign.left,
                     style: TextStyle(
                       fontFamily: 'LovedByTheKing',
                       fontSize: 24,

@@ -194,7 +194,9 @@ class _PersonaPageState extends State<PersonaPage> {
                   child: Padding(
                     padding: const EdgeInsets.all(8),
                     child: GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        showToastMessage("Coming");
+                      },
                       child: const Row(
                         mainAxisSize: MainAxisSize.max,
                         children: [

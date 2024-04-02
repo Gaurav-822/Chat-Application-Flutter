@@ -36,7 +36,7 @@ class _TheSpecial extends State<TheSpecial> {
             ),
           ),
           GestureDetector(
-            onTap: () => GoRouter.of(context).go("/galleryForAdmin"),
+            // onTap: () => GoRouter.of(context).go("/galleryForAdmin"),
             child: SizedBox(
               width: 100,
               height: 100,
@@ -44,14 +44,10 @@ class _TheSpecial extends State<TheSpecial> {
             ),
           ),
           GestureDetector(
-            onTap: () => GoRouter.of(context).go("/galleryForLove"),
+            // onTap: () => GoRouter.of(context).go("/galleryForLove"),
             child: const SizedBox(
               width: 100,
               height: 100,
-              // clipBehavior: Clip.antiAlias,
-              // decoration: const BoxDecoration(
-              //   shape: BoxShape.circle,
-              // ),
               child: ProfilePic(
                 uuid: "Padmaja",
                 zoom: false,
