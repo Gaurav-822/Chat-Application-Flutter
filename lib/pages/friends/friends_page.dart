@@ -219,7 +219,7 @@ class _FriendsPageState extends State<FriendsPage> {
                       opacity: (uuid == snapshot.data) ? 1 : 0,
                       child: Icon(
                         Icons.favorite,
-                        color: Theme.of(context).textTheme.bodyText1!.color,
+                        color: Theme.of(context).textTheme.bodyLarge!.color,
                         size: 24,
                       ),
                     );

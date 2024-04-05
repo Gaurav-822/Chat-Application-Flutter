@@ -1,5 +1,6 @@
 import 'package:chat_app/Functions/scanner.dart';
 import 'package:chat_app/Functions/toasts.dart';
+import 'package:chat_app/Functions/user/friends.dart';
 import 'package:chat_app/Functions/user/get_info.dart';
 import 'package:chat_app/signIn/auth/email_pass_auth.dart';
 import 'package:chat_app/sprites/proflie_pic.dart';
@@ -21,6 +22,7 @@ class PersonaPage extends StatefulWidget {
 class _PersonaPageState extends State<PersonaPage> {
   late String profileName = "", uuid;
   final TextEditingController adminController = TextEditingController();
+  final TextEditingController uidTextController = TextEditingController();
 
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
@@ -55,6 +57,150 @@ class _PersonaPageState extends State<PersonaPage> {
         profileName = admin;
       });
     }
+  }
+
+  void showOptionsBottomSheet() {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Wrap(
+          children: <Widget>[
+            ListTile(
+              leading: const Icon(Icons.add_box),
+              title: const Text('ID'),
+              onTap: () async {
+                Navigator.pop(context);
+                closeEndDrawer(context);
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        elevation: 4,
+                        content: Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Align(
+                                alignment: Alignment.centerLeft,
+                                child: Padding(
+                                  padding: EdgeInsets.all(8),
+                                  child: Text(
+                                    'Add Friend:',
+                                    style: TextStyle(
+                                      fontFamily: 'Readex Pro',
+                                      fontSize: 20,
+                                      letterSpacing: 0,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 8),
+                                child: TextFormField(
+                                  controller: uidTextController,
+                                  autofocus: true,
+                                  obscureText: false,
+                                  decoration: InputDecoration(
+                                    labelText: 'ID:',
+                                    labelStyle: const TextStyle(
+                                      fontFamily: 'Readex Pro',
+                                      letterSpacing: 0,
+                                    ),
+                                    hintStyle: const TextStyle(
+                                      fontFamily: 'Readex Pro',
+                                      letterSpacing: 0,
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                        width: 2,
+                                      ),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                        width: 2,
+                                      ),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    errorBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                        width: 2,
+                                      ),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    focusedErrorBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                        width: 2,
+                                      ),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                  ),
+                                  style: const TextStyle(
+                                    fontFamily: 'Readex Pro',
+                                    letterSpacing: 0,
+                                  ),
+                                ),
+                              ),
+                              Align(
+                                alignment: Alignment.centerRight,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8),
+                                  child: TextButton(
+                                    onPressed: () async {
+                                      // if ()
+                                      String? name = await getUserName(
+                                          uidTextController.text);
+                                      if (name == null) {
+                                        showToastMessage("No such user exists");
+                                        uidTextController.clear();
+                                      } else {
+                                        addFriend(uidTextController.text);
+                                        setFriendsLocally();
+                                        uidTextController.clear();
+                                        showToastMessage("Friend Added");
+                                        // ignore: use_build_context_synchronously
+                                        Navigator.of(context).pop();
+                                      }
+                                    },
+                                    style: TextButton.styleFrom(
+                                      elevation: 3,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(24),
+                                      ),
+                                      minimumSize: const Size(100, 40),
+                                    ),
+                                    child: const Text(
+                                      'Add',
+                                      style: TextStyle(
+                                        fontFamily: 'Readex Pro',
+                                        letterSpacing: 0,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    });
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.qr_code),
+              title: const Text('QR'),
+              onTap: () {
+                Navigator.pop(context);
+                closeEndDrawer(context);
+                scanQRCode();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -219,13 +365,16 @@ class _PersonaPageState extends State<PersonaPage> {
                     padding: const EdgeInsets.all(8),
                     child: GestureDetector(
                       onTap: () {
-                        scanQRCode();
+                        // scanQRCode();
+                        // close the drawer
+                        // closeEndDrawer(context);
+                        showOptionsBottomSheet();
                       },
                       child: const Row(
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           Icon(
-                            Icons.qr_code,
+                            Icons.add,
                             color: Colors.grey, // Change to your desired color
                             size: 24,
                           ),
