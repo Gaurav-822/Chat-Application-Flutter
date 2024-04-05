@@ -262,7 +262,7 @@ class _ProfilePage extends State<ProfilePage> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Text(
-                      'soulgaurav08@gmail.com',
+                      uuid,
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
                     const SizedBox(
@@ -332,52 +332,16 @@ class _ProfilePage extends State<ProfilePage> {
                     childAspectRatio: 1,
                   ),
                   scrollDirection: Axis.vertical,
-                  children: [
-                    ClipRRect(
-                      borderRadius: const BorderRadius.only(
-                        bottomLeft: Radius.circular(0),
-                        bottomRight: Radius.circular(0),
-                        topLeft: Radius.circular(8),
-                        topRight: Radius.circular(0),
-                      ),
-                      child: Image.network(
-                        'https://picsum.photos/seed/702/600',
-                        width: 300,
-                        height: 200,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(0),
-                      child: Image.network(
-                        'https://picsum.photos/seed/864/600',
-                        width: 300,
-                        height: 200,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    ClipRRect(
-                      borderRadius: const BorderRadius.only(
-                        bottomLeft: Radius.circular(0),
-                        bottomRight: Radius.circular(0),
-                        topLeft: Radius.circular(0),
-                        topRight: Radius.circular(8),
-                      ),
-                      child: Image.network(
-                        'https://picsum.photos/seed/8/600',
-                        width: 300,
-                        height: 200,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(0),
-                      child: Image.network(
-                        'https://picsum.photos/seed/103/600',
-                        width: 300,
-                        height: 200,
-                        fit: BoxFit.cover,
-                      ),
+                  children: const [
+                    Center(
+                      child: ClipRRect(
+                          borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(0),
+                            bottomRight: Radius.circular(0),
+                            topLeft: Radius.circular(8),
+                            topRight: Radius.circular(0),
+                          ),
+                          child: Text("Coming!")),
                     ),
                   ],
                 ),

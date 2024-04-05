@@ -1,5 +1,6 @@
 import 'package:chat_app/Functions/user/friends.dart';
 import 'package:chat_app/Functions/toasts.dart';
+import 'package:chat_app/Functions/user/get_info.dart';
 import 'package:chat_app/Functions/user/user.dart';
 import 'package:chat_app/starting_tasks/local_init.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -12,6 +13,9 @@ createUser(String emailAddress, password) async {
     );
     // adding the user in our database
     userAdd();
+    // add ourself as our friend
+    showToastMessage(getAdminUuid()!);
+    addFriend(getAdminUuid()!);
     // update the local list of friends
     setFriendsLocally();
     showToastMessage("Yay, welcome to Titly!");

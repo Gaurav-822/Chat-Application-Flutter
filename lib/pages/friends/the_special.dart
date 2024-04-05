@@ -81,7 +81,10 @@ class _TheSpecial extends State<TheSpecial> {
                         );
                       } else {
                         // If loveString is null
-                        return const Text('Love string is null');
+                        return const ProfilePic(
+                          uuid: "None",
+                          zoom: false,
+                        );
                       }
                     }
                   },
