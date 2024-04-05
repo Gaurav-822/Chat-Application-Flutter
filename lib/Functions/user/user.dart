@@ -17,9 +17,7 @@ void userAdd() async {
   String? uuid;
   if (user != null) {
     uuid = user.uid;
-  } else {
-    showToastMessage("No user is currently authenticated.");
-  }
+  } else {}
 
   await FirebaseFirestore.instance
       .collection('users')
@@ -73,9 +71,7 @@ Future<void> userUpdateProfileImageURL(String imageUrl) async {
   String? uuid;
   if (user != null) {
     uuid = user.uid;
-  } else {
-    showToastMessage("No user is currently authenticated.");
-  }
+  } else {}
 
   try {
     await FirebaseFirestore.instance
@@ -84,7 +80,6 @@ Future<void> userUpdateProfileImageURL(String imageUrl) async {
         .collection(uuid!)
         .doc("details")
         .update({'image_url': imageUrl});
-    showToastMessage('Image Updated Succesfully');
   } catch (error) {
     showToastMessage('Failed to update image');
     // Handle error
@@ -98,9 +93,7 @@ void userUpdateFcmTocken() async {
   String? uuid;
   if (user != null) {
     uuid = user.uid;
-  } else {
-    showToastMessage("No user is currently authenticated.");
-  }
+  } else {}
 
   try {
     await FirebaseFirestore.instance
@@ -109,9 +102,9 @@ void userUpdateFcmTocken() async {
         .collection(uuid!)
         .doc("details")
         .update({'fcmToken': fcmToken});
-    showToastMessage('fcmToken Updated Succesfully');
   } catch (error) {
-    showToastMessage('Failed to update fcmToken');
+    showToastMessage(
+        'Failed to update fcmToken, Re Login to receive notifications');
     // Handle error
   }
 }
@@ -147,9 +140,7 @@ Future<void> userUpdateProfileName(String newName) async {
   String? uuid;
   if (user != null) {
     uuid = user.uid;
-  } else {
-    showToastMessage("No user is currently authenticated.");
-  }
+  } else {}
 
   try {
     await FirebaseFirestore.instance
@@ -158,7 +149,6 @@ Future<void> userUpdateProfileName(String newName) async {
         .collection(uuid!)
         .doc("details")
         .update({'name': newName});
-    showToastMessage('User name updated successfully');
   } catch (error) {
     showToastMessage('Failed to update user name');
     // Handle error

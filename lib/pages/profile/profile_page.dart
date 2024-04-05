@@ -121,7 +121,7 @@ class _ProfilePage extends State<ProfilePage> {
               // showToastMessage(uuid);
               _profileNameController.text = profileName;
               toggleVisibility();
-              (isVisible) ? showToastMessage("Edit") : showToastMessage("Done");
+              // (isVisible) ? showToastMessage("Edit") : showToastMessage("Done");
             },
             child: Padding(
               padding: const EdgeInsets.all(8),
