@@ -1,4 +1,3 @@
-import 'package:chat_app/Functions/image_functions.dart';
 import 'package:chat_app/Functions/scanner.dart';
 import 'package:chat_app/Functions/toasts.dart';
 import 'package:chat_app/Functions/user/get_info.dart';
@@ -56,40 +55,6 @@ class _PersonaPageState extends State<PersonaPage> {
         profileName = admin;
       });
     }
-  }
-
-  void showBottomOptionBar() {
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return Wrap(
-          children: <Widget>[
-            ListTile(
-              leading: const Icon(Icons.camera),
-              title: const Text('Camera'),
-              onTap: () async {
-                Navigator.pop(context);
-                setState(() {
-                  isLoading = true;
-                });
-                await pickAndUploadImage(profileName, false);
-                setState(() {
-                  isLoading = false;
-                });
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.photo_library),
-              title: const Text('Media'),
-              onTap: () {
-                Navigator.pop(context);
-                pickAndUploadImage(profileName, true);
-              },
-            ),
-          ],
-        );
-      },
-    );
   }
 
   @override

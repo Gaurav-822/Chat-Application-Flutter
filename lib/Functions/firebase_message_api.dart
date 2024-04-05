@@ -37,9 +37,8 @@ Future<String?> getFCMToken(String uuid) async {
 
 Future<void> sendNotification(
     String title, String text, String fcmToken) async {
-  // Replace with your actual server key
-  const String serverKey =
-      'AAAAdKq6UDE:APA91bFlbO7B5pk8UV1IqZDncvTLVd8PvuYRRQCfd_HwA96puUbPDYCqZp7M4Tly90JnnwGpDKyGkn14hSyG0smXJNXD94WMIwX3ZwC1A16FL6hSxXG_GxrJYT1Y566NNVloIsihTmNN';
+  const String serverKey = String.fromEnvironment('SERVER_KEY');
+
   const String url = 'https://fcm.googleapis.com/fcm/send';
 
   final Map<String, dynamic> notification = {

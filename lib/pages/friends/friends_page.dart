@@ -4,6 +4,7 @@ import 'package:chat_app/Functions/scanner.dart';
 import 'package:chat_app/Functions/user/friends.dart';
 import 'package:chat_app/Functions/user/get_info.dart';
 import 'package:chat_app/pages/friends/the_special.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -196,13 +197,33 @@ class _FriendsPageState extends State<FriendsPage> {
             Row(
               mainAxisSize: MainAxisSize.max,
               children: [
-                Opacity(
-                  opacity: (1 == 1) ? 0 : 1,
-                  child: Icon(
-                    Icons.favorite,
-                    color: Theme.of(context).textTheme.bodyLarge!.color,
-                    size: 24,
-                  ),
+                StreamBuilder<String?>(
+                  stream: FirebaseFirestore.instance
+                      .collection('users')
+                      .doc("profiles")
+                      .collection(getAdminUuid() ?? "")
+                      .doc("relations")
+                      .snapshots()
+                      .map((docSnapshot) {
+                    if (docSnapshot.exists) {
+                      Map<String, dynamic>? data =
+                          docSnapshot.data() as Map<String, dynamic>?;
+                      if (data != null && data.containsKey('Love')) {
+                        return data['Love'] as String?;
+                      }
+                    }
+                    return null;
+                  }),
+                  builder: (context, AsyncSnapshot<String?> snapshot) {
+                    return Opacity(
+                      opacity: (uuid == snapshot.data) ? 1 : 0,
+                      child: Icon(
+                        Icons.favorite,
+                        color: Theme.of(context).textTheme.bodyText1!.color,
+                        size: 24,
+                      ),
+                    );
+                  },
                 ),
                 const SizedBox(width: 16),
                 GestureDetector(

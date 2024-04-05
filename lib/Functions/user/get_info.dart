@@ -17,6 +17,8 @@ void setAdminLocally() async {
   String adminUuid = getAdminUuid() ?? "None";
   SharedPreferences prefs = await SharedPreferences.getInstance();
   prefs.setString('adminUuid', adminUuid);
+  String? username = await getUserName(adminUuid);
+  prefs.setString('adminName', username ?? "Refresh!");
 }
 
 Future<String> getAdminLocally() async {
