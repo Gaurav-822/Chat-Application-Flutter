@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:chat_app/Functions/love/add_love.dart';
 import 'package:chat_app/Functions/scanner.dart';
 import 'package:chat_app/Functions/user/friends.dart';
 import 'package:chat_app/Functions/user/get_info.dart';
@@ -172,114 +173,147 @@ class _FriendsPageState extends State<FriendsPage> {
   Widget _buildRow(
       BuildContext context, String name, String uuid, int totalFriends) {
     return GestureDetector(
-      onLongPress: () {
-        showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                elevation: 4,
-                content: Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 32, 0, 0),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              name,
-                              style: const TextStyle(
-                                fontSize: 36,
-                              ),
-                            ),
-                            Container(
-                                width: 50,
-                                height: 50,
-                                clipBehavior: Clip.antiAlias,
-                                decoration: const BoxDecoration(
-                                  shape: BoxShape.circle,
-                                ),
-                                child: FutureBuilder(
-                                    // correct this
-                                    future: getUserImageUrl(uuid),
-                                    builder: (context, snapshot) {
-                                      String imageURL = snapshot.data ?? '';
-                                      return CachedNetworkImage(
-                                        imageUrl: imageURL,
-                                        fit: BoxFit.cover,
-                                        placeholder: (context, url) =>
-                                            const CircularProgressIndicator(),
-                                        errorWidget: (context, url, error) =>
-                                            Image.asset(
-                                          "assets/dummy_user.jpg",
-                                          fit: BoxFit.cover,
-                                        ),
-                                      );
-                                    })),
-                          ],
-                        ),
-                        const SizedBox(height: 8),
-                        Align(
-                          alignment: const AlignmentDirectional(-1, 0),
-                          child: Text(
-                            'Friends: $totalFriends',
-                          ),
-                        ),
-                        const SizedBox(height: 24),
-                        QrImageView(
-                          data: "Titly/$uuid",
-                          version: QrVersions.auto,
-                          size: 175.0,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                actions: [
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text('Close'),
-                  ),
-                ],
-              );
-            });
+      onDoubleTap: () {
+        addLove(getAdminUuid() ?? "", uuid);
       },
       child: Padding(
-        padding: const EdgeInsets.all(4),
+        padding: const EdgeInsets.all(8),
         child: Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Padding(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(8),
               child: Text(
                 name,
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontFamily: 'Readex Pro',
-                      fontSize: 16,
-                    ),
+                style: const TextStyle(
+                  fontFamily: 'Readex Pro',
+                  fontSize: 16,
+                  letterSpacing: 0,
+                ),
               ),
             ),
-            FutureBuilder(
-                future: getUserName(uuid),
-                builder: (context, snapshot) {
-                  return GestureDetector(
-                    onTap: () {
-                      // saveChatName(name);
-                      GoRouter.of(context).go('/chats/${snapshot.data}/$uuid');
-                      updateFriends(uuid);
-                      widget.callback();
-                    },
-                    child: const Icon(
-                      Icons.send_rounded,
-                      size: 24,
-                    ),
-                  );
-                })
+            Row(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Opacity(
+                  opacity: (1 == 1) ? 0 : 1,
+                  child: Icon(
+                    Icons.favorite,
+                    color: Theme.of(context).textTheme.bodyLarge!.color,
+                    size: 24,
+                  ),
+                ),
+                const SizedBox(width: 16),
+                GestureDetector(
+                  onTap: () {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            elevation: 4,
+                            content: Padding(
+                              padding: const EdgeInsets.fromLTRB(0, 32, 0, 0),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          name,
+                                          style: const TextStyle(
+                                            fontSize: 36,
+                                          ),
+                                        ),
+                                        Container(
+                                            width: 50,
+                                            height: 50,
+                                            clipBehavior: Clip.antiAlias,
+                                            decoration: const BoxDecoration(
+                                              shape: BoxShape.circle,
+                                            ),
+                                            child: FutureBuilder(
+                                                // correct this
+                                                future: getUserImageUrl(uuid),
+                                                builder: (context, snapshot) {
+                                                  String imageURL =
+                                                      snapshot.data ?? '';
+                                                  return CachedNetworkImage(
+                                                    imageUrl: imageURL,
+                                                    fit: BoxFit.cover,
+                                                    placeholder: (context,
+                                                            url) =>
+                                                        const CircularProgressIndicator(),
+                                                    errorWidget:
+                                                        (context, url, error) =>
+                                                            Image.asset(
+                                                      "assets/dummy_user.jpg",
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                                  );
+                                                })),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Align(
+                                      alignment:
+                                          const AlignmentDirectional(-1, 0),
+                                      child: Text(
+                                        'Friends: $totalFriends',
+                                      ),
+                                    ),
+                                    const SizedBox(height: 24),
+                                    QrImageView(
+                                      data: "Titly/$uuid",
+                                      version: QrVersions.auto,
+                                      size: 175.0,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            actions: [
+                              ElevatedButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: const Text('Close'),
+                              ),
+                            ],
+                          );
+                        });
+                  },
+                  child: Icon(
+                    Icons.density_medium,
+                    color: Theme.of(context).textTheme.bodyLarge!.color,
+                    size: 24,
+                  ),
+                ),
+                const SizedBox(width: 16),
+                FutureBuilder(
+                  future: getUserName(uuid),
+                  builder: (context, snapshot) {
+                    return GestureDetector(
+                      onTap: () {
+                        // saveChatName(name);
+                        GoRouter.of(context)
+                            .go('/chats/${snapshot.data}/$uuid');
+                        updateFriends(uuid);
+                        widget.callback();
+                      },
+                      child: const Icon(
+                        Icons.send_rounded,
+                        size: 24,
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
           ],
         ),
       ),
