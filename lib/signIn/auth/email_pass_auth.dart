@@ -1,7 +1,7 @@
 import 'package:chat_app/Functions/user/friends.dart';
 import 'package:chat_app/Functions/toasts.dart';
-import 'package:chat_app/Functions/user/get_info.dart';
 import 'package:chat_app/Functions/user/user.dart';
+import 'package:chat_app/starting_tasks/local_init.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 createUser(String emailAddress, password) async {
@@ -34,8 +34,7 @@ signUserIn(String emailAddress, password) async {
   try {
     await FirebaseAuth.instance
         .signInWithEmailAndPassword(email: emailAddress, password: password);
-    setFriendsLocally();
-    setAdminLocally();
+    localInit();
     userUpdateFcmTocken();
   } on FirebaseAuthException catch (e) {
     if (e.code == 'user-not-found') {
