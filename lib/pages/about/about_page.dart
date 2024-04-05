@@ -120,10 +120,15 @@ class AboutPage extends StatelessWidget {
                   ),
                 ),
               ),
+              const Divider(
+                thickness: 1,
+                indent: 48,
+                endIndent: 48,
+              ),
               const Align(
-                alignment: AlignmentDirectional(0, 0),
+                alignment: AlignmentDirectional(-1, 0),
                 child: Padding(
-                  padding: EdgeInsets.all(8),
+                  padding: EdgeInsets.fromLTRB(36, 8, 8, 8),
                   child: Text(
                     'Well wishes <3',
                     textAlign: TextAlign.center,

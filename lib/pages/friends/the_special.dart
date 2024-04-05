@@ -1,7 +1,6 @@
 import 'package:chat_app/Functions/user/get_info.dart';
 import 'package:chat_app/sprites/proflie_pic.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class TheSpecial extends StatefulWidget {
   final String adminUuid, favUuid;
