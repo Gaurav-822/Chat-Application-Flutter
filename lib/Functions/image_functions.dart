@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:chat_app/Functions/toasts.dart';
 import 'package:chat_app/Functions/user/user.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -18,8 +17,6 @@ Future<void> pickAndUploadImage(profileName, bool gallery) async {
     if (pickedFile != null) {
       // Crop the picked image
       final croppedFile = await _cropImage(imageFile: File(pickedFile.path));
-
-      showToastMessage("Profile pic setting for $profileName");
 
       if (croppedFile != null) {
         final imageRef =

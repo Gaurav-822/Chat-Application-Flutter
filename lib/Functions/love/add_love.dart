@@ -8,7 +8,6 @@ Future<void> addLove(String userUid, String loveUid) async {
   if (user != null) {
     uuid = user.uid;
   } else {
-    showToastMessage("No user is currently authenticated.");
     return;
   }
 

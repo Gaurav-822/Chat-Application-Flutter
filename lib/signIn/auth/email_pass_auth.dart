@@ -5,7 +5,6 @@ import 'package:chat_app/starting_tasks/local_init.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 createUser(String emailAddress, password) async {
-  showToastMessage("Sigining You In");
   try {
     await FirebaseAuth.instance.createUserWithEmailAndPassword(
       email: emailAddress,

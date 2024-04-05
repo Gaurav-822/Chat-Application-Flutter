@@ -13,7 +13,6 @@ void addFriend(String friendUuid) async {
   if (user != null) {
     uuid = user.uid;
   } else {
-    showToastMessage("No user is currently authenticated.");
     return;
   }
 
@@ -73,7 +72,6 @@ void removeFriend(String friendUuid) async {
   if (user != null) {
     uuid = user.uid;
   } else {
-    showToastMessage("No user is currently authenticated.");
     return;
   }
   // Remove from firestore
@@ -85,9 +83,7 @@ void removeFriend(String friendUuid) async {
         .doc("relations")
         .update({
       'friends.$friendUuid': FieldValue.delete(),
-    }).then((_) {
-      showToastMessage("Friend removed successfully");
-    });
+    }).then((_) {});
   } catch (error) {
     showToastMessage("Failed to remove friend: $error");
     throw ("Failed to remove friend: $error");
@@ -106,10 +102,7 @@ void removeFriend(String friendUuid) async {
       updatedList.add(friendData);
     }
     await prefs.setStringList('friends_list', updatedList);
-    showToastMessage("Friend removed locally successfully");
-  } else {
-    showToastMessage("No friends to remove locally.");
-  }
+  } else {}
 }
 
 // remove user from chats page
@@ -119,7 +112,6 @@ void updateMessagedToNo(String friendUuid) async {
   if (user != null) {
     uuid = user.uid;
   } else {
-    showToastMessage("No user is currently authenticated.");
     return;
   }
   // Update in Firestore
@@ -131,11 +123,8 @@ void updateMessagedToNo(String friendUuid) async {
         .doc("relations")
         .update({
       'friends.$friendUuid.messaged': "no",
-    }).then((_) {
-      showToastMessage("Messaged status updated successfully in Firestore");
-    });
+    }).then((_) {});
   } catch (error) {
-    showToastMessage("Failed to update messaged status in Firestore: $error");
     throw ("Failed to update messaged status in Firestore: $error");
   }
   // set the data locally
@@ -152,7 +141,6 @@ void updateFriends(String friendUuid) async {
   if (user != null) {
     uuid = user.uid;
   } else {
-    showToastMessage("No user is currently authenticated.");
     return;
   }
 
@@ -185,7 +173,6 @@ void setFriendsLocally() async {
   if (user != null) {
     uuid = user.uid;
   } else {
-    showToastMessage("No user is currently authenticated.");
     return null;
   }
 
@@ -222,7 +209,6 @@ void setFriendsLocally() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     List<String> nestedJsonList = [].map((list) => json.encode(list)).toList();
     await prefs.setStringList('nestedList', nestedJsonList);
-    showToastMessage("Failed to fetch friends: $error");
     throw ("Failed to fetch friends: $error");
   }
 }
