@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chat_app/Functions/love/add_love.dart';
 import 'package:chat_app/Functions/scanner.dart';
+import 'package:chat_app/Functions/toasts.dart';
 import 'package:chat_app/Functions/user/friends.dart';
 import 'package:chat_app/Functions/user/get_info.dart';
 import 'package:chat_app/pages/friends/the_special.dart';
@@ -52,11 +53,18 @@ class _FriendsPageState extends State<FriendsPage> {
     String? scanResult = await scanQRCode();
     String? name = await getUserName(scanResult!);
 
-    setState(() {
-      filteredFriends.add([name!, scanResult]);
-      addFriend(name);
-      setFriendsLocally();
-    });
+    // Check if scanResult already exists in filteredFriends
+    bool exists = filteredFriends.any((friend) => friend[1] == scanResult);
+
+    if (!exists) {
+      setState(() {
+        filteredFriends.add([name!, scanResult]);
+        addFriend(scanResult);
+        setFriendsLocally();
+      });
+    } else {
+      showToastMessage("Already a Friend");
+    }
   }
 
   @override

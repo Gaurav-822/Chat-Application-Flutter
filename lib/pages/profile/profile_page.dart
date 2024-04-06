@@ -226,7 +226,7 @@ class _ProfilePage extends State<ProfilePage> {
                       child: Padding(
                         padding: const EdgeInsets.all(8),
                         child: Text(
-                          profileName,
+                          (profileName != "None") ? profileName : "Set Name",
                           style: const TextStyle(
                             fontFamily: 'Montserrat',
                             fontSize: 48,
@@ -243,7 +243,7 @@ class _ProfilePage extends State<ProfilePage> {
                     child: Padding(
                       padding: const EdgeInsets.all(8),
                       child: Text(
-                        profileName,
+                        (profileName != "None") ? profileName : "Set Name",
                         style: const TextStyle(
                           fontFamily: 'Montserrat',
                           fontSize: 48,

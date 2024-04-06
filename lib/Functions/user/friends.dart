@@ -16,7 +16,7 @@ void addFriend(String friendUuid) async {
     return;
   }
 
-  String name = await getUserName(friendUuid) ?? "Name not set";
+  String name = await getUserName(friendUuid) ?? "None";
 
   try {
     await FirebaseFirestore.instance
@@ -35,7 +35,7 @@ void addFriend(String friendUuid) async {
         'messaged': "no",
       }
     }).then((_) {
-      showToastMessage("Friend added successfully");
+      // showToastMessage("Friend added successfully");
     });
   } catch (error) {
     try {
@@ -55,7 +55,7 @@ void addFriend(String friendUuid) async {
           'messaged': "no",
         }
       }).then((_) {
-        showToastMessage("Friend added successfully");
+        // showToastMessage("Friend added successfully");
       });
     } catch (error) {
       showToastMessage("Failed to add friend: $error");

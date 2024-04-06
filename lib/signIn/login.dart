@@ -188,18 +188,24 @@ class _LogIn extends State<LogIn> {
                               decoration: const BoxDecoration(
                                 shape: BoxShape.rectangle,
                               ),
-                              child: const Row(
+                              child: Row(
                                 mainAxisSize: MainAxisSize.max,
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  FaIcon(
-                                    FontAwesomeIcons.google,
-                                    size: 24,
+                                  GestureDetector(
+                                    onTap: () => showToastMessage("Coming"),
+                                    child: const FaIcon(
+                                      FontAwesomeIcons.google,
+                                      size: 24,
+                                    ),
                                   ),
-                                  FaIcon(
-                                    FontAwesomeIcons.facebook,
-                                    size: 24,
+                                  GestureDetector(
+                                    onTap: () => showToastMessage("Coming"),
+                                    child: const FaIcon(
+                                      FontAwesomeIcons.facebook,
+                                      size: 24,
+                                    ),
                                   ),
                                 ],
                               ),
