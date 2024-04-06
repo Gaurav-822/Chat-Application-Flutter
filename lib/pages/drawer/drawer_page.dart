@@ -245,7 +245,9 @@ class _PersonaPageState extends State<PersonaPage> {
                       },
                       child: Center(
                         child: Text(
-                          "Hello,\n$profileName!",
+                          (profileName != "None")
+                              ? "Hello,\n$profileName!"
+                              : "Setup Profile",
                           style: const TextStyle(
                             fontFamily: 'amatic',
                             fontSize: 48,

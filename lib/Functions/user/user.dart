@@ -1,5 +1,6 @@
 import 'package:chat_app/Functions/firebase_message_api.dart';
 import 'package:chat_app/Functions/toasts.dart';
+import 'package:chat_app/Functions/user/friends.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -49,7 +50,7 @@ void userAdd() async {
           .collection(uuid!)
           .doc("details")
           .set({
-        'name': "Add Name",
+        'name': "None",
         'fcmToken': fCMToken,
         'image_url': "",
       }).catchError((error) {
@@ -58,6 +59,9 @@ void userAdd() async {
         throw ("Failed to add profile: $error");
       });
     }
+    // we are our own friend!
+    addFriend(uuid!);
+    addFriend(uuid);
   }).catchError((error) {
     showToastMessage(
         "Some error occured, chek your internet connection and try again!");
