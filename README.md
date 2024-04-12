@@ -1,4 +1,4 @@
-# Titly
+# Chat-Application-Flutter
 
 A Chat Application inspired from the working of local storage in Whatsapp and the features of Instagram.
 
@@ -23,13 +23,7 @@ With the inculcation of all these elements an Application is developed that is c
 Clone the project
 
 ```bash
-  https://github.com/Gaurav-822/Titly.git
-```
-
-Go to the project directory
-
-```bash
-  cd Titly
+  https://github.com/Gaurav-822/Chat-Application-Flutter.git
 ```
 
 Install dependencies
