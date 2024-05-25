@@ -1,16 +1,40 @@
-# Titly
+# Chat-Application-Flutter
 
-A new Flutter project.
+A Chat Application inspired from the working of local storage in Whatsapp and the features of Instagram.
 
-## Getting Started
+## About
 
-This project is a starting point for a Flutter application.
+Key elements used in this application:
+- Firebase Auth
+- Firestore
+- Firestorage
+- Firebase Cloud Messaging
+- Shared Prefrences
+- QR Code
+- Cached Network Image
+- Image Picker
+- Image Cropper
 
-A few resources to get you started if this is your first Flutter project:
+With the inculcation of all these elements an Application is developed that is connected to Firebase and also presist data and thus is able to show information in offline mode too. 
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Run Locally
+
+Clone the project
+
+```bash
+  https://github.com/Gaurav-822/Chat-Application-Flutter.git
+```
+
+Install dependencies
+
+```bash
+  flutter pub get
+```
+
+Start the Build
+
+```bash
+  flutter run --dart-define SERVER_KEY=<Your Firebase Notification Api Key>
+```
+
