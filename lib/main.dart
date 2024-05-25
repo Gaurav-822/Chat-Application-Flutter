@@ -14,6 +14,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:another_flutter_splash_screen/another_flutter_splash_screen.dart';
 import 'package:lottie/lottie.dart';
 
+//Testing
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
